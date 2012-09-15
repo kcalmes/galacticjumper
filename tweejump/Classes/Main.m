@@ -14,16 +14,16 @@
 - (id)init {
 //	NSLog(@"Main::init");
 	
-	if(![super init]) return nil;
+	if(![super init]) return nil; //return nil if super class is not ready
 	
-	RANDOM_SEED();
+	RANDOM_SEED();  //what does this mean?
 
-	CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithFile:@"sprites.png" capacity:10];
-	[self addChild:batchNode z:-1 tag:kSpriteManager];
+	CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithFile:@"sprites.png" capacity:10]; //start new batch from file sprites.png
+	[self addChild:batchNode z:-1 tag:kSpriteManager]; //call method inherited from ccnode to add our batchnode
 
-	CCSprite *background = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(0,0,320,480)];
-	[batchNode addChild:background];
-	background.position = CGPointMake(160,240);
+	CCSprite *background = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(0,0,320,480)]; //takes rectange chunk from our sprite image, which is background image
+	[batchNode addChild:background]; //adds it to our batchnode
+	background.position = CGPointMake(160,240);  //why does it put it at this pos? iphon screen(640, 960)
 
 	[self initClouds];
 

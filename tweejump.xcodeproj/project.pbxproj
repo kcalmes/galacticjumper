@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34F431F11604E3940049676D /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431E91604E3940049676D /* CDAudioManager.m */; };
+		34F431F21604E3940049676D /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431EC1604E3940049676D /* CDOpenALSupport.m */; };
+		34F431F31604E3940049676D /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431EE1604E3940049676D /* CocosDenshion.m */; };
+		34F431F41604E3940049676D /* SimpleAudioEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431F01604E3940049676D /* SimpleAudioEngine.m */; };
 		F49E735C15ACCF46009C8E84 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49E735B15ACCF46009C8E84 /* QuartzCore.framework */; };
 		F49E735E15ACCF46009C8E84 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49E735D15ACCF46009C8E84 /* OpenGLES.framework */; };
 		F49E736015ACCF46009C8E84 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49E735F15ACCF46009C8E84 /* OpenAL.framework */; };
@@ -118,6 +122,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		34F431E51604E3260049676D /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
+		34F431E81604E3940049676D /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
+		34F431E91604E3940049676D /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
+		34F431EA1604E3940049676D /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
+		34F431EB1604E3940049676D /* CDOpenALSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOpenALSupport.h; sourceTree = "<group>"; };
+		34F431EC1604E3940049676D /* CDOpenALSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOpenALSupport.m; sourceTree = "<group>"; };
+		34F431ED1604E3940049676D /* CocosDenshion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocosDenshion.h; sourceTree = "<group>"; };
+		34F431EE1604E3940049676D /* CocosDenshion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocosDenshion.m; sourceTree = "<group>"; };
+		34F431EF1604E3940049676D /* SimpleAudioEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine.h; sourceTree = "<group>"; };
+		34F431F01604E3940049676D /* SimpleAudioEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine.m; sourceTree = "<group>"; };
 		F49E735715ACCF46009C8E84 /* tweejump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tweejump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49E735B15ACCF46009C8E84 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F49E735D15ACCF46009C8E84 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -353,6 +367,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34F431E71604E3940049676D /* CocosDenshion */ = {
+			isa = PBXGroup;
+			children = (
+				34F431E81604E3940049676D /* CDAudioManager.h */,
+				34F431E91604E3940049676D /* CDAudioManager.m */,
+				34F431EA1604E3940049676D /* CDConfig.h */,
+				34F431EB1604E3940049676D /* CDOpenALSupport.h */,
+				34F431EC1604E3940049676D /* CDOpenALSupport.m */,
+				34F431ED1604E3940049676D /* CocosDenshion.h */,
+				34F431EE1604E3940049676D /* CocosDenshion.m */,
+				34F431EF1604E3940049676D /* SimpleAudioEngine.h */,
+				34F431F01604E3940049676D /* SimpleAudioEngine.m */,
+			);
+			path = CocosDenshion;
+			sourceTree = "<group>";
+		};
 		F49E734C15ACCF46009C8E84 = {
 			isa = PBXGroup;
 			children = (
@@ -404,6 +434,7 @@
 		F49E736C15ACCF46009C8E84 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				34F431E51604E3260049676D /* pew-pew-lei.caf */,
 				F4D0CBD815ACD027007C74DF /* Fonts */,
 				F4D0CBDB15ACD027007C74DF /* Images */,
 				F49E736D15ACCF46009C8E84 /* Default.png */,
@@ -423,6 +454,7 @@
 		F49E738015ACCF47009C8E84 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				34F431E71604E3940049676D /* CocosDenshion */,
 				F49E747615ACCF49009C8E84 /* LICENSE_cocos2d.txt */,
 				F49E74B815ACCF4A009C8E84 /* LICENSE_FontLabel.txt */,
 				F49E738115ACCF47009C8E84 /* cocos2d */,
@@ -856,6 +888,10 @@
 				F4D0CBD415ACD01C007C74DF /* Game.m in Sources */,
 				F4D0CBD515ACD01C007C74DF /* Highscores.m in Sources */,
 				F4D0CBD615ACD01C007C74DF /* Main.m in Sources */,
+				34F431F11604E3940049676D /* CDAudioManager.m in Sources */,
+				34F431F21604E3940049676D /* CDOpenALSupport.m in Sources */,
+				34F431F31604E3940049676D /* CocosDenshion.m in Sources */,
+				34F431F41604E3940049676D /* SimpleAudioEngine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

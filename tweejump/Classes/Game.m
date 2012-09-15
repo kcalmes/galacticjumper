@@ -1,6 +1,7 @@
 #import "Game.h"
 #import "Main.h"
 #import "Highscores.h"
+#import "SimpleAudioEngine.h"
 
 @interface Game (Private)
 - (void)initPlatforms;
@@ -59,7 +60,7 @@
 
 	[self schedule:@selector(step:)];
 	
-	self.isTouchEnabled = NO;
+	self.isTouchEnabled = YES;
 	self.isAccelerometerEnabled = YES;
 
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / kFPS)];
@@ -277,7 +278,7 @@
 			   bird_pos.x < min_x &&
 			   bird_pos.y > platform_pos.y &&
 			   bird_pos.y < min_y) {
-				[self jump];
+				[self poorJump];
 			}
 		}
 		
@@ -338,8 +339,93 @@
 	bird.position = bird_pos;
 }
 
-- (void)jump {
-	bird_vel.y = 350.0f + fabsf(bird_vel.x);
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"Touches Ended");
+    UITouch *touch = [touches anyObject];
+    CGPoint location = [touch locationInView: [touch view]];
+    
+    CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
+    CCSprite *bird = (CCSprite*)[batchNode getChildByTag:kBird];
+    
+    CGRect mySurface = (CGRectMake(100, 100, 320, 480));
+    if(CGRectContainsPoint(mySurface, location))
+    {
+        int t;
+        
+        if(bird_vel.y < 0)
+        {
+            
+            CGSize bird_size = bird.contentSize;
+            float max_x = 320-bird_size.width/2;
+            float min_x = 0+bird_size.width/2;
+            
+            t = kPlatformsStartTag;
+            for(t; t < kPlatformsStartTag + kNumPlatforms; t++)
+            {
+                CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
+                
+                CGSize platform_size = platform.contentSize;
+                CGPoint platform_pos = platform.position;
+                
+                max_x = platform_pos.x - platform_size.width/2 - 10;
+                min_x = platform_pos.x + platform_size.width/2 + 10;
+                float min_y = platform_pos.y + (platform_size.height+bird_size.height)/2 - kPlatformTopPadding;
+                
+                if(bird_pos.x > max_x &&
+                   bird_pos.x < min_x &&
+                   bird_pos.y > platform_pos.y -5 &&
+                   bird_pos.y < min_y +5)
+                {
+                    [self perfectJump];
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+                }
+                else if(bird_pos.x > max_x &&
+                        bird_pos.x < min_x &&
+                        bird_pos.y > platform_pos.y -10&&
+                        bird_pos.y < min_y +10)
+                {
+                    [self excellentJump];
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+                }
+                else if(bird_pos.x > max_x &&
+                        bird_pos.x < min_x &&
+                        bird_pos.y > platform_pos.y -15&&
+                        bird_pos.y < min_y +15)
+                {
+                    [self goodJump];
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+                }
+                else if(bird_pos.x > max_x &&
+                        bird_pos.x < min_x &&
+                        bird_pos.y > platform_pos.y -20 &&
+                        bird_pos.y < min_y +20 )
+                {
+                    [self okJump];
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+                }
+            }
+            
+        }
+    }
+}
+
+- (void)poorJump {
+	bird_vel.y = 150.0f;
+}
+- (void)okJump {
+	bird_vel.y = 350.0f;
+}
+- (void)goodJump {
+	bird_vel.y = 550.0f;
+}
+-(void)excellentJump
+{
+    bird_vel.y = 750.0f;
+}
+-(void)perfectJump
+{
+    bird_vel.y = 950.0f;
 }
 
 - (void)showHighscores {
