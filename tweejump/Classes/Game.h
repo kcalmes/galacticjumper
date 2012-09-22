@@ -13,9 +13,11 @@
 	int currentBonusPlatformIndex;
 	int currentBonusType;
 	int platformCount;
+    NSString* kindOfJump;
 	
 	BOOL gameSuspended;
 	BOOL birdLookingRight;
+    BOOL justHitPlatform;
 	
 	int score;
 }

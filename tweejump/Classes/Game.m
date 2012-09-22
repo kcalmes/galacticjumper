@@ -14,8 +14,8 @@
 - (void)step:(ccTime)dt;
 - (void)jump;
 - (void)showHighscores;
-@end
 
+@end
 
 @implementation Game
 
@@ -73,6 +73,31 @@
 - (void)dealloc {
 //	NSLog(@"Game::dealloc");
 	[super dealloc];
+}
+
+-(void)jump
+{
+    if ([kindOfJump isEqualToString:@"defaultJump"] && !justHitPlatform)
+    {
+        bird_vel.y = 150.0f;
+        justHitPlatform = YES;
+    }
+    else if ([kindOfJump isEqualToString:@"goodJump"])
+    {
+        bird_vel.y = 550.0f;
+        justHitPlatform = NO;
+    }
+    else if ([kindOfJump isEqualToString:@"excellentJump"])
+    {
+        bird_vel.y = 750.0f;
+        justHitPlatform = NO;
+    }
+    else if ([kindOfJump isEqualToString:@"perfectJump"])
+    {
+        bird_vel.y = 950.0f;
+        justHitPlatform = NO;
+    }
+    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
 }
 
 - (void)initPlatforms {
@@ -180,10 +205,12 @@
 	bird_vel.y = 0;
 	
 	bird_acc.x = 0;
-	bird_acc.y = -550.0f;
+	bird_acc.y = -350.0f;
 	
 	birdLookingRight = YES;
 	bird.scaleX = 1.0f;
+    justHitPlatform = NO;
+    kindOfJump = @"defaultJump";
 }
 
 - (void)resetBonus {
@@ -258,13 +285,12 @@
 			[self resetBonus];
 		}
 	}
-	
-	int t;
-	
-	if(bird_vel.y < 0) {
-		
-		t = kPlatformsStartTag;
-		for(t; t < kPlatformsStartTag + kNumPlatforms; t++) {
+
+	if(bird_vel.y < 0)
+    {
+		justHitPlatform = NO;
+		for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
+        {
 			CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
 
 			CGSize platform_size = platform.contentSize;
@@ -277,24 +303,31 @@
 			if(bird_pos.x > max_x &&
 			   bird_pos.x < min_x &&
 			   bird_pos.y > platform_pos.y &&
-			   bird_pos.y < min_y) {
-				[self poorJump];
+			   bird_pos.y < min_y)
+            {
+				[self jump];
+                kindOfJump = @"defaultJump";
 			}
 		}
 		
-		if(bird_pos.y < -bird_size.height/2) {
+		if(bird_pos.y < -bird_size.height/2)
+        {
 			[self showHighscores];
 		}
 		
-	} else if(bird_pos.y > 240) {
+	}
+    else if(justHitPlatform)
+    {
+        [self jump];
+    }
+    else if(bird_pos.y > 240) {
 		
 		float delta = bird_pos.y - 240;
 		bird_pos.y = 240;
 
 		currentPlatformY -= delta;
 		
-		t = kCloudsStartTag;
-		for(t; t < kCloudsStartTag + kNumClouds; t++) {
+		for(int t = kPlatformsStartTag; t < kCloudsStartTag + kNumClouds; t++) {
 			CCSprite *cloud = (CCSprite*)[batchNode getChildByTag:t];
 			CGPoint pos = cloud.position;
 			pos.y -= delta * cloud.scaleY * 0.8f;
@@ -306,8 +339,7 @@
 			}
 		}
 		
-		t = kPlatformsStartTag;
-		for(t; t < kPlatformsStartTag + kNumPlatforms; t++) {
+		for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++) {
 			CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
 			CGPoint pos = platform.position;
 			pos = ccp(pos.x,pos.y-delta);
@@ -341,7 +373,6 @@
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"Touches Ended");
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView: [touch view]];
     
@@ -351,17 +382,14 @@
     CGRect mySurface = (CGRectMake(100, 100, 320, 480));
     if(CGRectContainsPoint(mySurface, location))
     {
-        int t;
-        
-        if(bird_vel.y < 0)
+        if(bird_vel.y < 0 || justHitPlatform)
         {
             
             CGSize bird_size = bird.contentSize;
             float max_x = 320-bird_size.width/2;
             float min_x = 0+bird_size.width/2;
             
-            t = kPlatformsStartTag;
-            for(t; t < kPlatformsStartTag + kNumPlatforms; t++)
+            for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
             {
                 CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
                 
@@ -374,58 +402,37 @@
                 
                 if(bird_pos.x > max_x &&
                    bird_pos.x < min_x &&
-                   bird_pos.y > platform_pos.y -5 &&
+                   bird_pos.y > platform_pos.y &&
                    bird_pos.y < min_y +5)
                 {
-                    [self perfectJump];
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+                    kindOfJump = @"PerfectJump";
                 }
                 else if(bird_pos.x > max_x &&
                         bird_pos.x < min_x &&
-                        bird_pos.y > platform_pos.y -10&&
+                        bird_pos.y > platform_pos.y &&
                         bird_pos.y < min_y +10)
                 {
-                    [self excellentJump];
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+                    kindOfJump = @"excellentJump";
                 }
                 else if(bird_pos.x > max_x &&
                         bird_pos.x < min_x &&
-                        bird_pos.y > platform_pos.y -15&&
+                        bird_pos.y > platform_pos.y &&
                         bird_pos.y < min_y +15)
                 {
-                    [self goodJump];
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+                    kindOfJump = @"goodJump";
                 }
-                else if(bird_pos.x > max_x &&
+                /*else if(bird_pos.x > max_x &&
                         bird_pos.x < min_x &&
-                        bird_pos.y > platform_pos.y -20 &&
+                        bird_pos.y > platform_pos.y &&
                         bird_pos.y < min_y +20 )
                 {
-                    [self okJump];
+                    kindOfJump = @"okJump";
                     [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
-                }
+                }*/
             }
             
         }
     }
-}
-
-- (void)poorJump {
-	bird_vel.y = 150.0f;
-}
-- (void)okJump {
-	bird_vel.y = 350.0f;
-}
-- (void)goodJump {
-	bird_vel.y = 550.0f;
-}
--(void)excellentJump
-{
-    bird_vel.y = 750.0f;
-}
--(void)perfectJump
-{
-    bird_vel.y = 950.0f;
 }
 
 - (void)showHighscores {
