@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		835C78E2160E130F00C6C1AD /* grossini_dance_atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 835C78E1160E130F00C6C1AD /* grossini_dance_atlas.png */; };
+		835C78E5160E132800C6C1AD /* jump.png in Resources */ = {isa = PBXBuildFile; fileRef = 835C78E4160E132800C6C1AD /* jump.png */; };
 		F49E735C15ACCF46009C8E84 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49E735B15ACCF46009C8E84 /* QuartzCore.framework */; };
 		F49E735E15ACCF46009C8E84 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49E735D15ACCF46009C8E84 /* OpenGLES.framework */; };
 		F49E736015ACCF46009C8E84 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F49E735F15ACCF46009C8E84 /* OpenAL.framework */; };
@@ -118,6 +120,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		835C78E1160E130F00C6C1AD /* grossini_dance_atlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grossini_dance_atlas.png; sourceTree = "<group>"; };
+		835C78E4160E132800C6C1AD /* jump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jump.png; sourceTree = "<group>"; };
 		F49E735715ACCF46009C8E84 /* tweejump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tweejump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49E735B15ACCF46009C8E84 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F49E735D15ACCF46009C8E84 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -687,6 +691,8 @@
 		F4D0CBDB15ACD027007C74DF /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				835C78E4160E132800C6C1AD /* jump.png */,
+				835C78E1160E130F00C6C1AD /* grossini_dance_atlas.png */,
 				F4D0CBDC15ACD027007C74DF /* changePlayerButton.png */,
 				F4D0CBDD15ACD027007C74DF /* playAgainButton.png */,
 				F4D0CBDE15ACD027007C74DF /* sprites.png */,
@@ -759,6 +765,8 @@
 				F4D0CBE115ACD027007C74DF /* changePlayerButton.png in Resources */,
 				F4D0CBE215ACD027007C74DF /* playAgainButton.png in Resources */,
 				F4D0CBE315ACD027007C74DF /* sprites.png in Resources */,
+				835C78E2160E130F00C6C1AD /* grossini_dance_atlas.png in Resources */,
+				835C78E5160E132800C6C1AD /* jump.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -183,6 +183,58 @@
 	
 	birdLookingRight = YES;
 	bird.scaleX = 1.0f;
+
+    
+    //-----------------------------------------------------------------------------------------------------------------
+    
+    
+    // create the sprite sheet
+    CCSpriteBatchNode * danceSheet = [CCSpriteBatchNode batchNodeWithFile:@"jump.png"];
+    [self addChild:danceSheet];
+    CCSpriteFrame *frame = [CCSpriteFrame frameWithTexture:danceSheet.texture rect:CGRectMake(x*85,y*121,85,121)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"man%d.png", frameCount]];
+    
+    
+    int frameCount = 0;
+    for (int y = 0; y < 3; y++) {
+        for (int x = 0; x < 5; x++) {
+            CCSpriteFrame *frame = [CCSpriteFrame frameWithTexture:danceSheet.texture rect:CGRectMake(x*85,y*121,85,121)];
+            [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"man%d.png", frameCount]];
+            //[danceAnimation addFrame:frame];
+            
+            frameCount++;
+            
+            if (frameCount == 14)
+                break;
+        }
+    }
+    
+    // Load up the frames of our animation
+    NSMutableArray *jumpAnimFrames = [NSMutableArray array];
+    for(int i = 1; i <= 8; ++i) {
+        [jumpAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"man%d.png", i]]];
+    }
+    NSLog(@"after frame load");
+    //CCAnimation *jumpAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.1f];
+    
+    // create the animation
+    CCAnimation *danceAnimation = [CCAnimation animationWithFrames:jumpAnimFrames delay:0.1f];
+    NSLog(@"after create animation");
+    // create the sprite
+    CCSprite *danceSprite = [CCSprite spriteWithTexture:danceSheet.texture rect:CGRectMake(0, 0, 85, 121)];
+    [danceSheet addChild:danceSprite];
+    NSLog(@"after create the sprite");
+    // position the sprite in the center of the screen
+    CGSize s = [[CCDirector sharedDirector] winSize];
+    danceSprite.position = ccp(s.width/2,s.height/2);
+    NSLog(@"after sprite position");
+    // create the action
+    CCAnimate *danceAction = [CCAnimate actionWithAnimation:danceAnimation];
+    CCRepeatForever *repeat = [CCRepeatForever actionWithAction:danceAction];
+    NSLog(@"after create action");
+    // run the action
+    [danceSprite runAction:repeat];
+    NSLog(@"after run the action");
 }
 
 - (void)resetBonus {
