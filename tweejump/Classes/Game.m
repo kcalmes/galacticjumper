@@ -39,8 +39,15 @@
 
 	[self initPlatforms];
 	
-	CCSprite *bird = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(608,16,44,32)];
-	[batchNode addChild:bird z:4 tag:kBird];
+    CCSpriteBatchNode * danceSheet = [CCSpriteBatchNode batchNodeWithFile:@"jump.png"];
+    
+    // create the sprite
+    CCSprite *bird = [CCSprite spriteWithTexture:danceSheet.texture rect:CGRectMake(0,222,168,244)];
+    
+    //CCSprite *bird = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(608,16,44,32)];
+    [danceSheet addChild:bird z:4 tag:kBird];
+	//[batchNode addChild:bird z:4 tag:kBird];
+    
 
 	CCSprite *bonus;
 
@@ -167,6 +174,7 @@
 
 - (void)resetBird {
 //	NSLog(@"resetBird");
+    /*
 
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 	CCSprite *bird = (CCSprite*)[batchNode getChildByTag:kBird];
@@ -183,7 +191,7 @@
 	
 	birdLookingRight = YES;
 	bird.scaleX = 1.0f;
-
+     */
     
     //-----------------------------------------------------------------------------------------------------------------
     
@@ -191,49 +199,56 @@
     // create the sprite sheet
     CCSpriteBatchNode * danceSheet = [CCSpriteBatchNode batchNodeWithFile:@"jump.png"];
     [self addChild:danceSheet];
-    CCSpriteFrame *frame = [CCSpriteFrame frameWithTexture:danceSheet.texture rect:CGRectMake(x*85,y*121,85,121)];
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"man%d.png", frameCount]];
+    CCSpriteFrame *frame;
+    frame = [CCSpriteFrame frameWithTexture:danceSheet.texture rect:CGRectMake(0,222,168,244)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"man%d.png", 1]];
+    frame = [CCSpriteFrame frameWithTexture:danceSheet.texture rect:CGRectMake(214,0,185,270)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"man%d.png", 2]];
     
-    
-    int frameCount = 0;
-    for (int y = 0; y < 3; y++) {
-        for (int x = 0; x < 5; x++) {
-            CCSpriteFrame *frame = [CCSpriteFrame frameWithTexture:danceSheet.texture rect:CGRectMake(x*85,y*121,85,121)];
-            [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"man%d.png", frameCount]];
-            //[danceAnimation addFrame:frame];
-            
-            frameCount++;
-            
-            if (frameCount == 14)
-                break;
-        }
-    }
     
     // Load up the frames of our animation
     NSMutableArray *jumpAnimFrames = [NSMutableArray array];
-    for(int i = 1; i <= 8; ++i) {
+    for(int i = 1; i <= 2; ++i) {
         [jumpAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"man%d.png", i]]];
     }
     NSLog(@"after frame load");
     //CCAnimation *jumpAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.1f];
     
     // create the animation
-    CCAnimation *danceAnimation = [CCAnimation animationWithFrames:jumpAnimFrames delay:0.1f];
+    CCAnimation *danceAnimation = [CCAnimation animationWithFrames:jumpAnimFrames delay:0.4f];
     NSLog(@"after create animation");
     // create the sprite
-    CCSprite *danceSprite = [CCSprite spriteWithTexture:danceSheet.texture rect:CGRectMake(0, 0, 85, 121)];
-    [danceSheet addChild:danceSprite];
+    CCSprite *bird = [CCSprite spriteWithTexture:danceSheet.texture rect:CGRectMake(0,222,168,244)];
+    [danceSheet addChild:bird];
     NSLog(@"after create the sprite");
     // position the sprite in the center of the screen
     CGSize s = [[CCDirector sharedDirector] winSize];
-    danceSprite.position = ccp(s.width/2,s.height/2);
+    bird.position = ccp(s.width/2,s.height/2);
+    
+    
+    bird_pos.x = 160;
+	bird_pos.y = 160;
+	bird.position = bird_pos;
+	
+	bird_vel.x = 0;
+	bird_vel.y = 0;
+	
+	bird_acc.x = 0;
+	bird_acc.y = -550.0f;
+	
+	birdLookingRight = YES;
+    bird.scale = 0.25f;
+    
+    
+    
     NSLog(@"after sprite position");
     // create the action
     CCAnimate *danceAction = [CCAnimate actionWithAnimation:danceAnimation];
     CCRepeatForever *repeat = [CCRepeatForever actionWithAction:danceAction];
     NSLog(@"after create action");
     // run the action
-    [danceSprite runAction:repeat];
+    [bird runAction:repeat];
+    //[bird stopAction:repeat];
     NSLog(@"after run the action");
 }
 
