@@ -10,6 +10,7 @@
 - (void)resetPlatforms;
 - (void)resetPlatform;
 - (void)resetBird;
+- (void)resetAlien;
 - (void)resetBonus;
 - (void)step:(ccTime)dt;
 - (void)jump;
@@ -18,6 +19,10 @@
 @end
 
 @implementation Game
+
+//Added by Kory for animation
+@synthesize alien = _alien;
+@synthesize jumpAction = _jumpAction;
 
 + (CCScene *)scene
 {
@@ -39,10 +44,16 @@
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode *)[self getChildByTag:kSpriteManager];
 
 	[self initPlatforms];
-	
-	CCSprite *bird = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(608,16,44,32)];
-	[batchNode addChild:bird z:4 tag:kBird];
-
+	/*
+    CCSpriteBatchNode * danceSheet = [CCSpriteBatchNode batchNodeWithFile:@"jump.png"];
+    
+    // create the sprite
+    CCSprite *bird = [CCSprite spriteWithTexture:danceSheet.texture rect:CGRectMake(0,222,168,244)];
+    
+    //CCSprite *bird = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(608,16,44,32)];
+    [danceSheet addChild:bird z:4 tag:kBird];
+	//[batchNode addChild:bird z:4 tag:kBird];
+     */
 	CCSprite *bonus;
 
 	for(int i=0; i<kNumBonuses; i++) {
@@ -73,6 +84,8 @@
 - (void)dealloc {
 //	NSLog(@"Game::dealloc");
 	[super dealloc];
+    self.alien = nil;
+    self.jumpAction = nil;
 }
 
 -(void)jump
@@ -131,7 +144,8 @@
 	
 	[self resetClouds];
 	[self resetPlatforms];
-	[self resetBird];
+    [self resetAlien];
+	//[self resetBird];
 	[self resetBonus];
 	
 	[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
@@ -190,8 +204,64 @@
 	}
 }
 
+- (void)resetAlien {
+    //Create a sprite batch node
+    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"jump.png"];
+    [self addChild:spriteSheet];
+
+    //Cache the sprite frames and texture
+    CCSpriteFrame *frame;
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(0,222,168,244)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"alien%d.png", 1]];
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(214,0,185,270)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"alien%d.png", 2]];
+
+    //Gather the list of frames
+    NSMutableArray *jumpAnimFrames = [NSMutableArray array];
+    for(int i = 1; i <= 2; ++i) {
+        [jumpAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"alien%d.png", i]]];
+    }
+    
+    //Create the animation object
+    CCAnimation *jumpAnim = [CCAnimation animationWithFrames:jumpAnimFrames delay:0.1f];
+    
+    //Create the sprite and run the animation action
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+    self.alien = [CCSprite spriteWithSpriteFrameName:@"alien2.png"];
+    self.alien.position = ccp(winSize.width/2, winSize.height/2);
+    self.alien.scale = 0.25f;
+    
+    alien_pos.x = 160;
+	alien_pos.y = 160;
+	self.alien.position = alien_pos;
+
+	
+	alien_vel.x = 0;
+	alien_vel.y = 0;
+	
+	alien_acc.x = 0;
+	alien_acc.y = -550.0f;
+    
+    //self.alien.rotation = 90;
+    //self.jumpAction = [CCRepeatForever actionWithAction: [CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:YES]];
+    self.jumpAction = [CCRepeat actionWithAction:[CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:NO] times:1];
+    //self.jumpAction = [CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:YES];
+    
+    self.alien = [CCSprite spriteWithSpriteFrameName:@"alien1.png"];
+    self.alien.scale = 0.25f;
+
+    [spriteSheet addChild: self.alien];
+    
+    
+
+
+    //[self.alien runAction: self.jumpAction];
+    
+}
+
 - (void)resetBird {
 //	NSLog(@"resetBird");
+    /*
 
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 	CCSprite *bird = (CCSprite*)[batchNode getChildByTag:kBird];
@@ -208,8 +278,69 @@
 	
 	birdLookingRight = YES;
 	bird.scaleX = 1.0f;
+
     justHitPlatform = NO;
     kindOfJump = @"defaultJump";
+
+     */
+    
+    //-----------------------------------------------------------------------------------------------------------------
+    
+    
+    // create the sprite sheet
+    CCSpriteBatchNode * danceSheet = [CCSpriteBatchNode batchNodeWithFile:@"jump.png"];
+    [self addChild:danceSheet];
+    CCSpriteFrame *frame;
+    frame = [CCSpriteFrame frameWithTexture:danceSheet.texture rect:CGRectMake(0,222,168,244)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"man%d.png", 1]];
+    frame = [CCSpriteFrame frameWithTexture:danceSheet.texture rect:CGRectMake(214,0,185,270)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"man%d.png", 2]];
+    
+    
+    // Load up the frames of our animation
+    NSMutableArray *jumpAnimFrames = [NSMutableArray array];
+    for(int i = 1; i <= 2; ++i) {
+        [jumpAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"man%d.png", i]]];
+    }
+    NSLog(@"after frame load");
+    //CCAnimation *jumpAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.1f];
+    
+    // create the animation
+    CCAnimation *danceAnimation = [CCAnimation animationWithFrames:jumpAnimFrames delay:0.4f];
+    NSLog(@"after create animation");
+    // create the sprite
+    CCSprite *bird = [CCSprite spriteWithTexture:danceSheet.texture rect:CGRectMake(0,222,168,244)];
+    [danceSheet addChild:bird];
+    NSLog(@"after create the sprite");
+    // position the sprite in the center of the screen
+    CGSize s = [[CCDirector sharedDirector] winSize];
+    bird.position = ccp(s.width/2,s.height/2);
+    
+    
+    bird_pos.x = 160;
+	bird_pos.y = 160;
+	bird.position = bird_pos;
+	
+	bird_vel.x = 0;
+	bird_vel.y = 0;
+	
+	bird_acc.x = 0;
+	bird_acc.y = -550.0f;
+	
+	birdLookingRight = YES;
+    bird.scale = 0.25f;
+    
+    
+    
+    NSLog(@"after sprite position");
+    // create the action
+    CCAnimate *danceAction = [CCAnimate actionWithAnimation:danceAnimation];
+    CCRepeatForever *repeat = [CCRepeatForever actionWithAction:danceAction];
+    NSLog(@"after create action");
+    // run the action
+    [bird runAction:repeat];
+    //[bird stopAction:repeat];
+    NSLog(@"after run the action");
 }
 
 - (void)resetBonus {
@@ -231,17 +362,18 @@
 }
 
 - (void)step:(ccTime)dt {
-//	NSLog(@"Game::step");
+	//NSLog(@"Game::step");
 
 	[super step:dt];
 	
 	if(gameSuspended) return;
 
-	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
-	CCSprite *bird = (CCSprite*)[batchNode getChildByTag:kBird];
+	//CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
+	//CCSprite *bird = (CCSprite*)[batchNode getChildByTag:kBird];
 	
-	bird_pos.x += bird_vel.x * dt;
+	alien_pos.x += alien_vel.x * dt;
 	
+    /*
 	if(bird_vel.x < -30.0f && birdLookingRight) {
 		birdLookingRight = NO;
 		bird.scaleX = -1.0f;
@@ -249,17 +381,19 @@
 		birdLookingRight = YES;
 		bird.scaleX = 1.0f;
 	}
-
-	CGSize bird_size = bird.contentSize;
-	float max_x = 320-bird_size.width/2;
-	float min_x = 0+bird_size.width/2;
+     */
+	CGSize alien_size = self.alien.contentSize;
+	float max_x = 320-alien_size.width/2;
+	float min_x = 0+alien_size.width/2;
 	
-	if(bird_pos.x>max_x) bird_pos.x = max_x;
-	if(bird_pos.x<min_x) bird_pos.x = min_x;
+	if(alien_pos.x>max_x) alien_pos.x = max_x;
+	if(alien_pos.x<min_x) alien_pos.x = min_x;
 	
-	bird_vel.y += bird_acc.y * dt;
-	bird_pos.y += bird_vel.y * dt;
-	
+	alien_vel.y += alien_acc.y * dt;
+	alien_pos.y += alien_vel.y * dt;
+    
+    
+	/*
 	CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
 	if(bonus.visible) {
 		CGPoint bonus_pos = bonus.position;
@@ -284,12 +418,18 @@
 			[self resetBonus];
 		}
 	}
+	*/
+    
+    
+    //check for object collisions
+	int t;
+    //load object sprite sheet - this actually be done in the init method
+	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 
-	if(bird_vel.y < 0)
-    {
-		justHitPlatform = NO;
-		for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
-        {
+	if(alien_vel.y < 0) {
+		t = kPlatformsStartTag;
+        justHitPlatform = NO;
+		for(t; t < kPlatformsStartTag + kNumPlatforms; t++) {
 			CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
 
 			CGSize platform_size = platform.contentSize;
@@ -297,13 +437,14 @@
 			
 			max_x = platform_pos.x - platform_size.width/2 - 10;
 			min_x = platform_pos.x + platform_size.width/2 + 10;
-			float min_y = platform_pos.y + (platform_size.height+bird_size.height)/2 - kPlatformTopPadding;
+			float min_y = platform_pos.y + (platform_size.height+alien_size.height)/2 - kPlatformTopPadding;
 			
-			if(bird_pos.x > max_x &&
-			   bird_pos.x < min_x &&
-			   bird_pos.y > platform_pos.y &&
-			   bird_pos.y < min_y)
-            {
+
+			if(alien_pos.x > max_x &&
+			   alien_pos.x < min_x &&
+			   alien_pos.y > platform_pos.y &&
+			   (alien_pos.y+85) < min_y) {
+
 				[self jump];
                 kindOfJump = @"defaultJump";
 			}
@@ -349,7 +490,7 @@
 				platform.position = pos;
 			}
 		}
-		
+		/*
 		if(bonus.visible) {
 			CGPoint pos = bonus.position;
 			pos.y -= delta;
@@ -359,15 +500,22 @@
 				bonus.position = pos;
 			}
 		}
-		
+		*/
 		score += (int)delta;
 		NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
 
 		CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
 		[scoreLabel setString:scoreStr];
 	}
-	
-	bird.position = bird_pos;
+    //Toggle the jump
+    CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
+    if (alien_vel.y < 0) {
+        [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien1.png"]];
+    } else {
+        [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien2.png"]];
+    }
+    
+	self.alien.position = alien_pos;
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -432,6 +580,9 @@
             
         }
     }
+
+- (void)jump {
+	alien_vel.y = 350.0f + fabsf(alien_vel.x);
 }
 
 - (void)showHighscores {
@@ -474,7 +625,7 @@
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
 	if(gameSuspended) return;
 	float accel_filter = 0.1f;
-	bird_vel.x = bird_vel.x * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
+	alien_vel.x = alien_vel.x * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
