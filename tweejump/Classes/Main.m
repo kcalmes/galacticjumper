@@ -21,9 +21,11 @@
 	CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithFile:@"sprites.png" capacity:10]; //start new batch from file sprites.png
 	[self addChild:batchNode z:-1 tag:kSpriteManager]; //call method inherited from ccnode to add our batchnode
 
-	CCSprite *background = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(0,0,320,480)]; //takes rectange chunk from our sprite image, which is background image
-	[batchNode addChild:background]; //adds it to our batchnode
-	background.position = CGPointMake(160,240);  //why does it put it at this pos? iphon screen(640, 960)
+	//CCSprite *background = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(0,0,320,480)]; 
+	//[batchNode addChild:background]; //adds it to our batchnode
+    CCSprite *background = [CCSprite spriteWithFile:@"background.png" rect:CGRectMake(0, 0, 480, 320)];
+	background.position = CGPointMake(240,160);  //why does it put it at this pos? iphon screen(640, 960)
+    [self addChild:background z:-2];
 
 	[self initClouds];
 
@@ -108,8 +110,7 @@
 	
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 	
-	int t = kCloudsStartTag;
-	for(t; t < kCloudsStartTag + kNumClouds; t++) {
+	for(int t = kCloudsStartTag; t < kCloudsStartTag + kNumClouds; t++) {
 		CCSprite *cloud = (CCSprite*)[batchNode getChildByTag:t];
 		CGPoint pos = cloud.position;
 		CGSize size = cloud.contentSize;

@@ -97,7 +97,6 @@
         bird_vel.y = 950.0f;
         justHitPlatform = NO;
     }
-    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
 }
 
 - (void)initPlatforms {
@@ -176,7 +175,7 @@
 	if(currentPlatformY == 30.0f) {
 		x = 160.0f;
 	} else {
-		x = random() % (320-(int)size.width) + size.width/2;
+		x = random() % (480-(int)size.width) + size.width/2;
 	}
 	
 	platform.position = ccp(x,currentPlatformY);
@@ -320,10 +319,10 @@
     {
         [self jump];
     }
-    else if(bird_pos.y > 240) {
+    else if(bird_pos.y > 140) {
 		
-		float delta = bird_pos.y - 240;
-		bird_pos.y = 240;
+		float delta = bird_pos.y - 140;
+		bird_pos.y = 140;
 
 		currentPlatformY -= delta;
 		

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34218A30161256A1006C0973 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 34218A2F161256A1006C0973 /* background.png */; };
 		34F431F11604E3940049676D /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431E91604E3940049676D /* CDAudioManager.m */; };
 		34F431F21604E3940049676D /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431EC1604E3940049676D /* CDOpenALSupport.m */; };
 		34F431F31604E3940049676D /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431EE1604E3940049676D /* CocosDenshion.m */; };
@@ -122,7 +123,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		34F431E51604E3260049676D /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
+		34218A2F161256A1006C0973 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		34F431E81604E3940049676D /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
 		34F431E91604E3940049676D /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
 		34F431EA1604E3940049676D /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
@@ -434,7 +435,6 @@
 		F49E736C15ACCF46009C8E84 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				34F431E51604E3260049676D /* pew-pew-lei.caf */,
 				F4D0CBD815ACD027007C74DF /* Fonts */,
 				F4D0CBDB15ACD027007C74DF /* Images */,
 				F49E736D15ACCF46009C8E84 /* Default.png */,
@@ -721,6 +721,7 @@
 			children = (
 				F4D0CBDC15ACD027007C74DF /* changePlayerButton.png */,
 				F4D0CBDD15ACD027007C74DF /* playAgainButton.png */,
+				34218A2F161256A1006C0973 /* background.png */,
 				F4D0CBDE15ACD027007C74DF /* sprites.png */,
 			);
 			name = Images;
@@ -791,6 +792,7 @@
 				F4D0CBE115ACD027007C74DF /* changePlayerButton.png in Resources */,
 				F4D0CBE215ACD027007C74DF /* playAgainButton.png in Resources */,
 				F4D0CBE315ACD027007C74DF /* sprites.png in Resources */,
+				34218A30161256A1006C0973 /* background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
