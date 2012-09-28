@@ -9,10 +9,16 @@
 - (void)startGame;
 - (void)resetPlatforms;
 - (void)resetPlatform;
-- (void)resetBird;
 - (void)resetAlien;
 - (void)resetBonus;
 - (void)step:(ccTime)dt;
+- (void)updateAlienPosition:(ccTime)dt;
+- (void)checkForBonus;
+- (void)checkForObjectCollisions;
+- (void)checkForGameOver;
+- (void)updateScreenFramePosition;
+- (void)updateScore;
+- (void)updateAlienFinalPosition;
 - (void)jump;
 - (void)oldJump;
 - (void)showHighscores;
@@ -148,7 +154,6 @@
 	[self resetClouds];
 	[self resetPlatforms];
     [self resetAlien];
-	//[self resetBird];
 	[self resetBonus];
 	
 	[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
@@ -243,7 +248,7 @@
 	alien_vel.y = 0;
 	
 	alien_acc.x = 0;
-	alien_acc.y = -550.0f;
+	alien_acc.y = -350.0f;
     
     //self.alien.rotation = 90;
     //self.jumpAction = [CCRepeatForever actionWithAction: [CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:YES]];
@@ -262,87 +267,6 @@
     justHitPlatform = NO;
     kindOfJump = @"defaultJump";
     
-}
-
-- (void)resetBird {
-//	NSLog(@"resetBird");
-    /*
-
-	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
-	CCSprite *bird = (CCSprite*)[batchNode getChildByTag:kBird];
-	
-	bird_pos.x = 160;
-	bird_pos.y = 160;
-	bird.position = bird_pos;
-	
-	bird_vel.x = 0;
-	bird_vel.y = 0;
-	
-	bird_acc.x = 0;
-	bird_acc.y = -350.0f;
-	
-	birdLookingRight = YES;
-	bird.scaleX = 1.0f;
-
-     */
-    
-    //-----------------------------------------------------------------------------------------------------------------
-    
-    
-    // create the sprite sheet
-    CCSpriteBatchNode * danceSheet = [CCSpriteBatchNode batchNodeWithFile:@"jump.png"];
-    [self addChild:danceSheet];
-    CCSpriteFrame *frame;
-    frame = [CCSpriteFrame frameWithTexture:danceSheet.texture rect:CGRectMake(0,9,185,260)];
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"man%d.png", 1]];
-    frame = [CCSpriteFrame frameWithTexture:danceSheet.texture rect:CGRectMake(220,0,185,270)];
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"man%d.png", 2]];
-    
-    
-    // Load up the frames of our animation
-    NSMutableArray *jumpAnimFrames = [NSMutableArray array];
-    for(int i = 1; i <= 2; ++i) {
-        [jumpAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"man%d.png", i]]];
-    }
-    NSLog(@"after frame load");
-    //CCAnimation *jumpAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.1f];
-    
-    // create the animation
-    CCAnimation *danceAnimation = [CCAnimation animationWithFrames:jumpAnimFrames delay:0.4f];
-    NSLog(@"after create animation");
-    // create the sprite
-    CCSprite *bird = [CCSprite spriteWithTexture:danceSheet.texture rect:CGRectMake(0,9,185,260)];
-    [danceSheet addChild:bird];
-    NSLog(@"after create the sprite");
-    // position the sprite in the center of the screen
-    CGSize s = [[CCDirector sharedDirector] winSize];
-    bird.position = ccp(s.width/2,s.height/2);
-    
-    
-    bird_pos.x = 160;
-	bird_pos.y = 160;
-	bird.position = bird_pos;
-	
-	bird_vel.x = 0;
-	bird_vel.y = 0;
-	
-	bird_acc.x = 0;
-	bird_acc.y = -550.0f;
-	
-	birdLookingRight = YES;
-    bird.scale = 0.25f;
-    
-    
-    
-    NSLog(@"after sprite position");
-    // create the action
-    CCAnimate *danceAction = [CCAnimate actionWithAnimation:danceAnimation];
-    CCRepeatForever *repeat = [CCRepeatForever actionWithAction:danceAction];
-    NSLog(@"after create action");
-    // run the action
-    [bird runAction:repeat];
-    //[bird stopAction:repeat];
-    NSLog(@"after run the action");
 }
 
 - (void)resetBonus {
@@ -369,154 +293,23 @@
 	[super step:dt];
 	
 	if(gameSuspended) return;
-
-	//CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
-	//CCSprite *bird = (CCSprite*)[batchNode getChildByTag:kBird];
-	
-	alien_pos.x += alien_vel.x * dt;
-	
-    /*
-	if(bird_vel.x < -30.0f && birdLookingRight) {
-		birdLookingRight = NO;
-		bird.scaleX = -1.0f;
-	} else if (bird_vel.x > 30.0f && !birdLookingRight) {
-		birdLookingRight = YES;
-		bird.scaleX = 1.0f;
-	}
-     */
-	CGSize alien_size = self.alien.contentSize;
-	float max_x = 320-alien_size.width/2;
-	float min_x = 0+alien_size.width/2;
-	
-	if(alien_pos.x>max_x) alien_pos.x = max_x;
-	if(alien_pos.x<min_x) alien_pos.x = min_x;
-	
-	alien_vel.y += alien_acc.y * dt;
-	alien_pos.y += alien_vel.y * dt;
     
+	[self updateAlienPosition:dt];
+    [self checkForBonus];
     
-	/*
-	CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
-	if(bonus.visible) {
-		CGPoint bonus_pos = bonus.position;
-		float range = 20.0f;
-		if(bird_pos.x > bonus_pos.x - range &&
-		   bird_pos.x < bonus_pos.x + range &&
-		   bird_pos.y > bonus_pos.y - range &&
-		   bird_pos.y < bonus_pos.y + range ) {
-			switch(currentBonusType) {
-				case kBonus5:   score += 5000;   break;
-				case kBonus10:  score += 10000;  break;
-				case kBonus50:  score += 50000;  break;
-				case kBonus100: score += 100000; break;
-			}
-			NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
-			CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
-			[scoreLabel setString:scoreStr];
-			id a1 = [CCScaleTo actionWithDuration:0.2f scaleX:1.5f scaleY:0.8f];
-			id a2 = [CCScaleTo actionWithDuration:0.2f scaleX:1.0f scaleY:1.0f];
-			id a3 = [CCSequence actions:a1,a2,a1,a2,a1,a2,nil];
-			[scoreLabel runAction:a3];
-			[self resetBonus];
-		}
-	}
-	*/
-    
-    
-    //check for object collisions
-	int t;
-    //load object sprite sheet - this actually be done in the init method
-	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
-
 	if(alien_vel.y < 0) {
-		t = kPlatformsStartTag;
-        justHitPlatform = NO;
-		for(t; t < kPlatformsStartTag + kNumPlatforms; t++) {
-			CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
-
-			CGSize platform_size = platform.contentSize;
-			CGPoint platform_pos = platform.position;
-			
-			max_x = platform_pos.x - platform_size.width/2 - 10;
-			min_x = platform_pos.x + platform_size.width/2 + 10;
-			float min_y = platform_pos.y + (platform_size.height+alien_size.height)/2 - kPlatformTopPadding;
-			
-
-			if(alien_pos.x > max_x &&
-			   alien_pos.x < min_x &&
-			   alien_pos.y > platform_pos.y &&
-			   (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y) {
-				[self jump];
-                kindOfJump = @"defaultJump";
-			}
-		}
-		
-		if(alien_pos.y < -alien_size.height/2)
-        {
-			[self showHighscores];
-		}
-		
+        [self checkForObjectCollisions];
+        [self checkForGameOver];
 	}
     else if(justHitPlatform)
     {
         [self jump];
     }
     else if(alien_pos.y > 140) {
-		
-		float delta = alien_pos.y - 140;
-		alien_pos.y = 140;
-
-		currentPlatformY -= delta;
-		
-		for(int t = kPlatformsStartTag; t < kCloudsStartTag + kNumClouds; t++) {
-			CCSprite *cloud = (CCSprite*)[batchNode getChildByTag:t];
-			CGPoint pos = cloud.position;
-			pos.y -= delta * cloud.scaleY * 0.8f;
-			if(pos.y < -cloud.contentSize.height/2) {
-				currentCloudTag = t;
-				[self resetCloud];
-			} else {
-				cloud.position = pos;
-			}
-		}
-		
-		for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++) {
-			CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
-			CGPoint pos = platform.position;
-			pos = ccp(pos.x,pos.y-delta);
-			if(pos.y < -platform.contentSize.height/2) {
-				currentPlatformTag = t;
-				[self resetPlatform];
-			} else {
-				platform.position = pos;
-			}
-		}
-		/*
-		if(bonus.visible) {
-			CGPoint pos = bonus.position;
-			pos.y -= delta;
-			if(pos.y < -bonus.contentSize.height/2) {
-				[self resetBonus];
-			} else {
-				bonus.position = pos;
-			}
-		}
-		*/
-		score += (int)delta;
-		NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
-
-		CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
-		[scoreLabel setString:scoreStr];
+        [self updateScreenFramePosition];
+        [self updateScore];
 	}
-    //Toggle the jump
-    CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
-    if (alien_vel.y < 0) {
-        [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien1.png"]];
-    } else {
-        [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien2.png"]];
-    }
-    
-	self.alien.position = alien_pos;
+    [self updateAlienFinalPosition];
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -551,21 +344,21 @@
                 if(alien_pos.x > max_x &&
                    alien_pos.x < min_x &&
                    alien_pos.y > platform_pos.y &&
-                   alien_pos.y + ALIEN_YPOS_OFFSET < min_y +5)
+                   alien_pos.y < min_y +10)
                 {
                     kindOfJump = @"PerfectJump";
                 }
                 else if(alien_pos.x > max_x &&
                         alien_pos.x < min_x &&
                         alien_pos.y > platform_pos.y &&
-                        alien_pos.y + ALIEN_YPOS_OFFSET < min_y +10)
+                        alien_pos.y < min_y +15)
                 {
                     kindOfJump = @"excellentJump";
                 }
                 else if(alien_pos.x > max_x &&
                         alien_pos.x < min_x &&
                         alien_pos.y > platform_pos.y &&
-                        alien_pos.y + ALIEN_YPOS_OFFSET < min_y +15)
+                        alien_pos.y < min_y +20)
                 {
                     kindOfJump = @"goodJump";
                 }
@@ -583,7 +376,153 @@
         }
     }
 }
-
+- (void)updateAlienPosition:(ccTime)dt{
+    //update x position
+    alien_pos.x += alien_vel.x * dt;
+    CGSize alien_size = self.alien.contentSize;
+    
+    float max_x = 480-alien_size.width/2;
+    float min_x = 0+alien_size.width/2;
+    
+    if(alien_pos.x>max_x) alien_pos.x = max_x;
+    if(alien_pos.x<min_x) alien_pos.x = min_x;
+    
+    //update y position
+    alien_vel.y += alien_acc.y * dt;
+	alien_pos.y += alien_vel.y * dt;
+}
+- (void)checkForBonus{
+    /*
+     CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
+     if(bonus.visible) {
+         CGPoint bonus_pos = bonus.position;
+         float range = 20.0f;
+         if(bird_pos.x > bonus_pos.x - range &&
+         bird_pos.x < bonus_pos.x + range &&
+         bird_pos.y > bonus_pos.y - range &&
+         bird_pos.y < bonus_pos.y + range ) {
+             switch(currentBonusType) {
+                 case kBonus5:   score += 5000;   break;
+                 case kBonus10:  score += 10000;  break;
+                 case kBonus50:  score += 50000;  break;
+                 case kBonus100: score += 100000; break;
+             }
+             NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
+             CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
+             [scoreLabel setString:scoreStr];
+             id a1 = [CCScaleTo actionWithDuration:0.2f scaleX:1.5f scaleY:0.8f];
+             id a2 = [CCScaleTo actionWithDuration:0.2f scaleX:1.0f scaleY:1.0f];
+             id a3 = [CCSequence actions:a1,a2,a1,a2,a1,a2,nil];
+             [scoreLabel runAction:a3];
+             [self resetBonus];
+         }
+     }
+     */
+}
+- (void)checkForObjectCollisions{
+    //load object sprite sheet - this actually be done in the init method
+    CGSize alien_size = self.alien.contentSize;
+    CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
+    justHitPlatform = NO;
+    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++) {
+        CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
+        
+        CGSize platform_size = platform.contentSize;
+        CGPoint platform_pos = platform.position;
+        
+        float max_x = platform_pos.x - platform_size.width/2 - 10;
+        float min_x = platform_pos.x + platform_size.width/2 + 10;
+        float min_y = platform_pos.y + (platform_size.height+alien_size.height)/2 - kPlatformTopPadding;
+        
+        
+        if(alien_pos.x > max_x &&
+           alien_pos.x < min_x &&
+           alien_pos.y > platform_pos.y &&
+           (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y) {
+            [self jump];
+            kindOfJump = @"defaultJump";
+        }
+    }
+}
+- (void)checkForGameOver{
+    CGSize alien_size = self.alien.contentSize;
+    if(alien_pos.y < -alien_size.height/2)
+    {
+        [self showHighscores];
+    }
+}
+- (void)updateScreenFramePosition{
+    //update the background position
+    //calls moveup, moveleft, moveright
+    float delta = alien_pos.y - 140;
+    alien_pos.y = 140;
+    
+    currentPlatformY -= delta;
+    CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
+    for(int t = kPlatformsStartTag; t < kCloudsStartTag + kNumClouds; t++) {
+        CCSprite *cloud = (CCSprite*)[batchNode getChildByTag:t];
+        CGPoint pos = cloud.position;
+        pos.y -= delta * cloud.scaleY * 0.8f;
+        if(pos.y < -cloud.contentSize.height/2) {
+            currentCloudTag = t;
+            [self resetCloud];
+        } else {
+            cloud.position = pos;
+        }
+    }
+    
+    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++) {
+        CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
+        CGPoint pos = platform.position;
+        pos = ccp(pos.x,pos.y-delta);
+        if(pos.y < -platform.contentSize.height/2) {
+            currentPlatformTag = t;
+            [self resetPlatform];
+        } else {
+            platform.position = pos;
+        }
+    }
+    /*
+     if(bonus.visible) {
+        CGPoint pos = bonus.position;
+        pos.y -= delta;
+        if(pos.y < -bonus.contentSize.height/2) {
+            [self resetBonus];
+        } else {
+            bonus.position = pos;
+        }
+     }
+     */
+}
+- (void)updateScore{
+    float delta = alien_pos.y - 140;
+    score += (int)delta;
+    NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
+    
+    CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
+    [scoreLabel setString:scoreStr];
+}
+-(void)updateAlienFinalPosition{
+    //Toggle the jump
+    CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
+    if (alien_vel.y < 0) {
+        [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien1.png"]];
+    } else {
+        [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien2.png"]];
+    }
+    //Move head
+    /*
+     if(bird_vel.x < -30.0f && birdLookingRight) {
+     birdLookingRight = NO;
+     bird.scaleX = -1.0f;
+     } else if (bird_vel.x > 30.0f && !birdLookingRight) {
+     birdLookingRight = YES;
+     bird.scaleX = 1.0f;
+     }
+     */
+    
+    self.alien.position = alien_pos;
+}
 - (void)oldJump {
 	alien_vel.y = 350.0f + fabsf(alien_vel.x);
 }
@@ -628,7 +567,7 @@
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
 	if(gameSuspended) return;
 	float accel_filter = 0.1f;
-	alien_vel.x = alien_vel.x * accel_filter + acceleration.x * (1.0f - accel_filter) * 500.0f;
+	alien_vel.x = alien_vel.x * accel_filter + acceleration.y * (1.0f - accel_filter) * 500.0f;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
