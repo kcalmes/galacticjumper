@@ -24,17 +24,19 @@
     BOOL justHitPlatform;
 	
 	int score;
+    int comboTally;
+    int maxCombo;
     
     //Added by Kory for animation
     CCSprite *_alien;
-    CCAction *_jumpAction;
+    //CCAction *_jumpAction;
     //BOOL _moving;
     
 }
 
 //Added by Kory for animation
 @property (nonatomic, retain) CCSprite *alien;
-@property (nonatomic, retain) CCAction *jumpAction;
+//@property (nonatomic, retain) CCAction *jumpAction;
 
 
 + (CCScene *)scene;

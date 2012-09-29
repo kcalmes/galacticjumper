@@ -31,7 +31,7 @@
 
 //Added by Kory for animation
 @synthesize alien = _alien;
-@synthesize jumpAction = _jumpAction;
+//@synthesize jumpAction = _jumpAction;
 
 + (CCScene *)scene
 {
@@ -68,7 +68,11 @@
 	
 	CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"bitmapFont.fnt"];
 	[self addChild:scoreLabel z:5 tag:kScoreLabel];
-	scoreLabel.position = ccp(160,430);
+	scoreLabel.position = ccp(350,300);
+    
+    CCLabelBMFont *comboLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"bitmapFont.fnt"];
+	[self addChild:comboLabel z:6 tag:kComboLabel];
+	comboLabel.position = ccp(460,15);
 
 	[self schedule:@selector(step:)];
 	
@@ -84,9 +88,9 @@
 
 - (void)dealloc {
 //	NSLog(@"Game::dealloc");
-	[super dealloc];
     self.alien = nil;
-    self.jumpAction = nil;
+    //self.jumpAction = nil;
+    [super dealloc];
 }
 
 -(void)jump
@@ -111,7 +115,15 @@
         alien_vel.y = 950.0f;
         justHitPlatform = NO;
     }
-    kindOfJump = @"DefaultJump";
+    
+    if (justHitPlatform && [kindOfJump isEqualToString:@"DefaultJump"]) {
+        return;
+    }
+    else
+    {
+        [self updateComboTally];
+        kindOfJump = @"DefaultJump";
+    }
 }
 
 - (void)initPlatforms {
@@ -225,7 +237,7 @@
     }
     
     //Create the animation object
-    CCAnimation *jumpAnim = [CCAnimation animationWithFrames:jumpAnimFrames delay:0.1f];
+    //CCAnimation *jumpAnim = [CCAnimation animationWithFrames:jumpAnimFrames delay:0.1f];
     
     //Create the sprite and run the animation action
     CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -246,7 +258,7 @@
     
     //self.alien.rotation = 90;
     //self.jumpAction = [CCRepeatForever actionWithAction: [CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:YES]];
-    self.jumpAction = [CCRepeat actionWithAction:[CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:NO] times:1];
+    //self.jumpAction = [CCRepeat actionWithAction:[CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:NO] times:1];
     //self.jumpAction = [CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:YES];
     
     self.alien = [CCSprite spriteWithSpriteFrameName:@"alien1.png"];
@@ -301,9 +313,10 @@
     {
         [self jump];
     }
-    if(alien_pos.y > 140) {
-        [self updateScreenFramePosition];
+    if(alien_pos.y > 140)
+    {
         [self updateScore];
+        [self updateScreenFramePosition];
 	}
     [self updateAlienFinalPosition];
 }
@@ -314,7 +327,7 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView: [touch view]];
     
-    CGRect mySurface = (CGRectMake(100, 100, 320, 480));
+    CGRect mySurface = (CGRectMake(0, 0, 320, 480));
     if(CGRectContainsPoint(mySurface, location))
     {
         if(alien_vel.y < 0 || justHitPlatform)
@@ -340,21 +353,21 @@
                 if(alien_pos.x > max_x &&
                    alien_pos.x < min_x &&
                    alien_pos.y > platform_pos.y &&
-                   (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +5)
+                   (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y + 8)
                 {
                     kindOfJump = @"PerfectJump";
                 }
                 else if(alien_pos.x > max_x &&
                         alien_pos.x < min_x &&
                         alien_pos.y > platform_pos.y &&
-                        (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +10)
+                        (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +13)
                 {
                     kindOfJump = @"ExcellentJump";
                 }
                 else if(alien_pos.x > max_x &&
                         alien_pos.x < min_x &&
                         alien_pos.y > platform_pos.y &&
-                        (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +15)
+                        (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +18)
                 {
                     kindOfJump = @"GoodJump";
                 }
@@ -387,7 +400,8 @@
     alien_vel.y += alien_acc.y * dt;
 	alien_pos.y += alien_vel.y * dt;
 }
-- (void)checkForBonus{
+- (void)checkForBonus
+{
     /*
      CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
      if(bonus.visible) {
@@ -491,7 +505,8 @@
      }
      */
 }
-- (void)updateScore{
+- (void)updateScore
+{
     float delta = alien_pos.y - 140;
     score += (int)delta;
     NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
@@ -499,6 +514,22 @@
     CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
     [scoreLabel setString:scoreStr];
 }
+
+- (void)updateComboTally
+{
+    if ([kindOfJump isEqualToString:@"PerfectJump"] || [kindOfJump isEqualToString:@"ExcellentJump"]) {
+        comboTally++;
+    }
+    else
+    {
+        comboTally = 0;
+    }
+    
+    NSString* comboStr = [NSString stringWithFormat:@"%d",comboTally];
+    CCLabelBMFont* comboLabel = (CCLabelBMFont*)[self getChildByTag:kComboLabel];
+    [comboLabel setString:comboStr];
+}
+
 -(void)updateAlienFinalPosition{
     //Toggle the jump
     CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];

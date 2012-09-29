@@ -20,7 +20,8 @@ enum {
 	kScoreLabel,
 	kCloudsStartTag = 100,
 	kPlatformsStartTag = 200,
-	kBonusStartTag = 300
+	kBonusStartTag = 300,
+    kComboLabel = 150
 };
 
 enum {
