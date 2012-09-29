@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		34218A30161256A1006C0973 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 34218A2F161256A1006C0973 /* background.png */; };
+		34A643B11617485100335A6F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34A643B01617485100335A6F /* Default-568h@2x.png */; };
 		34F431F11604E3940049676D /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431E91604E3940049676D /* CDAudioManager.m */; };
 		34F431F21604E3940049676D /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431EC1604E3940049676D /* CDOpenALSupport.m */; };
 		34F431F31604E3940049676D /* CocosDenshion.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431EE1604E3940049676D /* CocosDenshion.m */; };
@@ -126,6 +127,7 @@
 
 /* Begin PBXFileReference section */
 		34218A2F161256A1006C0973 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		34A643B01617485100335A6F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		34F431E81604E3940049676D /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
 		34F431E91604E3940049676D /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
 		34F431EA1604E3940049676D /* CDConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDConfig.h; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 		F49E734C15ACCF46009C8E84 = {
 			isa = PBXGroup;
 			children = (
+				34A643B01617485100335A6F /* Default-568h@2x.png */,
 				F49E736B15ACCF46009C8E84 /* tweejump */,
 				F49E735A15ACCF46009C8E84 /* Frameworks */,
 				F49E735815ACCF46009C8E84 /* Products */,
@@ -801,6 +804,7 @@
 				34218A30161256A1006C0973 /* background.png in Resources */,
 				835C78E2160E130F00C6C1AD /* grossini_dance_atlas.png in Resources */,
 				835C78E5160E132800C6C1AD /* jump.png in Resources */,
+				34A643B11617485100335A6F /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,7 +23,7 @@
 - (void)oldJump;
 - (void)showHighscores;
 
-#define ALIEN_YPOS_OFFSET 95
+#define ALIEN_YPOS_OFFSET 100
 
 @end
 
@@ -53,19 +53,11 @@
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode *)[self getChildByTag:kSpriteManager];
 
 	[self initPlatforms];
-	/*
-    CCSpriteBatchNode * danceSheet = [CCSpriteBatchNode batchNodeWithFile:@"jump.png"];
-    
-    // create the sprite
-    CCSprite *bird = [CCSprite spriteWithTexture:danceSheet.texture rect:CGRectMake(0,222,168,244)];
-    
-    //CCSprite *bird = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(608,16,44,32)];
-    [danceSheet addChild:bird z:4 tag:kBird];
-	//[batchNode addChild:bird z:4 tag:kBird];
-     */
+	
 	CCSprite *bonus;
 
-	for(int i=0; i<kNumBonuses; i++) {
+	for(int i=0; i<kNumBonuses; i++)
+    {
 		bonus = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(608+i*32,256,25,25)];
 		[batchNode addChild:bonus z:4 tag:kBonusStartTag+i];
 		bonus.visible = NO;
@@ -99,26 +91,27 @@
 
 -(void)jump
 {
-    if ([kindOfJump isEqualToString:@"defaultJump"] && !justHitPlatform)
+    if ([kindOfJump isEqualToString:@"DefaultJump"] && !justHitPlatform)
     {
-        alien_vel.y = 150.0f;
+        alien_vel.y = 250.0f;
         justHitPlatform = YES;
     }
-    else if ([kindOfJump isEqualToString:@"goodJump"])
+    else if ([kindOfJump isEqualToString:@"GoodJump"])
     {
         alien_vel.y = 550.0f;
         justHitPlatform = NO;
     }
-    else if ([kindOfJump isEqualToString:@"excellentJump"])
+    else if ([kindOfJump isEqualToString:@"ExcellentJump"])
     {
         alien_vel.y = 750.0f;
         justHitPlatform = NO;
     }
-    else if ([kindOfJump isEqualToString:@"perfectJump"])
+    else if ([kindOfJump isEqualToString:@"PerfectJump"])
     {
         alien_vel.y = 950.0f;
         justHitPlatform = NO;
     }
+    kindOfJump = @"DefaultJump";
 }
 
 - (void)initPlatforms {
@@ -212,7 +205,8 @@
 	}
 }
 
-- (void)resetAlien {
+- (void)resetAlien
+{
     //Create a sprite batch node
     CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"jump.png"];
     [self addChild:spriteSheet];
@@ -297,7 +291,9 @@
 	[self updateAlienPosition:dt];
     [self checkForBonus];
     
-	if(alien_vel.y < 0) {
+	if(alien_vel.y < 0)
+    {
+        justHitPlatform = NO;
         [self checkForObjectCollisions];
         [self checkForGameOver];
 	}
@@ -305,7 +301,7 @@
     {
         [self jump];
     }
-    else if(alien_pos.y > 140) {
+    if(alien_pos.y > 140) {
         [self updateScreenFramePosition];
         [self updateScore];
 	}
@@ -344,23 +340,23 @@
                 if(alien_pos.x > max_x &&
                    alien_pos.x < min_x &&
                    alien_pos.y > platform_pos.y &&
-                   alien_pos.y < min_y +10)
+                   (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +5)
                 {
                     kindOfJump = @"PerfectJump";
                 }
                 else if(alien_pos.x > max_x &&
                         alien_pos.x < min_x &&
                         alien_pos.y > platform_pos.y &&
-                        alien_pos.y < min_y +15)
+                        (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +10)
                 {
-                    kindOfJump = @"excellentJump";
+                    kindOfJump = @"ExcellentJump";
                 }
                 else if(alien_pos.x > max_x &&
                         alien_pos.x < min_x &&
                         alien_pos.y > platform_pos.y &&
-                        alien_pos.y < min_y +20)
+                        (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +15)
                 {
-                    kindOfJump = @"goodJump";
+                    kindOfJump = @"GoodJump";
                 }
                 /*else if(bird_pos.x > max_x &&
                         bird_pos.x < min_x &&
@@ -440,7 +436,7 @@
            alien_pos.y > platform_pos.y &&
            (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y) {
             [self jump];
-            kindOfJump = @"defaultJump";
+            kindOfJump = @"DefaultJump";
         }
     }
 }
@@ -451,7 +447,8 @@
         [self showHighscores];
     }
 }
-- (void)updateScreenFramePosition{
+- (void)updateScreenFramePosition
+{
     //update the background position
     //calls moveup, moveleft, moveright
     float delta = alien_pos.y - 140;
