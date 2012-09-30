@@ -325,7 +325,7 @@
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"Screen Touched");
+    //NSLog(@"Screen Touched");
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView: [touch view]];
     
@@ -391,17 +391,12 @@
     //update x position
     alien_pos.x += alien_vel.x * dt;
     CGSize alien_size = self.alien.contentSize;
-    NSLog(@"alien width: %f",alien_size.width);
 
     float max_x = 480-alien_size.width/2;
     float min_x = 0+alien_size.width/2;
     
-    NSLog(@"alien width before: %f",min_x);
-    
     if(alien_pos.x>max_x) alien_pos.x = max_x;
     if(alien_pos.x<min_x) alien_pos.x = min_x;
-    
-    NSLog(@"alien width after: %f",min_x);
     
     //update y position
     alien_vel.y += alien_acc.y * dt;
