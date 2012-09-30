@@ -139,7 +139,7 @@ typedef struct _KerningHashElement
 }
 
 - (void)parseConfigFile:(NSString*)fntFile
-{	
+{
 	NSString *fullpath = [CCFileUtils fullPathFromRelativePath:fntFile];
 	NSError *error;
 	NSString *contents = [NSString stringWithContentsOfFile:fullpath encoding:NSUTF8StringEncoding error:&error];

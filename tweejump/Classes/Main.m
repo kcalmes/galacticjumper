@@ -23,7 +23,7 @@
 
 	//CCSprite *background = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(0,0,320,480)]; 
 	//[batchNode addChild:background]; //adds it to our batchnode
-    CCSprite *background = [CCSprite spriteWithFile:@"background.png" rect:CGRectMake(0, 0, 480, 320)];
+    CCSprite *background = [CCSprite spriteWithFile:@"space-gradient.jpeg" rect:CGRectMake(0, 0, 480, 320)];
 	background.position = CGPointMake(240,160);  //why does it put it at this pos? iphon screen(640, 960)
     [self addChild:background z:-2];
 
@@ -52,7 +52,7 @@
 }
 
 - (void)initCloud {
-	
+	return;
 	CGRect rect;
 	switch(random()%3) {
 		case 0: rect = CGRectMake(336,16,256,108); break;
@@ -68,6 +68,7 @@
 }
 
 - (void)resetClouds {
+    return;
 //	NSLog(@"resetClouds");
 	
 	currentCloudTag = kCloudsStartTag;
@@ -86,6 +87,7 @@
 }
 
 - (void)resetCloud {
+    return;
 	
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 	CCSprite *cloud = (CCSprite*)[batchNode getChildByTag:currentCloudTag];
@@ -107,7 +109,7 @@
 
 - (void)step:(ccTime)dt {
 //	NSLog(@"Main::step");
-	
+	/*
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 	
 	for(int t = kCloudsStartTag; t < kCloudsStartTag + kNumClouds; t++) {
@@ -120,6 +122,7 @@
 		}
 		cloud.position = pos;
 	}
+     */
 	
 }
 

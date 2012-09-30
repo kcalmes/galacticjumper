@@ -45,37 +45,37 @@
 	
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 	
-	CCSprite *title = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(608,192,225,57)];
-	[batchNode addChild:title z:5];
-	title.position = ccp(160,420);
-
-	float start_y = 360.0f;
-	float step = 27.0f;
-	int count = 0;
-	for(NSMutableArray *highscore in highscores) {
-		NSString *player = [highscore objectAtIndex:0];
-		int score = [[highscore objectAtIndex:1] intValue];
-		
-		CCLabelTTF *label1 = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",(count+1)] dimensions:CGSizeMake(30,40) alignment:UITextAlignmentRight fontName:@"Arial" fontSize:14];
-		[self addChild:label1 z:5];
-		[label1 setColor:ccBLACK];
-		[label1 setOpacity:200];
-		label1.position = ccp(15,start_y-count*step-2.0f);
-		
-		CCLabelTTF *label2 = [CCLabelTTF labelWithString:player dimensions:CGSizeMake(240,40) alignment:UITextAlignmentLeft fontName:@"Arial" fontSize:16];
-		[self addChild:label2 z:5];
-		[label2 setColor:ccBLACK];
-		label2.position = ccp(160,start_y-count*step);
-
-		CCLabelTTF *label3 = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",score] dimensions:CGSizeMake(290,40) alignment:UITextAlignmentRight fontName:@"Arial" fontSize:16];
-		[self addChild:label3 z:5];
-		[label3 setColor:ccBLACK];
-		[label3 setOpacity:200];
-		label3.position = ccp(160,start_y-count*step);
-		
-		count++;
-		if(count == 10) break;
-	}
+//	CCSprite *title = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(608,192,225,57)];
+//	[batchNode addChild:title z:5];
+//	title.position = ccp(160,420);
+//
+//	float start_y = 360.0f;
+//	float step = 27.0f;
+//	int count = 0;
+//	for(NSMutableArray *highscore in highscores) {
+//		NSString *player = [highscore objectAtIndex:0];
+//		int score = [[highscore objectAtIndex:1] intValue];
+//		
+//		CCLabelTTF *label1 = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",(count+1)] dimensions:CGSizeMake(30,40) alignment:UITextAlignmentRight fontName:@"Arial" fontSize:14];
+//		[self addChild:label1 z:5];
+//		[label1 setColor:ccBLACK];
+//		[label1 setOpacity:200];
+//		label1.position = ccp(15,start_y-count*step-2.0f);
+//		
+//		CCLabelTTF *label2 = [CCLabelTTF labelWithString:player dimensions:CGSizeMake(240,40) alignment:UITextAlignmentLeft fontName:@"Arial" fontSize:16];
+//		[self addChild:label2 z:5];
+//		[label2 setColor:ccBLACK];
+//		label2.position = ccp(160,start_y-count*step);
+//
+//		CCLabelTTF *label3 = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",score] dimensions:CGSizeMake(290,40) alignment:UITextAlignmentRight fontName:@"Arial" fontSize:16];
+//		[self addChild:label3 z:5];
+//		[label3 setColor:ccBLACK];
+//		[label3 setOpacity:200];
+//		label3.position = ccp(160,start_y-count*step);
+//		
+//		count++;
+//		if(count == 10) break;
+//	}
 
 	CCMenuItem *button1 = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png" selectedImage:@"playAgainButton.png" target:self selector:@selector(button1Callback:)];
 	CCMenuItem *button2 = [CCMenuItemImage itemFromNormalImage:@"changePlayerButton.png" selectedImage:@"changePlayerButton.png" target:self selector:@selector(button2Callback:)];
@@ -83,7 +83,7 @@
 	CCMenu *menu = [CCMenu menuWithItems: button1, button2, nil];
 
 	[menu alignItemsVerticallyWithPadding:9];
-	menu.position = ccp(160,58);
+	menu.position = ccp(230,160);
 	
 	[self addChild:menu];
 	

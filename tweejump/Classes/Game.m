@@ -23,7 +23,7 @@
 - (void)oldJump;
 - (void)showHighscores;
 
-#define ALIEN_YPOS_OFFSET 100
+#define ALIEN_YPOS_OFFSET 0
 
 @end
 
@@ -156,7 +156,7 @@
 
 	score = 0;
 	
-	[self resetClouds];
+	//[self resetClouds];
 	[self resetPlatforms];
     [self resetAlien];
 	[self resetBonus];
@@ -225,9 +225,9 @@
 
     //Cache the sprite frames and texture
     CCSpriteFrame *frame;    
-    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(0,9,185,260)];
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(0,2,46,65)];
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"alien%d.png", 1]];
-    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(220,0,185,270)];
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(55,0,46,67)];
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"alien%d.png", 2]];
 
     //Gather the list of frames
@@ -243,7 +243,8 @@
     CGSize winSize = [CCDirector sharedDirector].winSize;
     self.alien = [CCSprite spriteWithSpriteFrameName:@"alien2.png"];
     self.alien.position = ccp(winSize.width/2, winSize.height/2);
-    self.alien.scale = 0.25f;
+    //self.alien.scale = 0.25f;
+    self.alien.scale = 1.0f;
     
     alien_pos.x = 160;
 	alien_pos.y = 160;
@@ -262,7 +263,8 @@
     //self.jumpAction = [CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:YES];
     
     self.alien = [CCSprite spriteWithSpriteFrameName:@"alien1.png"];
-    self.alien.scale = 0.25f;
+    //self.alien.scale = 0.25f;
+    self.alien.scale = 1.0f;
 
     [spriteSheet addChild: self.alien];
     
@@ -389,12 +391,17 @@
     //update x position
     alien_pos.x += alien_vel.x * dt;
     CGSize alien_size = self.alien.contentSize;
-    
+    NSLog(@"alien width: %f",alien_size.width);
+
     float max_x = 480-alien_size.width/2;
     float min_x = 0+alien_size.width/2;
     
+    NSLog(@"alien width before: %f",min_x);
+    
     if(alien_pos.x>max_x) alien_pos.x = max_x;
     if(alien_pos.x<min_x) alien_pos.x = min_x;
+    
+    NSLog(@"alien width after: %f",min_x);
     
     //update y position
     alien_vel.y += alien_acc.y * dt;
@@ -470,6 +477,8 @@
     
     currentPlatformY -= delta;
     CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
+    /*
+    
     for(int t = kPlatformsStartTag; t < kCloudsStartTag + kNumClouds; t++) {
         CCSprite *cloud = (CCSprite*)[batchNode getChildByTag:t];
         CGPoint pos = cloud.position;
@@ -481,7 +490,7 @@
             cloud.position = pos;
         }
     }
-    
+    */
     for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++) {
         CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
         CGPoint pos = platform.position;
@@ -538,6 +547,7 @@
     } else {
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien2.png"]];
     }
+    self.alien.rotation = alien_vel.x/40;
     //Move head
     /*
      if(bird_vel.x < -30.0f && birdLookingRight) {
@@ -595,7 +605,7 @@
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
 	if(gameSuspended) return;
 	float accel_filter = 0.1f;
-	alien_vel.x = alien_vel.x * accel_filter + acceleration.y * (1.0f - accel_filter) * 500.0f;
+	alien_vel.x = alien_vel.x * accel_filter + acceleration.y * -1 * (1.0f - accel_filter) * 2000.0f;    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
