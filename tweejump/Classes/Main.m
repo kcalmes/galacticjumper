@@ -21,10 +21,6 @@
 	CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithFile:@"sprites.png" capacity:10]; //start new batch from file sprites.png
 	[self addChild:batchNode z:-1 tag:kSpriteManager]; //call method inherited from ccnode to add our batchnode
 
-	//CCSprite *background = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(0,0,320,480)]; 
-	//[batchNode addChild:background]; //adds it to our batchnode
-    CCSprite *background = [CCSprite spriteWithFile:@"space-gradient.jpeg" rect:CGRectMake(0, 0, 480, 320)];
-	background.position = CGPointMake(240,160);  //why does it put it at this pos? iphon screen(640, 960)
     CCSprite *background = [CCSprite spriteWithFile:@"bgiphone4.png" rect:CGRectMake(0, 0, 480, 320)];
 	background.position = CGPointMake(240,160); 
     [self addChild:background z:-2];

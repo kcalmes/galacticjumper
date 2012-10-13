@@ -118,15 +118,6 @@
         justHitPlatform = NO;
         comboTally++;
     }
-    
-    if (justHitPlatform && [kindOfJump isEqualToString:@"DefaultJump"]) {
-        return;
-    }
-    else
-    {
-        [self updateComboTally];
-        kindOfJump = @"DefaultJump";
-    }
     [self updateComboTally];
 }
 
@@ -277,7 +268,6 @@
 
     //[self.alien runAction: self.jumpAction];
     justHitPlatform = NO;
-    kindOfJump = @"defaultJump";
     kindOfJump = @"DefaultJump";
     
 }
@@ -349,7 +339,6 @@
             float min_x = 0+alien_size.width/2;
             
             CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
-            //potential bug - if 2 items are close this will not get the closest jump, it will get the one in the nearest order
             for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
             {
                 CCSprite *platform = (CCSprite*)[batchNode getChildByTag:t];
@@ -530,14 +519,6 @@
 
 - (void)updateComboTally
 {
-    if ([kindOfJump isEqualToString:@"PerfectJump"] || [kindOfJump isEqualToString:@"ExcellentJump"]) {
-        comboTally++;
-    }
-    else
-    {
-        comboTally = 0;
-    }
-    
     NSString* comboStr = [NSString stringWithFormat:@"%d",comboTally];
     CCLabelBMFont* comboLabel = (CCLabelBMFont*)[self getChildByTag:kComboLabel];
     [comboLabel setString:comboStr];
@@ -564,9 +545,6 @@
      */
     
     self.alien.position = alien_pos;
-}
-- (void)oldJump {
-	alien_vel.y = 350.0f + fabsf(alien_vel.x);
 }
 
 - (void)showHighscores {
