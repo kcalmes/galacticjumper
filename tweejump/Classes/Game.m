@@ -104,16 +104,19 @@
     {
         alien_vel.y = 550.0f;
         justHitPlatform = NO;
+        comboTally = 0;
     }
     else if ([kindOfJump isEqualToString:@"ExcellentJump"])
     {
         alien_vel.y = 750.0f;
         justHitPlatform = NO;
+        comboTally = 0;
     }
     else if ([kindOfJump isEqualToString:@"PerfectJump"])
     {
         alien_vel.y = 950.0f;
         justHitPlatform = NO;
+        comboTally++;
     }
     
     if (justHitPlatform && [kindOfJump isEqualToString:@"DefaultJump"]) {
@@ -124,6 +127,7 @@
         [self updateComboTally];
         kindOfJump = @"DefaultJump";
     }
+    [self updateComboTally];
 }
 
 - (void)initPlatforms {
@@ -274,6 +278,7 @@
     //[self.alien runAction: self.jumpAction];
     justHitPlatform = NO;
     kindOfJump = @"defaultJump";
+    kindOfJump = @"DefaultJump";
     
 }
 
@@ -307,6 +312,10 @@
     
 	if(alien_vel.y < 0)
     {
+        if (justHitPlatform && [kindOfJump isEqualToString:@"DefaultJump"]) {
+            comboTally = 0;
+            [self updateComboTally];
+        }
         justHitPlatform = NO;
         [self checkForObjectCollisions];
         [self checkForGameOver];

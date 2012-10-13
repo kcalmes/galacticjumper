@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		34218A30161256A1006C0973 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 34218A2F161256A1006C0973 /* background.png */; };
+		34A454471629C23200245221 /* bgiphone5.png in Resources */ = {isa = PBXBuildFile; fileRef = 34A454461629C23200245221 /* bgiphone5.png */; };
+		34A454491629C4C900245221 /* bgiphone4.png in Resources */ = {isa = PBXBuildFile; fileRef = 34A454481629C4C800245221 /* bgiphone4.png */; };
 		34A643B11617485100335A6F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34A643B01617485100335A6F /* Default-568h@2x.png */; };
 		34F431F11604E3940049676D /* CDAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431E91604E3940049676D /* CDAudioManager.m */; };
 		34F431F21604E3940049676D /* CDOpenALSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F431EC1604E3940049676D /* CDOpenALSupport.m */; };
@@ -133,6 +135,8 @@
 
 /* Begin PBXFileReference section */
 		34218A2F161256A1006C0973 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		34A454461629C23200245221 /* bgiphone5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bgiphone5.png; sourceTree = "<group>"; };
+		34A454481629C4C800245221 /* bgiphone4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bgiphone4.png; sourceTree = "<group>"; };
 		34A643B01617485100335A6F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		34F431E81604E3940049676D /* CDAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAudioManager.h; sourceTree = "<group>"; };
 		34F431E91604E3940049676D /* CDAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAudioManager.m; sourceTree = "<group>"; };
@@ -746,6 +750,8 @@
 				83515EAF1618C8130015D084 /* space-gradient.jpeg */,
 				835C78E4160E132800C6C1AD /* jump.png */,
 				835C78E1160E130F00C6C1AD /* grossini_dance_atlas.png */,
+				34A454461629C23200245221 /* bgiphone5.png */,
+				34A454481629C4C800245221 /* bgiphone4.png */,
 				F4D0CBDC15ACD027007C74DF /* changePlayerButton.png */,
 				F4D0CBDD15ACD027007C74DF /* playAgainButton.png */,
 				34218A2F161256A1006C0973 /* background.png */,
@@ -829,6 +835,8 @@
 				83515EB81618CEBD0015D084 /* 114_x_114.png in Resources */,
 				83515EBA1618CEC90015D084 /* 57_x_57.png in Resources */,
 				83515EBC1618D1160015D084 /* Default@2x.png in Resources */,
+				34A454471629C23200245221 /* bgiphone5.png in Resources */,
+				34A454491629C4C900245221 /* bgiphone4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

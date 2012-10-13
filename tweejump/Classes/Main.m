@@ -25,6 +25,8 @@
 	//[batchNode addChild:background]; //adds it to our batchnode
     CCSprite *background = [CCSprite spriteWithFile:@"space-gradient.jpeg" rect:CGRectMake(0, 0, 480, 320)];
 	background.position = CGPointMake(240,160);  //why does it put it at this pos? iphon screen(640, 960)
+    CCSprite *background = [CCSprite spriteWithFile:@"bgiphone4.png" rect:CGRectMake(0, 0, 480, 320)];
+	background.position = CGPointMake(240,160); 
     [self addChild:background z:-2];
 
 	[self initClouds];
