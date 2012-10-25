@@ -12,6 +12,7 @@
 	ccVertex2F alien_acc;
 
 	float currentPlatformY;
+    float currentFall;
 	int currentPlatformTag;
 	float currentMaxPlatformStep;
 	int currentBonusPlatformIndex;

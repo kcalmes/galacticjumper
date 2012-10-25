@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3484C7911638D6A200DA6C46 /* objectplatforms.png in Resources */ = {isa = PBXBuildFile; fileRef = 3484C7901638D6A200DA6C46 /* objectplatforms.png */; };
 		34E1059916364DFC0068AAB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E1059816364DFC0068AAB0 /* UIKit.framework */; };
 		34E1059B16364DFC0068AAB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E1059A16364DFC0068AAB0 /* Foundation.framework */; };
 		34E1059D16364DFC0068AAB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E1059C16364DFC0068AAB0 /* CoreGraphics.framework */; };
@@ -116,7 +117,6 @@
 		34E106ED16365D9B0068AAB0 /* bitmapFont.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106EB16365D9B0068AAB0 /* bitmapFont.png */; };
 		34E106F716365DC50068AAB0 /* objectsclouds.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106EE16365DC50068AAB0 /* objectsclouds.png */; };
 		34E106F816365DC50068AAB0 /* iphone4layer2.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106EF16365DC50068AAB0 /* iphone4layer2.png */; };
-		34E106F916365DC50068AAB0 /* objectplatforms.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106F016365DC50068AAB0 /* objectplatforms.png */; };
 		34E106FA16365DC50068AAB0 /* jump.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106F116365DC50068AAB0 /* jump.png */; };
 		34E106FB16365DC50068AAB0 /* iphone4layer1.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106F216365DC50068AAB0 /* iphone4layer1.png */; };
 		34E106FC16365DC50068AAB0 /* sprites.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106F316365DC50068AAB0 /* sprites.png */; };
@@ -127,6 +127,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3484C7901638D6A200DA6C46 /* objectplatforms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = objectplatforms.png; sourceTree = "<group>"; };
 		34E1059416364DFC0068AAB0 /* SpaceJump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceJump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E1059816364DFC0068AAB0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		34E1059A16364DFC0068AAB0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -337,7 +338,6 @@
 		34E106EB16365D9B0068AAB0 /* bitmapFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bitmapFont.png; sourceTree = "<group>"; };
 		34E106EE16365DC50068AAB0 /* objectsclouds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = objectsclouds.png; sourceTree = "<group>"; };
 		34E106EF16365DC50068AAB0 /* iphone4layer2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone4layer2.png; sourceTree = "<group>"; };
-		34E106F016365DC50068AAB0 /* objectplatforms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = objectplatforms.png; sourceTree = "<group>"; };
 		34E106F116365DC50068AAB0 /* jump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jump.png; sourceTree = "<group>"; };
 		34E106F216365DC50068AAB0 /* iphone4layer1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone4layer1.png; sourceTree = "<group>"; };
 		34E106F316365DC50068AAB0 /* sprites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprites.png; sourceTree = "<group>"; };
@@ -690,8 +690,8 @@
 			isa = PBXGroup;
 			children = (
 				34E106EE16365DC50068AAB0 /* objectsclouds.png */,
+				3484C7901638D6A200DA6C46 /* objectplatforms.png */,
 				34E106EF16365DC50068AAB0 /* iphone4layer2.png */,
-				34E106F016365DC50068AAB0 /* objectplatforms.png */,
 				34E106F116365DC50068AAB0 /* jump.png */,
 				34E106F216365DC50068AAB0 /* iphone4layer1.png */,
 				34E106F316365DC50068AAB0 /* sprites.png */,
@@ -778,13 +778,13 @@
 				34E106ED16365D9B0068AAB0 /* bitmapFont.png in Resources */,
 				34E106F716365DC50068AAB0 /* objectsclouds.png in Resources */,
 				34E106F816365DC50068AAB0 /* iphone4layer2.png in Resources */,
-				34E106F916365DC50068AAB0 /* objectplatforms.png in Resources */,
 				34E106FA16365DC50068AAB0 /* jump.png in Resources */,
 				34E106FB16365DC50068AAB0 /* iphone4layer1.png in Resources */,
 				34E106FC16365DC50068AAB0 /* sprites.png in Resources */,
 				34E106FD16365DC50068AAB0 /* bgiphone4.png in Resources */,
 				34E106FE16365DC50068AAB0 /* changePlayerButton.png in Resources */,
 				34E106FF16365DC50068AAB0 /* playAgainButton.png in Resources */,
+				3484C7911638D6A200DA6C46 /* objectplatforms.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

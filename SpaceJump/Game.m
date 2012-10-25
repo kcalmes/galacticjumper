@@ -23,6 +23,7 @@
 - (void)showHighscores;
 
 #define ALIEN_YPOS_OFFSET 0
+#define PLATFORM_SCALE .65
 
 @end
 
@@ -88,6 +89,8 @@
 	return self;
 }
 
+#pragma mark InitializeObjects
+
 - (void)initPlatforms {
     //	NSLog(@"initPlatforms");
 	
@@ -102,7 +105,7 @@
 
 - (void)initPlatform {
     
-	CGRect rect = CGRectMake(0,0,167,60);
+	CGRect rect = CGRectMake(0,0,148,46);
 
 	CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
 	CCSprite *platform = [CCSprite spriteWithTexture:[platformNode texture] rect:rect];
@@ -139,7 +142,7 @@
 	
 	currentPlatformY = -1;
 	currentPlatformTag = kPlatformsStartTag;
-	currentMaxPlatformStep = 60.0f;
+	currentMaxPlatformStep = 100.0f;
 	currentBonusPlatformIndex = 0;
 	currentBonusType = 0;
 	platformCount = 0;
@@ -160,6 +163,7 @@
 	} else
     {
 		currentPlatformY += random() % (int)(currentMaxPlatformStep - kMinPlatformStep) + kMinPlatformStep;
+        NSLog(@"max step = %f, currentY = %f",currentMaxPlatformStep, currentPlatformY);
 		if(currentMaxPlatformStep < kMaxPlatformStep)
         {
 			currentMaxPlatformStep += 0.5f;
@@ -168,8 +172,8 @@
 	
 	CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
 	CCSprite *platform = (CCSprite*)[platformNode getChildByTag:currentPlatformTag];
-	platform.scaleX = .5;
-    platform.scaleY = .5;
+	platform.scaleX = PLATFORM_SCALE;
+    platform.scaleY = PLATFORM_SCALE;
 	
 	float x;
 	if(currentPlatformY == 30.0f)
@@ -269,7 +273,7 @@
 	}
 }
 
-
+#pragma mark StepFunction
 
 - (void)step:(ccTime)dt {
 	//NSLog(@"Game::step");
@@ -306,6 +310,8 @@
     }
     [self updateAlienFinalPosition];
 }
+
+#pragma mark TouchEvents
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -375,30 +381,32 @@
 {
     if ([kindOfJump isEqualToString:@"DefaultJump"] && !justHitPlatform)
     {
-        alien_vel.y = 250.0f;
+        alien_vel.y = 225.0f;
         justHitPlatform = YES;
     }
     else if ([kindOfJump isEqualToString:@"GoodJump"])
     {
-        alien_vel.y = 350.0f;
+        alien_vel.y = 300.0f;
         justHitPlatform = NO;
         comboTally = 0;
     }
     else if ([kindOfJump isEqualToString:@"ExcellentJump"])
     {
-        alien_vel.y = 450.0f;
+        alien_vel.y = 400.0f;
         justHitPlatform = NO;
         comboTally = 0;
     }
     else if ([kindOfJump isEqualToString:@"PerfectJump"])
     {
-        alien_vel.y = 650.0f;
+        alien_vel.y = 550.0f;
         justHitPlatform = NO;
         comboTally++;
     }
     [self updateComboTally];
     kindOfJump = @"DefaultJump";
 }
+
+#pragma mark CheckCollisions
 
 - (void)checkForBonus
 {
@@ -429,19 +437,21 @@
      }
 }
 
-- (void)checkForObjectCollisions{
+- (void)checkForObjectCollisions
+{
     //load object sprite sheet - this actually be done in the init method
     CGSize alien_size = self.alien.contentSize;
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
     justHitPlatform = NO;
-    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++) {
+    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
+    {
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
         
         CGSize platform_size = platform.contentSize;
         CGPoint platform_pos = platform.position;
         
-        float max_x = platform_pos.x - platform_size.width/2 + 30;
-        float min_x = platform_pos.x + platform_size.width/2 - 30;
+        float max_x = platform_pos.x - ((platform_size.width/2)*PLATFORM_SCALE);
+        float min_x = platform_pos.x + ((platform_size.width/2)*PLATFORM_SCALE);
         float min_y = platform_pos.y + (platform_size.height+alien_size.height)/2 - kPlatformTopPadding;
         
         
@@ -451,6 +461,8 @@
            (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y) {
             [self jump];
             kindOfJump = @"DefaultJump";
+            currentPlatformTag = t;
+            //[self updatePlatformSize];
         }
     }
 }
@@ -464,7 +476,7 @@
     }
 }
 
-#pragma mark UpdateStuff
+#pragma mark UpdateObjectPositions
 
 - (void)updateAlienPosition:(ccTime)dt
 {
@@ -496,7 +508,7 @@
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
     CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
     
-    for(int t = kPlatformsStartTag; t < kCloudsStartTag + kNumClouds; t++)
+    for(int t = kCloudsStartTag; t < kCloudsStartTag + kNumClouds; t++)
     {
         CCSprite *cloud = (CCSprite*)[cloudsNode getChildByTag:t];
         CGPoint pos = cloud.position;
@@ -552,7 +564,7 @@
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
     CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
      
-     for(int t = kPlatformsStartTag; t < kCloudsStartTag + kNumClouds; t++)
+     for(int t = kCloudsStartTag; t < kCloudsStartTag + kNumClouds; t++)
      {
          CCSprite *cloud = (CCSprite*)[cloudsNode getChildByTag:t];
         CGPoint pos = cloud.position;
@@ -569,12 +581,12 @@
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
         CGPoint pos = platform.position;
         pos = ccp(pos.x-delta,pos.y);
-        if(pos.x < -100)
+        if(pos.x < -200)
         {
             currentPlatformTag = t;
             [self updatePlatformPosition:@"left"];
         }
-        else if(pos.x > 580)
+        else if(pos.x > 680)
         {
             currentPlatformTag = t;
             [self updatePlatformPosition:@"right"];
@@ -589,7 +601,7 @@
     {
         CGPoint pos = bonus.position;
         pos.x -= delta;
-        if(pos.x < -100 || pos.x > 580)
+        if(pos.x < -200 || pos.x > 680)
         {
             [self resetBonus];
         }
@@ -615,9 +627,21 @@
     }
 }
 
+-(void)updatePlatformSize
+{
+    CGRect rect = CGRectMake(180,0,69,46);
+    CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
+	CCSprite *platform = (CCSprite*)[platformNode getChildByTag:currentPlatformTag];
+    platform = [CCSprite spriteWithTexture:[platformNode texture] rect:rect];
+	platform.scaleX = PLATFORM_SCALE;
+    platform.scaleY = PLATFORM_SCALE;
+}
+
+#pragma mark UpdateLabels
+
 - (void)updateScore
 {
-    float delta = alien_pos.y - 140;
+    float delta = alien_pos.y - 180;
     score += (int)delta;
     NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
     
@@ -644,17 +668,6 @@
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien2.png"]];
     }
     self.alien.rotation = alien_vel.x/40;
-    //Move head
-    /*
-     if(bird_vel.x < -30.0f && birdLookingRight) {
-     birdLookingRight = NO;
-     bird.scaleX = -1.0f;
-     } else if (bird_vel.x > 30.0f && !birdLookingRight) {
-     birdLookingRight = YES;
-     bird.scaleX = 1.0f;
-     }
-     */
-    
     self.alien.position = alien_pos;
 }
 
@@ -703,7 +716,7 @@
     {
         alien_vel.x = alien_vel.x * accel_filter + acceleration.y * -1 * (1.0f - accel_filter) * 1000.0f;
     }
-    else if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
+    else if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft)
     {
         alien_vel.x = alien_vel.x * accel_filter + acceleration.y * -1 * (1.0f - accel_filter) * -1000.0f;
     }
