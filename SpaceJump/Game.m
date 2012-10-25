@@ -45,7 +45,8 @@
 }
 
 - (id)init {
-//	NSLog(@"Game::init");
+    //NSLog(@"Game::init");
+    //count a game played in google analytics
 	
 	if(![super init]) return nil;
 	
