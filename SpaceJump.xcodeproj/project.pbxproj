@@ -120,6 +120,7 @@
 		34E106FB16365DC50068AAB0 /* iphone4layer1.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106F216365DC50068AAB0 /* iphone4layer1.png */; };
 		34E106FD16365DC50068AAB0 /* bgiphone4.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106F416365DC50068AAB0 /* bgiphone4.png */; };
 		34E1070216365E930068AAB0 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E1070116365E930068AAB0 /* GameViewController.m */; };
+		53133F7C16390DE100EC87FB /* tapTutorial.png in Resources */ = {isa = PBXBuildFile; fileRef = 53133F7B16390DE100EC87FB /* tapTutorial.png */; };
 		5317E8A21639008600718562 /* sprites.png in Resources */ = {isa = PBXBuildFile; fileRef = 5317E8A11639008600718562 /* sprites.png */; };
 		53633AA31638F57700258598 /* bitmapFont.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA21638F57700258598 /* bitmapFont.png */; };
 		53633AAA1638F5D200258598 /* exitGameButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA81638F5D200258598 /* exitGameButton.png */; };
@@ -342,6 +343,7 @@
 		34E106F416365DC50068AAB0 /* bgiphone4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bgiphone4.png; sourceTree = "<group>"; };
 		34E1070016365E930068AAB0 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		34E1070116365E930068AAB0 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		53133F7B16390DE100EC87FB /* tapTutorial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tapTutorial.png; sourceTree = "<group>"; };
 		5317E8A11639008600718562 /* sprites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprites.png; sourceTree = "<group>"; };
 		53633AA21638F57700258598 /* bitmapFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bitmapFont.png; sourceTree = "<group>"; };
 		53633AA81638F5D200258598 /* exitGameButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exitGameButton.png; sourceTree = "<group>"; };
@@ -689,6 +691,7 @@
 		34E106E816365D560068AAB0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				53133F7B16390DE100EC87FB /* tapTutorial.png */,
 				5317E8A11639008600718562 /* sprites.png */,
 				53633AA81638F5D200258598 /* exitGameButton.png */,
 				53633AA91638F5D200258598 /* playAgainButton.png */,
@@ -785,6 +788,7 @@
 				53633AAA1638F5D200258598 /* exitGameButton.png in Resources */,
 				53633AAB1638F5D200258598 /* playAgainButton.png in Resources */,
 				5317E8A21639008600718562 /* sprites.png in Resources */,
+				53133F7C16390DE100EC87FB /* tapTutorial.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
