@@ -699,10 +699,11 @@
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
 	if(gameSuspended) return;
 	float accel_filter = 0.1f;
-    if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight) {
+    if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
+    {
         alien_vel.x = alien_vel.x * accel_filter + acceleration.y * -1 * (1.0f - accel_filter) * 1000.0f;
     }
-    else
+    else if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
     {
         alien_vel.x = alien_vel.x * accel_filter + acceleration.y * -1 * (1.0f - accel_filter) * -1000.0f;
     }
