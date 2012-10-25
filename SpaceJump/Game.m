@@ -1,6 +1,6 @@
 #import "Game.h"
 #import "CCMain.h"
-#import "Highscores.h"
+#import "GameOver.h"
 
 @interface Game (Private)
 - (void)initPlatforms;
@@ -679,7 +679,7 @@
 	
 //	NSLog(@"score = %d",score);
 	[[CCDirector sharedDirector] replaceScene:
-     [CCTransitionFade transitionWithDuration:1 scene:[Highscores sceneWithScore:score] withColor:ccWHITE]];
+     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score] withColor:ccWHITE]];
 }
 
 //- (BOOL)ccTouchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
