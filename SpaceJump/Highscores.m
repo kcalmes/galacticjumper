@@ -78,7 +78,7 @@
 //	}
 
 	CCMenuItem *button1 = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png" selectedImage:@"playAgainButton.png" target:self selector:@selector(button1Callback:)];
-	CCMenuItem *button2 = [CCMenuItemImage itemFromNormalImage:@"changePlayerButton.png" selectedImage:@"changePlayerButton.png" target:self selector:@selector(button2Callback:)];
+	CCMenuItem *button2 = [CCMenuItemImage itemFromNormalImage:@"exitGameButton.png" selectedImage:@"exitGameButton" target:self selector:@selector(button2Callback:)];
 	
 	CCMenu *menu = [CCMenu menuWithItems: button1, button2, nil];
 
