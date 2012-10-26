@@ -31,7 +31,6 @@
 
 //Added by Kory for animation
 @synthesize alien = _alien;
-//@synthesize jumpAction = _jumpAction;
 
 #pragma mark InitializeGame
 
@@ -93,6 +92,15 @@
 
 - (void)initPlatforms {
     //	NSLog(@"initPlatforms");
+    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"objectplatforms.png"];
+    [self addChild:spriteSheet z:4];
+    
+    //Cache the sprite frames and texture
+    CCSpriteFrame *frame;
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(0,0,148,46)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"platform%d.png", 1]];
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(180,0,69,46)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"platform%d.png", 2]];
 	
 	currentPlatformTag = kPlatformsStartTag;
 	while(currentPlatformTag < kPlatformsStartTag + kNumPlatforms) {
@@ -103,12 +111,10 @@
 	[self resetPlatforms];
 }
 
-- (void)initPlatform {
-    
-	CGRect rect = CGRectMake(0,0,148,46);
-
+- (void)initPlatform
+{
 	CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
-	CCSprite *platform = [CCSprite spriteWithTexture:[platformNode texture] rect:rect];
+	CCSprite *platform = [CCSprite spriteWithSpriteFrameName:@"platform1.png"];
 	[platformNode addChild:platform z:3 tag:currentPlatformTag];
 }
 
@@ -228,17 +234,11 @@
 	alien_pos.y = 160;
 	self.alien.position = alien_pos;
 
-	
 	alien_vel.x = 0;
 	alien_vel.y = 0;
 	
 	alien_acc.x = 0;
 	alien_acc.y = -450.0f;
-    
-    //self.alien.rotation = 90;
-    //self.jumpAction = [CCRepeatForever actionWithAction: [CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:YES]];
-    //self.jumpAction = [CCRepeat actionWithAction:[CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:NO] times:1];
-    //self.jumpAction = [CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:YES];
     
     self.alien = [CCSprite spriteWithSpriteFrameName:@"alien1.png"];
     //self.alien.scale = 0.25f;
@@ -246,10 +246,6 @@
 
     [spriteSheet addChild: self.alien];
     
-    
-
-
-    //[self.alien runAction: self.jumpAction];
     justHitPlatform = NO;
     kindOfJump = @"DefaultJump";
     
@@ -362,15 +358,9 @@
                 {
                     kindOfJump = @"GoodJump";
                 }
-                /*else if(bird_pos.x > max_x &&
-                        bird_pos.x < min_x &&
-                        bird_pos.y > platform_pos.y &&
-                        bird_pos.y < min_y +20 )
-                {
-                    kindOfJump = @"okJump";
+                /*
                     [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
-                }*/
-            
+                */
             }
             //NSLog(@"Kind of Jump: %@", kindOfJump);
         }
@@ -462,7 +452,7 @@
             [self jump];
             kindOfJump = @"DefaultJump";
             currentPlatformTag = t;
-            //[self updatePlatformSize];
+            [self updatePlatformSize];
         }
     }
 }
@@ -498,7 +488,7 @@
 - (void)updateVerticalScreenFramePosition
 {
     //update the background position
-    //calls moveup, moveleft, moveright
+    //calls moveup
     float delta = alien_pos.y - 180;
     alien_pos.y = 180;
     
@@ -524,10 +514,14 @@
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
         CGPoint pos = platform.position;
         pos = ccp(pos.x,pos.y-delta);
-        if(pos.y < -platform.contentSize.height/2) {
+        if(pos.y < -platform.contentSize.height/2)
+        {
             currentPlatformTag = t;
+            CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
+            [platform setDisplayFrame:[cache spriteFrameByName:@"platform1.png"]];
             [self resetPlatform];
-        } else {
+        } else
+        {
             platform.position = pos;
         }
     }
@@ -546,7 +540,7 @@
 - (void)updateHorizontalScreenFramePosition
 {
     //update the background position
-    //calls moveup, moveleft, moveright
+    //calls moveleft, moveright
     float delta;
     if(alien_pos.x > 260)
     {
@@ -629,12 +623,25 @@
 
 -(void)updatePlatformSize
 {
-    CGRect rect = CGRectMake(180,0,69,46);
+    if (currentPlatformTag == kPlatformsStartTag)
+    {
+        return;
+    }
+    CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
 	CCSprite *platform = (CCSprite*)[platformNode getChildByTag:currentPlatformTag];
-    platform = [CCSprite spriteWithTexture:[platformNode texture] rect:rect];
-	platform.scaleX = PLATFORM_SCALE;
-    platform.scaleY = PLATFORM_SCALE;
+    CCSpriteFrame* frame = [cache spriteFrameByName:@"platform2.png"];
+    if (platform.displayedFrame == frame)
+    {
+        [platform setDisplayFrame:[cache spriteFrameByName:@"platform1.png"]];
+        [self resetPlatform];
+    }
+    else
+    {
+        [platform setDisplayFrame:[cache spriteFrameByName:@"platform2.png"]];
+        platform.scaleX = PLATFORM_SCALE;
+        platform.scaleY = PLATFORM_SCALE;
+    }
 }
 
 #pragma mark UpdateLabels
