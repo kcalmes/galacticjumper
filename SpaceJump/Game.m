@@ -1,6 +1,7 @@
 #import "Game.h"
 #import "CCMain.h"
 #import "GameOver.h"
+#import "GANTracker.h"
 
 @interface Game (Private)
 - (void)initPlatforms;
@@ -48,7 +49,13 @@
 - (id)init {
     //NSLog(@"Game::init");
     //count a game played in google analytics
-	
+	NSError * error;
+    if (![[GANTracker sharedTracker] trackPageview:@"/playgame"
+                                         withError:&error]) {
+        NSLog(@"there was an error");
+    } else {
+        NSLog(@"there was not an error");
+    }
 	if(![super init]) return nil;
 	
 	gameSuspended = YES;

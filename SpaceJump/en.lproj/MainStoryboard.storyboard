@@ -208,14 +208,6 @@
         <image name="tapTutorial.png" width="480" height="320"/>
         <image name="welcome-page.png" width="480" height="320"/>
     </resources>
-    <classes>
-        <class className="EAGLView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EAGLView.h"/>
-        </class>
-        <class className="GameViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GameViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

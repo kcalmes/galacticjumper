@@ -125,6 +125,9 @@
 		53633AA31638F57700258598 /* bitmapFont.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA21638F57700258598 /* bitmapFont.png */; };
 		53633AAA1638F5D200258598 /* exitGameButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA81638F5D200258598 /* exitGameButton.png */; };
 		53633AAB1638F5D200258598 /* playAgainButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA91638F5D200258598 /* playAgainButton.png */; };
+		8306B375163F21C300B0BFB0 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B374163F21C300B0BFB0 /* libGoogleAnalytics.a */; };
+		8306B377163F224400B0BFB0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B376163F224400B0BFB0 /* CFNetwork.framework */; };
+		8306B379163F22EE00B0BFB0 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */; };
 		831EE4E116390FAD000CED34 /* welcome-page.png in Resources */ = {isa = PBXBuildFile; fileRef = 831EE4E016390FAD000CED34 /* welcome-page.png */; };
 		834C35C51639987F00B93CF9 /* 62_64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 834C35C41639987F00B93CF9 /* 62_64x64.png */; };
 /* End PBXBuildFile section */
@@ -350,6 +353,10 @@
 		53633AA21638F57700258598 /* bitmapFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bitmapFont.png; sourceTree = "<group>"; };
 		53633AA81638F5D200258598 /* exitGameButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exitGameButton.png; sourceTree = "<group>"; };
 		53633AA91638F5D200258598 /* playAgainButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playAgainButton.png; sourceTree = "<group>"; };
+		8306B373163F21C300B0BFB0 /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
+		8306B374163F21C300B0BFB0 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
+		8306B376163F224400B0BFB0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		831EE4E016390FAD000CED34 /* welcome-page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome-page.png"; sourceTree = "<group>"; };
 		834C35C41639987F00B93CF9 /* 62_64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 62_64x64.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -359,6 +366,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8306B379163F22EE00B0BFB0 /* libsqlite3.0.dylib in Frameworks */,
+				8306B377163F224400B0BFB0 /* CFNetwork.framework in Frameworks */,
 				34E106D716364EA90068AAB0 /* QuartzCore.framework in Frameworks */,
 				34E106D416364E9F0068AAB0 /* OpenAL.framework in Frameworks */,
 				34E106D516364E9F0068AAB0 /* OpenGLES.framework in Frameworks */,
@@ -371,6 +380,7 @@
 				34E1059916364DFC0068AAB0 /* UIKit.framework in Frameworks */,
 				34E1059B16364DFC0068AAB0 /* Foundation.framework in Frameworks */,
 				34E1059D16364DFC0068AAB0 /* CoreGraphics.framework in Frameworks */,
+				8306B375163F21C300B0BFB0 /* libGoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +390,8 @@
 		34E1058916364DFC0068AAB0 = {
 			isa = PBXGroup;
 			children = (
+				8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */,
+				8306B376163F224400B0BFB0 /* CFNetwork.framework */,
 				34E1059E16364DFC0068AAB0 /* SpaceJump */,
 				34E1059716364DFC0068AAB0 /* Frameworks */,
 				34E1059516364DFC0068AAB0 /* Products */,
@@ -416,6 +428,7 @@
 		34E1059E16364DFC0068AAB0 /* SpaceJump */ = {
 			isa = PBXGroup;
 			children = (
+				8306B371163F213300B0BFB0 /* GoogleAnalytics */,
 				34E105A716364DFC0068AAB0 /* AppDelegate.h */,
 				34E105A816364DFC0068AAB0 /* AppDelegate.m */,
 				34E106E6163659940068AAB0 /* Cocoas Game */,
@@ -725,6 +738,15 @@
 			name = Auxiliary;
 			sourceTree = "<group>";
 		};
+		8306B371163F213300B0BFB0 /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				8306B373163F21C300B0BFB0 /* GANTracker.h */,
+				8306B374163F21C300B0BFB0 /* libGoogleAnalytics.a */,
+			);
+			name = GoogleAnalytics;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -974,6 +996,10 @@
 				GCC_PREFIX_HEADER = "SpaceJump/SpaceJump-Prefix.pch";
 				INFOPLIST_FILE = "SpaceJump/SpaceJump-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/SpaceJump\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -986,6 +1012,10 @@
 				GCC_PREFIX_HEADER = "SpaceJump/SpaceJump-Prefix.pch";
 				INFOPLIST_FILE = "SpaceJump/SpaceJump-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/SpaceJump\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
