@@ -26,7 +26,8 @@ static const NSInteger kGANDispatchPeriodSec = 1;
     // **************************************************************************
     // PLEASE REPLACE WITH YOUR ACCOUNT DETAILS.
     // **************************************************************************
-    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-35938348-1" dispatchPeriod:kGANDispatchPeriodSec delegate:nil];
+    //[[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-35938348-1" dispatchPeriod:kGANDispatchPeriodSec delegate:nil];
+    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-35942649-1" dispatchPeriod:kGANDispatchPeriodSec delegate:nil];
 
     NSError * error;
     [[GANTracker sharedTracker] trackPageview:@"/home" withError:&error];
