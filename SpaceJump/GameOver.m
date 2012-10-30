@@ -1,6 +1,7 @@
 #import "GameOver.h"
 #import "CCMain.h"
 #import "Game.h"
+#import "GameViewController.h"
 
 @interface GameOver (Private)
 - (void)playAgainAction:(id)sender;
@@ -37,7 +38,11 @@
 	CCMenu *menu = [CCMenu menuWithItems: button1, button2, nil];
 
 	[menu alignItemsVerticallyWithPadding:9];
-	menu.position = ccp(230,160);
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    CGFloat screenHeight = screenSize.width;
+    CGFloat screenWidth = screenSize.height;
+	menu.position = ccp(screenWidth/2,screenHeight/2);
 	
 	[self addChild:menu];
 	
@@ -50,16 +55,19 @@
 	[super dealloc];
 }
 
-- (void)playAgainAction:(id)sender {
+- (void)playAgainAction:(id)sender
+{
 //	NSLog(@"button1Callback");
 
 	CCTransitionScene *ts = [CCTransitionFade transitionWithDuration:0.5f scene:[Game scene] withColor:ccWHITE];
 	[[CCDirector sharedDirector] replaceScene:ts];
 }
 
-- (void)exitGameAction:(id)sender {
-//	NSLog(@"button2Callback");
-	
+- (void)exitGameAction:(id)sender
+{
+	NSLog(@"button2Callback");
+    
+    
 }
 
 @end

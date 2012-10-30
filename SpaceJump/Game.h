@@ -21,8 +21,8 @@
     NSString* kindOfJump;
 	
 	BOOL gameSuspended;
-	BOOL birdLookingRight;
     BOOL justHitPlatform;
+    BOOL hitStarBouns;
 	
 	int score;
     int comboTally;

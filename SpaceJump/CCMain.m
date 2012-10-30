@@ -18,15 +18,21 @@
 	
 	RANDOM_SEED();  //what does this mean?
 
-	CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithFile:@"sprites.png" capacity:10];
+	CCSpriteBatchNode *batchNode = [CCSpriteBatchNode batchNodeWithFile:@"Items.png" capacity:10];
     CCSpriteBatchNode *cloudsNode = [CCSpriteBatchNode batchNodeWithFile:@"objectsclouds.png" capacity:10];
     CCSpriteBatchNode *platformNode = [CCSpriteBatchNode batchNodeWithFile:@"objectplatforms.png" capacity:10];
 	[self addChild:batchNode z:-1 tag:kSpriteManager]; //call method inherited from ccnode to add our batchnode
     [self addChild:cloudsNode z:-2 tag:kCloudsManager];
     [self addChild:platformNode z:3 tag:kPlatformManager];
 
-    CCSprite *background = [CCSprite spriteWithFile:@"bgiphone4.png" rect:CGRectMake(0, 0, 480, 320)];
-	background.position = CGPointMake(240,160); 
+    CCSprite *background = [CCSprite spriteWithFile:@"background1.1.png" rect:CGRectMake(0, 0, 1136, 640)];
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    CGFloat screenHeight = screenSize.width;
+    CGFloat screenWidth = screenSize.height;
+    background.scaleX = screenWidth/background.contentSize.width;
+    background.scaleY = screenHeight/background.contentSize.height;
+	background.position = CGPointMake(screenWidth/2,screenHeight/2);
     [self addChild:background z:-3];
 
 	[self initClouds];

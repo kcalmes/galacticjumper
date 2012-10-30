@@ -64,14 +64,12 @@
 
 	[self initPlatforms];
 	
-	CCSprite *bonus;
+	CCSprite *bonus = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(652,457,67,52)];
+    [batchNode addChild:bonus z:4 tag:kBonusStartTag];
+    bonus.scaleX = .5f;
+    bonus.scaleY = .5f;
 
-	for(int i=0; i<kNumBonuses; i++)
-    {
-		bonus = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(608+i*32,256,25,25)];
-		[batchNode addChild:bonus z:4 tag:kBonusStartTag+i];
-		bonus.visible = NO;
-	}
+    bonus.visible = NO;
 
 //	LabelAtlas *scoreLabel = [LabelAtlas labelAtlasWithString:@"0" charMapFile:@"charmap.png" itemWidth:24 itemHeight:32 startCharMap:' '];
 //	[self addChild:scoreLabel z:5 tag:kScoreLabel];
@@ -196,10 +194,11 @@
     //	NSLog(@"platformCount = %d",platformCount);
     CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 	
-	if(platformCount == currentBonusPlatformIndex) {
+	if(platformCount == currentBonusPlatformIndex)
+    {
         //		NSLog(@"platformCount == currentBonusPlatformIndex");
-		CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
-		bonus.position = ccp(x,currentPlatformY+30);
+		CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag];
+		bonus.position = ccp(x,currentPlatformY+40);
 		bonus.visible = YES;
 	}
 }
@@ -207,15 +206,17 @@
 - (void)resetAlien
 {
     //Create a sprite batch node
-    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"jump.png"];
+    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"Jumps.png"];
     [self addChild:spriteSheet z:4];
 
     //Cache the sprite frames and texture
     CCSpriteFrame *frame;    
-    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(0,2,46,65)];
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(20,40,64,90)];
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"alien%d.png", 1]];
-    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(55,0,46,67)];
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(109,36,64,98)];
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"alien%d.png", 2]];
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(555,18,64,144)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"alien%d.png",3]];
 
     //Gather the list of frames
     NSMutableArray *jumpAnimFrames = [NSMutableArray array];
@@ -228,8 +229,7 @@
     CGSize winSize = [CCDirector sharedDirector].winSize;
     self.alien = [CCSprite spriteWithSpriteFrameName:@"alien2.png"];
     self.alien.position = ccp(winSize.width/2, winSize.height/2);
-    //self.alien.scale = 0.25f;
-    self.alien.scale = 1.0f;
+    self.alien.scale = 0.6f;
     
     alien_pos.x = 220;
 	alien_pos.y = 160;
@@ -242,14 +242,9 @@
 	alien_acc.x = 0;
 	alien_acc.y = -450.0f;
     
-    //self.alien.rotation = 90;
-    //self.jumpAction = [CCRepeatForever actionWithAction: [CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:YES]];
-    //self.jumpAction = [CCRepeat actionWithAction:[CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:NO] times:1];
-    //self.jumpAction = [CCAnimate actionWithAnimation:jumpAnim restoreOriginalFrame:YES];
-    
     self.alien = [CCSprite spriteWithSpriteFrameName:@"alien1.png"];
     //self.alien.scale = 0.25f;
-    self.alien.scale = 1.0f;
+    self.alien.scale = 0.8f;
 
     [spriteSheet addChild: self.alien];
     
@@ -258,6 +253,7 @@
 
     //[self.alien runAction: self.jumpAction];
     justHitPlatform = NO;
+    hitStarBouns = NO;
     kindOfJump = @"DefaultJump";
     
 }
@@ -266,18 +262,9 @@
 //	NSLog(@"resetBonus");
 	
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
-	CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
+	CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag];
 	bonus.visible = NO;
 	currentBonusPlatformIndex += random() % (kMaxBonusStep - kMinBonusStep) + kMinBonusStep;
-	if(score < 10000) {
-		currentBonusType = 0;
-	} else if(score < 50000) {
-		currentBonusType = random() % 2;
-	} else if(score < 100000) {
-		currentBonusType = random() % 3;
-	} else {
-		currentBonusType = random() % 2 + 2;
-	}
 }
 
 #pragma mark StepFunction
@@ -419,19 +406,17 @@
 {
      CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
      CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
-     if(bonus.visible) {
+     if(bonus.visible)
+     {
          CGPoint bonus_pos = bonus.position;
          float range = 20.0f;
          if(alien_pos.x > bonus_pos.x - range &&
          alien_pos.x < bonus_pos.x + range &&
          alien_pos.y > bonus_pos.y - range &&
-         alien_pos.y < bonus_pos.y + range ) {
-             switch(currentBonusType) {
-                 case kBonus5:   score += 5000;   break;
-                 case kBonus10:  score += 10000;  break;
-                 case kBonus50:  score += 50000;  break;
-                 case kBonus100: score += 100000; break;
-             }
+         alien_pos.y < bonus_pos.y + range )
+         {
+             alien_vel.y = 1600.0f;
+             hitStarBouns = YES;
              NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
              CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
              [scoreLabel setString:scoreStr];
@@ -439,6 +424,10 @@
              id a2 = [CCScaleTo actionWithDuration:0.2f scaleX:1.0f scaleY:1.0f];
              id a3 = [CCSequence actions:a1,a2,a1,a2,a1,a2,nil];
              [scoreLabel runAction:a3];
+             id a4 = [CCScaleTo actionWithDuration:0.4f scaleX:0.7f scaleY:0.9f];
+             id a5 = [CCScaleTo actionWithDuration:0.4f scaleX:0.8f scaleY:0.8f];
+             id a6 = [CCSequence actions:a4,a5,a4,a5,a4,a5,nil];
+             [self.alien runAction:a6];
              [self resetBonus];
          }
      }
@@ -513,7 +502,7 @@
     CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
     CCSpriteBatchNode *cloudsNode = (CCSpriteBatchNode*)[self getChildByTag:kCloudsManager];
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
-    CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
+    CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag];
     
     for(int t = kCloudsStartTag; t < kCloudsStartTag + kNumClouds; t++)
     {
@@ -569,7 +558,7 @@
     CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
     CCSpriteBatchNode *cloudsNode = (CCSpriteBatchNode*)[self getChildByTag:kCloudsManager];
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
-    CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag+currentBonusType];
+    CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag];
      
      for(int t = kCloudsStartTag; t < kCloudsStartTag + kNumClouds; t++)
      {
@@ -669,7 +658,11 @@
     CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
     if (alien_vel.y < 0)
     {
+        hitStarBouns = NO;
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien1.png"]];
+    } else if (hitStarBouns && alien_vel.y > 150)
+    {
+        [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien3.png"]];
     } else
     {
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien2.png"]];
@@ -688,33 +681,6 @@
 	[[CCDirector sharedDirector] replaceScene:
      [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score] withColor:ccWHITE]];
 }
-
-//- (BOOL)ccTouchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
-//	NSLog(@"ccTouchesEnded");
-//
-////	[self showHighscores];
-//
-////	AtlasSpriteManager *spriteManager = (AtlasSpriteManager*)[self getChildByTag:kSpriteManager];
-////	AtlasSprite *bonus = (AtlasSprite*)[spriteManager getChildByTag:kBonus];
-////	bonus.position = ccp(160,30);
-////	bonus.visible = !bonus.visible;
-//
-////	BitmapFontAtlas *scoreLabel = (BitmapFontAtlas*)[self getChildByTag:kScoreLabel];
-////	id a1 = [ScaleTo actionWithDuration:0.2f scaleX:1.5f scaleY:0.8f];
-////	id a2 = [ScaleTo actionWithDuration:0.2f scaleX:1.0f scaleY:1.0f];
-////	id a3 = [Sequence actions:a1,a2,a1,a2,a1,a2,nil];
-////	[scoreLabel runAction:a3];
-//
-//	AtlasSpriteManager *spriteManager = (AtlasSpriteManager*)[self getChildByTag:kSpriteManager];
-//	AtlasSprite *platform = (AtlasSprite*)[spriteManager getChildByTag:kPlatformsStartTag+5];
-//	id a1 = [MoveBy actionWithDuration:2 position:ccp(100,0)];
-//	id a2 = [MoveBy actionWithDuration:2 position:ccp(-200,0)];
-//	id a3 = [Sequence actions:a1,a2,a1,nil];
-//	id a4 = [RepeatForever actionWithAction:a3];
-//	[platform runAction:a4];
-//	
-//	return kEventHandled;
-//}
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
 	if(gameSuspended) return;

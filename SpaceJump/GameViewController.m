@@ -27,7 +27,7 @@
     }
     
     [director setAnimationInterval:1.0/60];
-    //[director setDisplayFPS:YES];
+    [director setDisplayFPS:YES];
     
     NSArray* subviews = self.view.subviews;
     for (int i = 0; i < [subviews count]; i++)
@@ -38,6 +38,7 @@
             subview.hidden = NO;
             [director setOpenGLView:(EAGLView*)subview];
             [director runWithScene:[Game scene]];
+            self.view = director.openGLView;
             break;
         }
     }
