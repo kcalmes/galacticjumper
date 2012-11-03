@@ -22,16 +22,25 @@
 }
 
 - (id)initWithScore:(int)lastScore {
-//	NSLog(@"Highscores::init");
+    NSLog(@"Highscores::init");
 	
 	if(![super init]) return nil;
 
 //	NSLog(@"lastScore = %d",lastScore);
 	
-	currentScore = lastScore;
+	int highScore = [self getHighScore];
+    int currentScore = lastScore;
+    
+    if (highScore < currentScore) {
+        [self saveHighScore:currentScore];
+        highScore = currentScore;
+        //announce NEW HIGH SCORE!!
+    }
+    //Display the current score
+    //display the high scrore
+    
+    NSLog(@"current score: %d -> high score: %d", currentScore, highScore);
 
-//	NSLog(@"currentScore = %d",currentScore);
-	
 	CCMenuItem *button1 = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png" selectedImage:@"playAgainButton.png" target:self selector:@selector(playAgainAction:)];
 	CCMenuItem *button2 = [CCMenuItemImage itemFromNormalImage:@"exitGameButton.png" selectedImage:@"exitGameButton" target:self selector:@selector(exitGameAction:)];
 	
@@ -68,6 +77,22 @@
 	NSLog(@"button2Callback");
     
     
+}
+
+-(void)saveHighScore:(int)highscore{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	if (standardUserDefaults) {
+		[standardUserDefaults setObject:[NSNumber numberWithInt:highscore] forKey:@"highscore"];
+		[standardUserDefaults synchronize];
+	}
+}
+-(int)getHighScore{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	int val = 0;
+	if (standardUserDefaults)
+		val = [[standardUserDefaults objectForKey:@"highscore"] integerValue];
+	
+	return val;
 }
 
 @end

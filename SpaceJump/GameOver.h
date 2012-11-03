@@ -4,7 +4,6 @@
 @interface GameOver : Main <UITextFieldDelegate>
 {
 	NSString *currentPlayer;
-	int currentScore;
 	int currentScorePosition;
 	NSMutableArray *highscores;
 	UIAlertView *changePlayerAlert;

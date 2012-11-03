@@ -34,7 +34,10 @@ static const NSInteger kGANDispatchPeriodSec = 1;
     NSError * error;
     [[GANTracker sharedTracker] trackPageview:@"/home" withError:&error];
 
-    
+    NSDictionary *userDefaultsDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          [NSNumber numberWithInt:0], @"highscore",
+                                          nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
     // Override point for customization after application launch.
     return YES;
 }
