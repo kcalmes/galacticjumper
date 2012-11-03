@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Start Game View Controller-->
         <scene sceneID="89U-Sg-Arg">
             <objects>
-                <viewController wantsFullScreenLayout="YES" id="uzN-PJ-k5t" sceneMemberID="viewController">
+                <viewController wantsFullScreenLayout="YES" id="uzN-PJ-k5t" customClass="StartGameViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HjU-To-ocr">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -212,14 +212,6 @@
         <image name="tapTutorial.png" width="480" height="320"/>
         <image name="welcome-page.png" width="480" height="320"/>
     </resources>
-    <classes>
-        <class className="EAGLView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EAGLView.h"/>
-        </class>
-        <class className="GameViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GameViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

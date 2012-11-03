@@ -42,6 +42,7 @@
             break;
         }
     }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

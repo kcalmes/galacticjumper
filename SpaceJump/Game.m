@@ -25,7 +25,7 @@
 - (void)showGameOver;
 
 #define ALIEN_YPOS_OFFSET 0
-#define PLATFORM_SCALE .65
+#define PLATFORM_SCALE 0.65
 
 @end
 
@@ -172,7 +172,6 @@
 
 - (void)resetPlatform
 {
-	
 	if(currentPlatformY < 0)
     {
 		currentPlatformY = 30.0f;
@@ -481,7 +480,7 @@
             [self jump];
             kindOfJump = @"DefaultJump";
             currentPlatformTag = t;
-            //[self updatePlatformSize];
+            [self updatePlatformSize];
         }
     }
 }
@@ -652,15 +651,14 @@
 
 -(void)updatePlatformSize
 {
-    if (currentPlatformTag == kPlatformsStartTag)
+    if (currentPlatformTag == kPlatformsStartTag && !hasHitStartPlatform)
     {
         return;
     }
     CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
 	CCSprite *platform = (CCSprite*)[platformNode getChildByTag:currentPlatformTag];
-    CCSpriteFrame* frame = [cache spriteFrameByName:@"platform2.png"];
-    if (platform.displayedFrame == frame)
+    if (dissapearingPlatformTag == currentPlatformTag)
     {
         [platform setDisplayFrame:[cache spriteFrameByName:@"platform1.png"]];
         [self resetPlatform];
@@ -670,6 +668,11 @@
         [platform setDisplayFrame:[cache spriteFrameByName:@"platform2.png"]];
         platform.scaleX = PLATFORM_SCALE;
         platform.scaleY = PLATFORM_SCALE;
+        dissapearingPlatformTag = currentPlatformTag;
+        if (currentPlatformTag != kPlatformsStartTag)
+        {
+            hasHitStartPlatform = YES;
+        }
     }
 }
 

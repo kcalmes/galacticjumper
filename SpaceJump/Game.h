@@ -17,11 +17,13 @@
 	int currentBonusPlatformIndex;
 	int currentBonusType;
 	int platformCount;
+    int dissapearingPlatformTag;
     NSString* kindOfJump;
 	
 	BOOL gameSuspended;
     BOOL justHitPlatform;
     BOOL hitStarBouns;
+    BOOL hasHitStartPlatform;
 	
 	int score;
     int comboTally;

@@ -11,6 +11,7 @@
 		342457B9163F7F6500849C68 /* Jumps.png in Resources */ = {isa = PBXBuildFile; fileRef = 342457B8163F7F6400849C68 /* Jumps.png */; };
 		342457C5163F9E1500849C68 /* background1.1.png in Resources */ = {isa = PBXBuildFile; fileRef = 342457C4163F9E1500849C68 /* background1.1.png */; };
 		3484C7911638D6A200DA6C46 /* objectplatforms.png in Resources */ = {isa = PBXBuildFile; fileRef = 3484C7901638D6A200DA6C46 /* objectplatforms.png */; };
+		349DF74D1645974800E0C979 /* StartGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 349DF74C1645974700E0C979 /* StartGameViewController.m */; };
 		34E1059916364DFC0068AAB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E1059816364DFC0068AAB0 /* UIKit.framework */; };
 		34E1059B16364DFC0068AAB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E1059A16364DFC0068AAB0 /* Foundation.framework */; };
 		34E1059D16364DFC0068AAB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E1059C16364DFC0068AAB0 /* CoreGraphics.framework */; };
@@ -145,6 +146,8 @@
 		342457B8163F7F6400849C68 /* Jumps.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Jumps.png; sourceTree = "<group>"; };
 		342457C4163F9E1500849C68 /* background1.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background1.1.png; sourceTree = "<group>"; };
 		3484C7901638D6A200DA6C46 /* objectplatforms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = objectplatforms.png; sourceTree = "<group>"; };
+		349DF74B1645974700E0C979 /* StartGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartGameViewController.h; sourceTree = "<group>"; };
+		349DF74C1645974700E0C979 /* StartGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartGameViewController.m; sourceTree = "<group>"; };
 		34E1059416364DFC0068AAB0 /* SpaceJump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceJump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E1059816364DFC0068AAB0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		34E1059A16364DFC0068AAB0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -451,6 +454,8 @@
 				34E105B016364DFC0068AAB0 /* MainStoryboard.storyboard */,
 				34E1070016365E930068AAB0 /* GameViewController.h */,
 				34E1070116365E930068AAB0 /* GameViewController.m */,
+				349DF74B1645974700E0C979 /* StartGameViewController.h */,
+				349DF74C1645974700E0C979 /* StartGameViewController.m */,
 				34E1059F16364DFC0068AAB0 /* Supporting Files */,
 			);
 			path = SpaceJump;
@@ -948,6 +953,7 @@
 				34E106E2163658A60068AAB0 /* GameOver.m in Sources */,
 				34E106E51636597E0068AAB0 /* CCMain.m in Sources */,
 				34E1070216365E930068AAB0 /* GameViewController.m in Sources */,
+				349DF74D1645974800E0C979 /* StartGameViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,7 +1,7 @@
 #import "GameOver.h"
 #import "CCMain.h"
 #import "Game.h"
-#import "GameViewController.h"
+#import "GameOver.h"
 
 @interface GameOver (Private)
 - (void)playAgainAction:(id)sender;
@@ -74,9 +74,9 @@
 
 - (void)exitGameAction:(id)sender
 {
-	NSLog(@"button2Callback");
-    
-    
+	//NSLog(@"button2Callback");
+    [[UIApplication sharedApplication].keyWindow.rootViewController dismissModalViewControllerAnimated:YES];
+    [[CCDirector sharedDirector] popScene];
 }
 
 -(void)saveHighScore:(int)highscore{

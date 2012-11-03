@@ -11,7 +11,8 @@
 
 @implementation Main
 
-- (id)init {
+- (id)init
+{
 //	NSLog(@"Main::init");
 	
 	if(![super init]) return nil; //return nil if super class is not ready
