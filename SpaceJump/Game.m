@@ -20,8 +20,9 @@
 - (void)updateScore;
 - (void)updateAlienFinalPosition;
 - (void)jump;
+- (void)showComboTally;
 - (void)oldJump;
-- (void)showHighscores;
+- (void)showGameOver;
 
 #define ALIEN_YPOS_OFFSET 0
 #define PLATFORM_SCALE .65
@@ -74,14 +75,25 @@
 
 //	LabelAtlas *scoreLabel = [LabelAtlas labelAtlasWithString:@"0" charMapFile:@"charmap.png" itemWidth:24 itemHeight:32 startCharMap:' '];
 //	[self addChild:scoreLabel z:5 tag:kScoreLabel];
-	
-	CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"bitmapFont.fnt"];
-	[self addChild:scoreLabel z:5 tag:kScoreLabel];
-	scoreLabel.position = ccp(350,300);
     
-    CCLabelBMFont *comboLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"bitmapFont.fnt"];
-	[self addChild:comboLabel z:6 tag:kComboLabel];
-	comboLabel.position = ccp(10,300);
+//    CCLabelBMFont *comboLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"bitmapFont.fnt"];
+//	[self addChild:comboLabel z:6 tag:kComboLabel];
+//	comboLabel.position = ccp(160,300);
+//    
+//    CCLabelTTF *comboTextLabel = [CCLabelTTF labelWithString:@"COMBO:" dimensions:CGSizeMake(130,32) alignment:UITextAlignmentRight fontName:@"Arial" fontSize:32];
+//    [self addChild:comboTextLabel z:8 tag:kComboTextLabel];
+//    [comboTextLabel setColor:ccGREEN];
+//    comboTextLabel.position = ccp(65,304);
+    
+    //This position for the score label makes it so that 1000000 is the highest possible score before the label goes off screen
+    CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"bitmapFont.fnt"];
+	[self addChild:scoreLabel z:5 tag:kScoreLabel];
+	scoreLabel.position = ccp(80,300);
+    
+//    CCLabelTTF *scoreTextLabel = [CCLabelTTF labelWithString:@"altitude:" dimensions:CGSizeMake(165,32) alignment:UITextAlignmentRight fontName:@"Arial" fontSize:32];
+//    [self addChild:scoreTextLabel z:7 tag:kScoreTextLabel];
+//    [scoreTextLabel setColor:ccGREEN];
+//    scoreTextLabel.position = ccp(290,304);
 
 	[self schedule:@selector(step:)];
 	
@@ -398,9 +410,27 @@
         alien_vel.y = 550.0f;
         justHitPlatform = NO;
         comboTally++;
+        [self showComboTally];
     }
     [self updateComboTally];
     kindOfJump = @"DefaultJump";
+}
+
+- (void)showComboTally
+{
+    NSString *stringLabel;
+    if(comboTally == 1){
+        stringLabel = [NSString stringWithFormat:@"Perfect Jump!", comboTally];
+    } else if(comboTally < 5){
+        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d!", comboTally];
+    } else if(comboTally < 10){
+        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d!!", comboTally];
+    } else {
+        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d!!!", comboTally];
+    }
+//    CCLabelBMFont *comboTallyDisplay = [CCLabelBMFont labelWithString:stringLabel fntFile:@"perfectJumpBitmapFont.fnt"];
+//    [self addChild:comboTallyDisplay];
+//    comboTallyDisplay.position = ccp(200,200);
 }
 
 #pragma mark CheckCollisions
@@ -471,7 +501,7 @@
     CGSize alien_size = self.alien.contentSize;
     if(alien_pos.y < -alien_size.height/2)
     {
-        [self showHighscores];
+        [self showGameOver];
     }
 }
 
@@ -640,9 +670,9 @@
 
 - (void)updateScore
 {
-    float delta = alien_pos.y - 180;
-    score += (int)delta;
-    NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
+    float delta = (alien_pos.y - 180);
+    score += delta;
+    NSString *scoreStr = [NSString stringWithFormat:@"%d",score/10];
     
     CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
     [scoreLabel setString:scoreStr];
@@ -674,9 +704,9 @@
     self.alien.position = alien_pos;
 }
 
-- (void)showHighscores
+- (void)showGameOver
 {
-    NSLog(@"showHighscores");
+    NSLog(@"showGameOver");
 	gameSuspended = YES;
 	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 	
