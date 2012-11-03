@@ -7,8 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import "GANTracker.h"
 
 @implementation AppDelegate
+
+// Dispatch period in seconds
+static const NSInteger kGANDispatchPeriodSec = 1;
+
 
 - (void)dealloc
 {
@@ -18,6 +23,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // **************************************************************************
+    // PLEASE REPLACE WITH YOUR ACCOUNT DETAILS.
+    // **************************************************************************
+    //[[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-35938348-1" dispatchPeriod:kGANDispatchPeriodSec delegate:nil];
+    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-35942649-1" dispatchPeriod:kGANDispatchPeriodSec delegate:nil];
+
+    NSError * error;
+    [[GANTracker sharedTracker] trackPageview:@"/home" withError:&error];
+
+    
     // Override point for customization after application launch.
     return YES;
 }

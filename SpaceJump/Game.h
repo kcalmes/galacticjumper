@@ -3,10 +3,6 @@
 
 @interface Game : Main
 {
-	CGPoint bird_pos;
-	ccVertex2F bird_vel;
-	ccVertex2F bird_acc;
-    
     CGPoint alien_pos;
     ccVertex2F alien_vel;
 	ccVertex2F alien_acc;
@@ -21,8 +17,8 @@
     NSString* kindOfJump;
 	
 	BOOL gameSuspended;
-	BOOL birdLookingRight;
     BOOL justHitPlatform;
+    BOOL hitStarBouns;
 	
 	int score;
     int comboTally;

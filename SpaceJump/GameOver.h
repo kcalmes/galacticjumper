@@ -1,7 +1,7 @@
 #import "cocos2d.h"
 #import "CCMain.h"
 
-@interface Highscores : Main <UITextFieldDelegate>
+@interface GameOver : Main <UITextFieldDelegate>
 {
 	NSString *currentPlayer;
 	int currentScore;
@@ -10,6 +10,6 @@
 	UIAlertView *changePlayerAlert;
 	UITextField *changePlayerTextField;
 }
-+ (CCScene *)sceneWithScore:(int)lastScore;
++ (CCScene *)gameOverSceneWithScore:(int)lastScore;
 - (id)initWithScore:(int)lastScore;
 @end
