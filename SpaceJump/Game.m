@@ -20,7 +20,7 @@
 - (void)updateScore;
 - (void)updateAlienFinalPosition;
 - (void)jump;
-- (void)showComboTally;
+- (void)showComboLabel;
 - (void)oldJump;
 - (void)showGameOver;
 
@@ -288,7 +288,6 @@
     {
         if (justHitPlatform && [kindOfJump isEqualToString:@"DefaultJump"]) {
             comboTally = 0;
-            [self updateComboTally];
         }
         justHitPlatform = NO;
         [self checkForObjectCollisions];
@@ -394,13 +393,12 @@
         alien_vel.y = 550.0f;
         justHitPlatform = NO;
         comboTally++;
-        [self showComboTally];
+        [self showComboLabel];
     }
-    [self updateComboTally];
     kindOfJump = @"DefaultJump";
 }
 
-- (void)showComboTally
+- (void)showComboLabel
 {
     NSString *stringLabel;
     if(comboTally == 1){
@@ -686,13 +684,6 @@
     
     CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
     [scoreLabel setString:scoreStr];
-}
-
-- (void)updateComboTally
-{
-    NSString* comboStr = [NSString stringWithFormat:@"%d",comboTally];
-    CCLabelBMFont* comboLabel = (CCLabelBMFont*)[self getChildByTag:kComboLabel];
-    [comboLabel setString:comboStr];
 }
 
 -(void)updateAlienFinalPosition

@@ -20,9 +20,6 @@ enum {
     kPlatformManager = 2,
 	kBird,
 	kScoreLabel,
-    kScoreTextLabel,
-    kComboLabel,
-    kComboTextLabel,
 	kCloudsStartTag = 100,
 	kPlatformsStartTag = 200,
 	kBonusStartTag = 300
