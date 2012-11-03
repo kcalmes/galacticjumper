@@ -2,6 +2,6 @@
 #import "CCMain.h"
 
 @interface GameOver : Main <UITextFieldDelegate>
-+ (CCScene *)gameOverSceneWithScore:(int)lastScore andCombo:(int)lastCombo;
-- (id)initWithScore:(int)currentScore andCombo:(int)lastCombo;
++ (CCScene *)gameOverSceneWithScore:(int)lastScore andCombo:(int)currentCombo;
+- (id)initWithScore:(int)currentScore andCombo:(int)currentCombo;
 @end

@@ -21,12 +21,17 @@
     return game;
 }
 
-- (id)initWithScore:(int)currentScore andCombo:(int)lastCombo
+- (id)initWithScore:(int)currentScore andCombo:(int)currentCombo
 {
     NSLog(@"Highscores::init");
 	
 	if(![super init]) return nil;
 	
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    CGFloat screenHeight = screenSize.width;
+    CGFloat screenWidth = screenSize.height;
+    
 	int highScore = [self getHighScore];
     
     if (highScore < currentScore) {
@@ -34,44 +39,47 @@
         highScore = currentScore;
         //announce NEW HIGH SCORE!!
     }
-    NSString *stringLabel = [NSString stringWithFormat:@"Score: %d!", currentScore];
-    CCLabelBMFont *lastScoreLabel = [CCLabelBMFont labelWithString:stringLabel fntFile:@"spaceJump-hd.fnt"];
-    //[self addChild:comboTallyDisplay];
-    //comboTallyDisplay.opacity = 0;
-    lastScoreLabel.position = ccpMidpoint(ccp(0,0), ccp(480,320));
-    //id a1 = [CCFadeIn actionWithDuration:0.25f];
-    //id a2 = [CCFadeOut actionWithDuration:0.75f];
-    //id a3 = [CCSequence actions:a1,a2,nil];
-    //[comboTallyDisplay runAction:a3];
-
-    //display the high scrore
-    NSLog(@"current score: %d -> high score: %d", currentScore, highScore);
     
-    
-    int bestCombo = [self getHighScore];
-    int currentCombo = lastCombo;
+    int bestCombo = [self getBestCombo];
     
     if (bestCombo < currentCombo) {
         [self saveBestCombo:currentCombo];
         bestCombo = currentCombo;
         //announce NEW BEST COMBO!!
     }
-    //Display the current score
+    NSString *stringLabel;
+    stringLabel = [NSString stringWithFormat:@"Score: %d", currentScore];
+    CCLabelBMFont *currentScoreLabel = [CCLabelBMFont labelWithString:stringLabel fntFile:@"spaceJump-hd.fnt"];
+    [self addChild:currentScoreLabel];
+    currentScoreLabel.position = ccp(screenWidth*.5,screenHeight*.90);
+    
+    stringLabel = [NSString stringWithFormat:@"High Score: %d", highScore];
+    CCLabelBMFont *highScoreLabel = [CCLabelBMFont labelWithString:stringLabel fntFile:@"spaceJump-hd.fnt"];
+    [self addChild:highScoreLabel];
+    highScoreLabel.position = ccp(screenWidth*.5,screenHeight*.75);
+    
+    stringLabel = [NSString stringWithFormat:@"Combo: %d", currentCombo];
+    CCLabelBMFont *currentComboLabel = [CCLabelBMFont labelWithString:stringLabel fntFile:@"spaceJump-hd.fnt"];
+    [self addChild:currentComboLabel];
+    currentComboLabel.position = ccp(screenWidth*.5,screenHeight*.60);
+    
+    stringLabel = [NSString stringWithFormat:@"Max Combo: %d", bestCombo];
+    CCLabelBMFont *maxComboLabel = [CCLabelBMFont labelWithString:stringLabel fntFile:@"spaceJump-hd.fnt"];
+    [self addChild:maxComboLabel];
+    maxComboLabel.position = ccp(screenWidth*.5,screenHeight*.45);
+
+
     //display the high scrore
-    
-    
+    NSLog(@"current score: %d -> high score: %d", currentScore, highScore);
 
-	CCMenuItem *button1 = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png" selectedImage:@"playAgainButton.png" target:self selector:@selector(playAgainAction:)];
-	CCMenuItem *button2 = [CCMenuItemImage itemFromNormalImage:@"exitGameButton.png" selectedImage:@"exitGameButton" target:self selector:@selector(exitGameAction:)];
+	CCMenuItem *playAgainButton = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png" selectedImage:@"playAgainButton.png" target:self selector:@selector(playAgainAction:)];
+	CCMenuItem *exitGameButton = [CCMenuItemImage itemFromNormalImage:@"exitGameButton.png" selectedImage:@"exitGameButton" target:self selector:@selector(exitGameAction:)];
 	
-	CCMenu *menu = [CCMenu menuWithItems: button1, button2, nil];
+	CCMenu *menu = [CCMenu menuWithItems: playAgainButton, exitGameButton, nil];
 
-	[menu alignItemsVerticallyWithPadding:9];
-    CGRect screenBound = [[UIScreen mainScreen] bounds];
-    CGSize screenSize = screenBound.size;
-    CGFloat screenHeight = screenSize.width;
-    CGFloat screenWidth = screenSize.height;
-	menu.position = ccp(screenWidth/2,screenHeight/2);
+	[menu alignItemsHorizontallyWithPadding:9];
+
+	menu.position = ccp(screenWidth*.5,screenHeight*.20);
 	
 	[self addChild:menu];
 	

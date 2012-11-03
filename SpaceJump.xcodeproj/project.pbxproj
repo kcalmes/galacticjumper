@@ -128,8 +128,8 @@
 		5335C83A1645A168008EA354 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C8391645A168008EA354 /* Default.png */; };
 		5335C8501645B935008EA354 /* spaceJump-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5335C84C1645B935008EA354 /* spaceJump-hd.fnt */; };
 		5335C8511645B935008EA354 /* spaceJump-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C84D1645B935008EA354 /* spaceJump-hd.png */; };
-		53633AAA1638F5D200258598 /* exitGameButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA81638F5D200258598 /* exitGameButton.png */; };
-		53633AAB1638F5D200258598 /* playAgainButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA91638F5D200258598 /* playAgainButton.png */; };
+		5335C8621645DB66008EA354 /* playAgainButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C8611645DB65008EA354 /* playAgainButton.png */; };
+		5335C8651645DFF3008EA354 /* exitGameButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C8641645DFF2008EA354 /* exitGameButton.png */; };
 		8306B375163F21C300B0BFB0 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B374163F21C300B0BFB0 /* libGoogleAnalytics.a */; };
 		8306B377163F224400B0BFB0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B376163F224400B0BFB0 /* CFNetwork.framework */; };
 		8306B379163F22EE00B0BFB0 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */; };
@@ -371,8 +371,8 @@
 		5335C8391645A168008EA354 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		5335C84C1645B935008EA354 /* spaceJump-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "spaceJump-hd.fnt"; sourceTree = "<group>"; };
 		5335C84D1645B935008EA354 /* spaceJump-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spaceJump-hd.png"; sourceTree = "<group>"; };
-		53633AA81638F5D200258598 /* exitGameButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exitGameButton.png; sourceTree = "<group>"; };
-		53633AA91638F5D200258598 /* playAgainButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playAgainButton.png; sourceTree = "<group>"; };
+		5335C8611645DB65008EA354 /* playAgainButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playAgainButton.png; sourceTree = "<group>"; };
+		5335C8641645DFF2008EA354 /* exitGameButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exitGameButton.png; sourceTree = "<group>"; };
 		8306B373163F21C300B0BFB0 /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
 		8306B374163F21C300B0BFB0 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
 		8306B376163F224400B0BFB0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -739,6 +739,8 @@
 		34E106E816365D560068AAB0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5335C8611645DB65008EA354 /* playAgainButton.png */,
+				5335C8641645DFF2008EA354 /* exitGameButton.png */,
 				835289531645C94E00CA96C6 /* next.png */,
 				835289541645C94E00CA96C6 /* next@2x.png */,
 				835289461645C0D700CA96C6 /* tutorialstarboost-01@2x.png */,
@@ -754,8 +756,6 @@
 				834C35C41639987F00B93CF9 /* 62_64x64.png */,
 				831EE4E016390FAD000CED34 /* welcome-page.png */,
 				53133F7B16390DE100EC87FB /* tapTutorial.png */,
-				53633AA81638F5D200258598 /* exitGameButton.png */,
-				53633AA91638F5D200258598 /* playAgainButton.png */,
 				34E106EE16365DC50068AAB0 /* objectsclouds.png */,
 				3484C7901638D6A200DA6C46 /* objectplatforms.png */,
 				34E106EF16365DC50068AAB0 /* iphone4layer2.png */,
@@ -852,8 +852,6 @@
 				34E106FB16365DC50068AAB0 /* iphone4layer1.png in Resources */,
 				34E106FD16365DC50068AAB0 /* bgiphone4.png in Resources */,
 				3484C7911638D6A200DA6C46 /* objectplatforms.png in Resources */,
-				53633AAA1638F5D200258598 /* exitGameButton.png in Resources */,
-				53633AAB1638F5D200258598 /* playAgainButton.png in Resources */,
 				53133F7C16390DE100EC87FB /* tapTutorial.png in Resources */,
 				831EE4E116390FAD000CED34 /* welcome-page.png in Resources */,
 				834C35C51639987F00B93CF9 /* 62_64x64.png in Resources */,
@@ -876,6 +874,8 @@
 				835289491645C0D700CA96C6 /* welcome-page@2x.png in Resources */,
 				835289551645C94E00CA96C6 /* next.png in Resources */,
 				835289561645C94E00CA96C6 /* next@2x.png in Resources */,
+				5335C8621645DB66008EA354 /* playAgainButton.png in Resources */,
+				5335C8651645DFF3008EA354 /* exitGameButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

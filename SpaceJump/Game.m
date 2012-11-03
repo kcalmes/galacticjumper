@@ -393,6 +393,9 @@
         alien_vel.y = 550.0f;
         justHitPlatform = NO;
         comboTally++;
+        if(comboTally > maxCombo){
+            maxCombo = comboTally;
+        }
         [self showComboLabel];
     }
     kindOfJump = @"DefaultJump";
@@ -403,13 +406,9 @@
     NSString *stringLabel;
     if(comboTally == 1){
         stringLabel = [NSString stringWithFormat:@"Perfect Jump!", comboTally];
-    } else if(comboTally < 5){
-        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d!", comboTally];
-    } else if(comboTally < 10){
-        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d!!", comboTally];
     } else {
-        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d!!!", comboTally];
-    }
+        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d", comboTally];
+    } 
     CCLabelBMFont *comboTallyDisplay = [CCLabelBMFont labelWithString:stringLabel fntFile:@"spaceJump-hd.fnt"];
     [self addChild:comboTallyDisplay];
     comboTallyDisplay.opacity = 0;
@@ -713,7 +712,7 @@
 	
 //	NSLog(@"score = %d",score);
 	[[CCDirector sharedDirector] replaceScene:
-     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score/10 andCombo:comboTally] withColor:ccWHITE]];
+     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score/10 andCombo:maxCombo] withColor:ccWHITE]];
 }
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
