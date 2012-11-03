@@ -11,17 +11,18 @@
 
 @implementation GameOver
 
-+ (CCScene *)gameOverSceneWithScore:(int)lastScore
++ (CCScene *)gameOverSceneWithScore:(int)lastScore andCombo:(int)lastCombo
 {
     CCScene *game = [CCScene node];
     
-    GameOver *layer = [[[GameOver alloc] initWithScore:lastScore] autorelease];
+    GameOver *layer = [[[GameOver alloc] initWithScore:lastScore andCombo:lastCombo] autorelease];
     [game addChild:layer];
     
     return game;
 }
 
-- (id)initWithScore:(int)lastScore {
+- (id)initWithScore:(int)lastScore andCombo:(int)lastCombo
+{
     NSLog(@"Highscores::init");
 	
 	if(![super init]) return nil;

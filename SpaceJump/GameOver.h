@@ -9,6 +9,6 @@
 	UIAlertView *changePlayerAlert;
 	UITextField *changePlayerTextField;
 }
-+ (CCScene *)gameOverSceneWithScore:(int)lastScore;
-- (id)initWithScore:(int)lastScore;
++ (CCScene *)gameOverSceneWithScore:(int)lastScore andCombo:(int)lastCombo;
+- (id)initWithScore:(int)lastScore andCombo:(int)lastCombo;
 @end

@@ -713,7 +713,7 @@
 	
 //	NSLog(@"score = %d",score);
 	[[CCDirector sharedDirector] replaceScene:
-     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score/10] withColor:ccWHITE]];
+     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score/10 andCombo:comboTally] withColor:ccWHITE]];
 }
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
