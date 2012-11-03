@@ -114,7 +114,6 @@
 		34E106E1163658A60068AAB0 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E106DD163658A50068AAB0 /* Game.m */; };
 		34E106E2163658A60068AAB0 /* GameOver.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E106DF163658A60068AAB0 /* GameOver.m */; };
 		34E106E51636597E0068AAB0 /* CCMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E106E41636597E0068AAB0 /* CCMain.m */; };
-		34E106EC16365D9B0068AAB0 /* bitmapFont.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 34E106EA16365D9B0068AAB0 /* bitmapFont.fnt */; };
 		34E106F716365DC50068AAB0 /* objectsclouds.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106EE16365DC50068AAB0 /* objectsclouds.png */; };
 		34E106F816365DC50068AAB0 /* iphone4layer2.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106EF16365DC50068AAB0 /* iphone4layer2.png */; };
 		34E106FA16365DC50068AAB0 /* jump.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E106F116365DC50068AAB0 /* jump.png */; };
@@ -129,9 +128,6 @@
 		5335C83A1645A168008EA354 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C8391645A168008EA354 /* Default.png */; };
 		5335C8501645B935008EA354 /* spaceJump-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5335C84C1645B935008EA354 /* spaceJump-hd.fnt */; };
 		5335C8511645B935008EA354 /* spaceJump-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C84D1645B935008EA354 /* spaceJump-hd.png */; };
-		5335C8521645B935008EA354 /* spaceJump.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5335C84E1645B935008EA354 /* spaceJump.fnt */; };
-		5335C8531645B935008EA354 /* spaceJump.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C84F1645B935008EA354 /* spaceJump.png */; };
-		53633AA31638F57700258598 /* bitmapFont.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA21638F57700258598 /* bitmapFont.png */; };
 		53633AAA1638F5D200258598 /* exitGameButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA81638F5D200258598 /* exitGameButton.png */; };
 		53633AAB1638F5D200258598 /* playAgainButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA91638F5D200258598 /* playAgainButton.png */; };
 		8306B375163F21C300B0BFB0 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B374163F21C300B0BFB0 /* libGoogleAnalytics.a */; };
@@ -351,7 +347,6 @@
 		34E106DF163658A60068AAB0 /* GameOver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOver.m; sourceTree = "<group>"; };
 		34E106E3163659460068AAB0 /* CCMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMain.h; sourceTree = "<group>"; };
 		34E106E41636597E0068AAB0 /* CCMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMain.m; sourceTree = "<group>"; };
-		34E106EA16365D9B0068AAB0 /* bitmapFont.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bitmapFont.fnt; sourceTree = "<group>"; };
 		34E106EE16365DC50068AAB0 /* objectsclouds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = objectsclouds.png; sourceTree = "<group>"; };
 		34E106EF16365DC50068AAB0 /* iphone4layer2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone4layer2.png; sourceTree = "<group>"; };
 		34E106F116365DC50068AAB0 /* jump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jump.png; sourceTree = "<group>"; };
@@ -367,9 +362,6 @@
 		5335C8391645A168008EA354 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		5335C84C1645B935008EA354 /* spaceJump-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "spaceJump-hd.fnt"; sourceTree = "<group>"; };
 		5335C84D1645B935008EA354 /* spaceJump-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spaceJump-hd.png"; sourceTree = "<group>"; };
-		5335C84E1645B935008EA354 /* spaceJump.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = spaceJump.fnt; sourceTree = "<group>"; };
-		5335C84F1645B935008EA354 /* spaceJump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spaceJump.png; sourceTree = "<group>"; };
-		53633AA21638F57700258598 /* bitmapFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bitmapFont.png; sourceTree = "<group>"; };
 		53633AA81638F5D200258598 /* exitGameButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exitGameButton.png; sourceTree = "<group>"; };
 		53633AA91638F5D200258598 /* playAgainButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playAgainButton.png; sourceTree = "<group>"; };
 		8306B373163F21C300B0BFB0 /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
@@ -722,10 +714,6 @@
 			children = (
 				5335C84C1645B935008EA354 /* spaceJump-hd.fnt */,
 				5335C84D1645B935008EA354 /* spaceJump-hd.png */,
-				5335C84E1645B935008EA354 /* spaceJump.fnt */,
-				5335C84F1645B935008EA354 /* spaceJump.png */,
-				53633AA21638F57700258598 /* bitmapFont.png */,
-				34E106EA16365D9B0068AAB0 /* bitmapFont.fnt */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -831,14 +819,12 @@
 				34E105B216364DFC0068AAB0 /* MainStoryboard.storyboard in Resources */,
 				34E106C416364E580068AAB0 /* LICENSE_cocos2d.txt in Resources */,
 				34E106C516364E580068AAB0 /* LICENSE_FontLabel.txt in Resources */,
-				34E106EC16365D9B0068AAB0 /* bitmapFont.fnt in Resources */,
 				34E106F716365DC50068AAB0 /* objectsclouds.png in Resources */,
 				34E106F816365DC50068AAB0 /* iphone4layer2.png in Resources */,
 				34E106FA16365DC50068AAB0 /* jump.png in Resources */,
 				34E106FB16365DC50068AAB0 /* iphone4layer1.png in Resources */,
 				34E106FD16365DC50068AAB0 /* bgiphone4.png in Resources */,
 				3484C7911638D6A200DA6C46 /* objectplatforms.png in Resources */,
-				53633AA31638F57700258598 /* bitmapFont.png in Resources */,
 				53633AAA1638F5D200258598 /* exitGameButton.png in Resources */,
 				53633AAB1638F5D200258598 /* playAgainButton.png in Resources */,
 				53133F7C16390DE100EC87FB /* tapTutorial.png in Resources */,
@@ -854,8 +840,6 @@
 				5335C83A1645A168008EA354 /* Default.png in Resources */,
 				5335C8501645B935008EA354 /* spaceJump-hd.fnt in Resources */,
 				5335C8511645B935008EA354 /* spaceJump-hd.png in Resources */,
-				5335C8521645B935008EA354 /* spaceJump.fnt in Resources */,
-				5335C8531645B935008EA354 /* spaceJump.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
