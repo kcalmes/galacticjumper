@@ -142,6 +142,8 @@
 		835289451645BE5000CA96C6 /* tutorialtap-01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 835289441645BE5000CA96C6 /* tutorialtap-01@2x.png */; };
 		835289481645C0D700CA96C6 /* tutorialstarboost-01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 835289461645C0D700CA96C6 /* tutorialstarboost-01@2x.png */; };
 		835289491645C0D700CA96C6 /* welcome-page@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 835289471645C0D700CA96C6 /* welcome-page@2x.png */; };
+		835289551645C94E00CA96C6 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = 835289531645C94E00CA96C6 /* next.png */; };
+		835289561645C94E00CA96C6 /* next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 835289541645C94E00CA96C6 /* next@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -384,6 +386,8 @@
 		835289441645BE5000CA96C6 /* tutorialtap-01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialtap-01@2x.png"; sourceTree = "<group>"; };
 		835289461645C0D700CA96C6 /* tutorialstarboost-01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialstarboost-01@2x.png"; sourceTree = "<group>"; };
 		835289471645C0D700CA96C6 /* welcome-page@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome-page@2x.png"; sourceTree = "<group>"; };
+		835289531645C94E00CA96C6 /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
+		835289541645C94E00CA96C6 /* next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "next@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -735,6 +739,8 @@
 		34E106E816365D560068AAB0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				835289531645C94E00CA96C6 /* next.png */,
+				835289541645C94E00CA96C6 /* next@2x.png */,
 				835289461645C0D700CA96C6 /* tutorialstarboost-01@2x.png */,
 				835289471645C0D700CA96C6 /* welcome-page@2x.png */,
 				835289441645BE5000CA96C6 /* tutorialtap-01@2x.png */,
@@ -868,6 +874,8 @@
 				835289451645BE5000CA96C6 /* tutorialtap-01@2x.png in Resources */,
 				835289481645C0D700CA96C6 /* tutorialstarboost-01@2x.png in Resources */,
 				835289491645C0D700CA96C6 /* welcome-page@2x.png in Resources */,
+				835289551645C94E00CA96C6 /* next.png in Resources */,
+				835289561645C94E00CA96C6 /* next@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
