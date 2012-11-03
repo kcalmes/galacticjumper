@@ -23,6 +23,8 @@ static const NSInteger kGANDispatchPeriodSec = 1;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    sleep(2);
+    
     // **************************************************************************
     // PLEASE REPLACE WITH YOUR ACCOUNT DETAILS.
     // **************************************************************************
