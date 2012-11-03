@@ -21,3 +21,5 @@ project.xcworkspace/
 # cocos2d
 PLBlocks.framework/*
 *.pyc 
+
+SpaceJump/ExitGameButton.png
