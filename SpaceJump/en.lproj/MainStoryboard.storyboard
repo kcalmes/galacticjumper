@@ -70,7 +70,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="tapTutorial.png" id="kcU-IP-YTu">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="tutorialtap-01.png" id="kcU-IP-YTu">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -109,7 +109,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="E1m-HX-WWs">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="tutorialplatforms-01.png" id="E1m-HX-WWs">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -148,7 +148,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="8ym-DQ-JLA">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="tutorialstarboost-01.png" id="8ym-DQ-JLA">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -209,9 +209,22 @@
     </scenes>
     <resources>
         <image name="62_64x64.png" width="64" height="64"/>
-        <image name="tapTutorial.png" width="480" height="320"/>
+        <image name="tutorialplatforms-01.png" width="1136" height="640"/>
+        <image name="tutorialstarboost-01.png" width="1136" height="640"/>
+        <image name="tutorialtap-01.png" width="1136" height="640"/>
         <image name="welcome-page.png" width="480" height="320"/>
     </resources>
+    <classes>
+        <class className="EAGLView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EAGLView.h"/>
+        </class>
+        <class className="GameViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GameViewController.h"/>
+        </class>
+        <class className="StartGameViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartGameViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
