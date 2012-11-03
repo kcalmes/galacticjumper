@@ -415,8 +415,6 @@
 		34E1058916364DFC0068AAB0 = {
 			isa = PBXGroup;
 			children = (
-				8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */,
-				8306B376163F224400B0BFB0 /* CFNetwork.framework */,
 				34E1059E16364DFC0068AAB0 /* SpaceJump */,
 				34E1059716364DFC0068AAB0 /* Frameworks */,
 				34E1059516364DFC0068AAB0 /* Products */,
@@ -434,6 +432,8 @@
 		34E1059716364DFC0068AAB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */,
+				8306B376163F224400B0BFB0 /* CFNetwork.framework */,
 				34E106D616364EA90068AAB0 /* QuartzCore.framework */,
 				34E106D216364E9F0068AAB0 /* OpenAL.framework */,
 				34E106D316364E9F0068AAB0 /* OpenGLES.framework */,
