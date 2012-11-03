@@ -51,7 +51,8 @@
     //count a game played in google analytics
 	NSError * error;
     if (![[GANTracker sharedTracker] trackPageview:@"/playgame"
-                                         withError:&error]) {
+                                         withError:&error])
+    {
         NSLog(@"there was an error");
     } else {
         NSLog(@"there was not an error");
@@ -96,11 +97,13 @@
 
 #pragma mark InitializeObjects
 
-- (void)initPlatforms {
+- (void)initPlatforms
+{
     //	NSLog(@"initPlatforms");
 	
 	currentPlatformTag = kPlatformsStartTag;
-	while(currentPlatformTag < kPlatformsStartTag + kNumPlatforms) {
+	while(currentPlatformTag < kPlatformsStartTag + kNumPlatforms)
+    {
 		[self initPlatform];
 		currentPlatformTag++;
 	}
@@ -108,8 +111,8 @@
 	[self resetPlatforms];
 }
 
-- (void)initPlatform {
-    
+- (void)initPlatform
+{
 	CGRect rect = CGRectMake(0,0,148,46);
 
 	CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
@@ -656,7 +659,7 @@
 {
     //Toggle the jump
     CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
-    if (alien_vel.y < 0)
+    if (alien_vel.y < 20)
     {
         hitStarBouns = NO;
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien1.png"]];
@@ -685,15 +688,16 @@
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
 	if(gameSuspended) return;
 	float accel_filter = 0.1f;
+    int orientation = 1;
     if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
     {
-        alien_vel.x = alien_vel.x * accel_filter + acceleration.y * -1 * (1.0f - accel_filter) * 1000.0f;
+        orientation = 1;
     }
     else if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft)
     {
-        alien_vel.x = alien_vel.x * accel_filter + acceleration.y * -1 * (1.0f - accel_filter) * -1000.0f;
+        orientation = -1;
     }
-	
+	alien_vel.x = alien_vel.x * accel_filter + acceleration.y * -1 * (1.0f - accel_filter) * (orientation*1000.0f);
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
