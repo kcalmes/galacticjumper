@@ -139,6 +139,13 @@
 		8306B379163F22EE00B0BFB0 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */; };
 		831EE4E116390FAD000CED34 /* welcome-page.png in Resources */ = {isa = PBXBuildFile; fileRef = 831EE4E016390FAD000CED34 /* welcome-page.png */; };
 		834C35C51639987F00B93CF9 /* 62_64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 834C35C41639987F00B93CF9 /* 62_64x64.png */; };
+		8352893E1645BACD00CA96C6 /* tutorialplatforms-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 8352893B1645BACD00CA96C6 /* tutorialplatforms-01.png */; };
+		8352893F1645BACD00CA96C6 /* tutorialstarboost-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 8352893C1645BACD00CA96C6 /* tutorialstarboost-01.png */; };
+		835289401645BACD00CA96C6 /* tutorialtap-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 8352893D1645BACD00CA96C6 /* tutorialtap-01.png */; };
+		835289431645BDBC00CA96C6 /* tutorialplatforms-01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 835289421645BDBC00CA96C6 /* tutorialplatforms-01@2x.png */; };
+		835289451645BE5000CA96C6 /* tutorialtap-01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 835289441645BE5000CA96C6 /* tutorialtap-01@2x.png */; };
+		835289481645C0D700CA96C6 /* tutorialstarboost-01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 835289461645C0D700CA96C6 /* tutorialstarboost-01@2x.png */; };
+		835289491645C0D700CA96C6 /* welcome-page@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 835289471645C0D700CA96C6 /* welcome-page@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -378,6 +385,13 @@
 		8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		831EE4E016390FAD000CED34 /* welcome-page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome-page.png"; sourceTree = "<group>"; };
 		834C35C41639987F00B93CF9 /* 62_64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 62_64x64.png; sourceTree = "<group>"; };
+		8352893B1645BACD00CA96C6 /* tutorialplatforms-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialplatforms-01.png"; sourceTree = "<group>"; };
+		8352893C1645BACD00CA96C6 /* tutorialstarboost-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialstarboost-01.png"; sourceTree = "<group>"; };
+		8352893D1645BACD00CA96C6 /* tutorialtap-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialtap-01.png"; sourceTree = "<group>"; };
+		835289421645BDBC00CA96C6 /* tutorialplatforms-01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialplatforms-01@2x.png"; sourceTree = "<group>"; };
+		835289441645BE5000CA96C6 /* tutorialtap-01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialtap-01@2x.png"; sourceTree = "<group>"; };
+		835289461645C0D700CA96C6 /* tutorialstarboost-01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialstarboost-01@2x.png"; sourceTree = "<group>"; };
+		835289471645C0D700CA96C6 /* welcome-page@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome-page@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -733,6 +747,13 @@
 		34E106E816365D560068AAB0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				835289461645C0D700CA96C6 /* tutorialstarboost-01@2x.png */,
+				835289471645C0D700CA96C6 /* welcome-page@2x.png */,
+				835289441645BE5000CA96C6 /* tutorialtap-01@2x.png */,
+				835289421645BDBC00CA96C6 /* tutorialplatforms-01@2x.png */,
+				8352893B1645BACD00CA96C6 /* tutorialplatforms-01.png */,
+				8352893C1645BACD00CA96C6 /* tutorialstarboost-01.png */,
+				8352893D1645BACD00CA96C6 /* tutorialtap-01.png */,
 				342457B5163F6F9E00849C68 /* Items.png */,
 				342457B8163F7F6400849C68 /* Jumps.png */,
 				342457C4163F9E1500849C68 /* background1.1.png */,
@@ -856,6 +877,13 @@
 				5335C8511645B935008EA354 /* spaceJump-hd.png in Resources */,
 				5335C8521645B935008EA354 /* spaceJump.fnt in Resources */,
 				5335C8531645B935008EA354 /* spaceJump.png in Resources */,
+				8352893E1645BACD00CA96C6 /* tutorialplatforms-01.png in Resources */,
+				8352893F1645BACD00CA96C6 /* tutorialstarboost-01.png in Resources */,
+				835289401645BACD00CA96C6 /* tutorialtap-01.png in Resources */,
+				835289431645BDBC00CA96C6 /* tutorialplatforms-01@2x.png in Resources */,
+				835289451645BE5000CA96C6 /* tutorialtap-01@2x.png in Resources */,
+				835289481645C0D700CA96C6 /* tutorialstarboost-01@2x.png in Resources */,
+				835289491645C0D700CA96C6 /* welcome-page@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
