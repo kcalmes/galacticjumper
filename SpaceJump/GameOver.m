@@ -74,13 +74,12 @@
 
 - (void)dealloc {
 //	NSLog(@"Highscores::dealloc");
-	[highscores release];
 	[super dealloc];
 }
 
 - (void)playAgainAction:(id)sender
 {
-//	NSLog(@"button1Callback");
+//	NSLog(@"playAgainAction");
 
 	CCTransitionScene *ts = [CCTransitionFade transitionWithDuration:0.5f scene:[Game scene] withColor:ccWHITE];
 	[[CCDirector sharedDirector] replaceScene:ts];
@@ -88,7 +87,7 @@
 
 - (void)exitGameAction:(id)sender
 {
-	//NSLog(@"button2Callback");
+	//NSLog(@"exitGameAction");
     [[UIApplication sharedApplication].keyWindow.rootViewController dismissModalViewControllerAnimated:YES];
     [[CCDirector sharedDirector] popScene];
 }
