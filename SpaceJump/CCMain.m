@@ -28,7 +28,7 @@
     CCSprite *background = [CCSprite spriteWithFile:@"background1.1.png" rect:CGRectMake(0, 0, 1136, 640)];
     CGRect screenBound = [[UIScreen mainScreen] bounds];
     CGSize screenSize = screenBound.size;
-    CGFloat screenHeight = screenSize.width;
+    CGFloat screenHeight = screenSize.width; //In landscape width is height and height is width
     CGFloat screenWidth = screenSize.height;
     background.scaleX = screenWidth/background.contentSize.width;
     background.scaleY = screenHeight/background.contentSize.height;

@@ -3,6 +3,9 @@
 
 @interface Game : Main
 {
+    int screenWidth;
+    int screenHeight;
+    
     CGPoint alien_pos;
     ccVertex2F alien_vel;
 	ccVertex2F alien_acc;

@@ -58,6 +58,10 @@
         NSLog(@"there was not an error");
     }
 	if(![super init]) return nil;
+    
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    screenHeight = screenSize.width; //In landscape height is width vice versa
+    screenWidth = screenSize.height;
 	
 	gameSuspended = YES;
 
@@ -71,28 +75,11 @@
     bonus.scaleY = .5f;
 
     bonus.visible = NO;
-
-//	LabelAtlas *scoreLabel = [LabelAtlas labelAtlasWithString:@"0" charMapFile:@"charmap.png" itemWidth:24 itemHeight:32 startCharMap:' '];
-//	[self addChild:scoreLabel z:5 tag:kScoreLabel];
-    
-//    CCLabelBMFont *comboLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"bitmapFont.fnt"];
-//	[self addChild:comboLabel z:6 tag:kComboLabel];
-//	comboLabel.position = ccp(160,300);
-//    
-//    CCLabelTTF *comboTextLabel = [CCLabelTTF labelWithString:@"COMBO:" dimensions:CGSizeMake(130,32) alignment:UITextAlignmentRight fontName:@"Arial" fontSize:32];
-//    [self addChild:comboTextLabel z:8 tag:kComboTextLabel];
-//    [comboTextLabel setColor:ccGREEN];
-//    comboTextLabel.position = ccp(65,304);
     
     //This position for the score label makes it so that 1000000 is the highest possible score before the label goes off screen
-    CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"bitmapFont.fnt"];
+    CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"spaceJump-hd.fnt"];
 	[self addChild:scoreLabel z:5 tag:kScoreLabel];
 	scoreLabel.position = ccp(80,300);
-    
-//    CCLabelTTF *scoreTextLabel = [CCLabelTTF labelWithString:@"altitude:" dimensions:CGSizeMake(165,32) alignment:UITextAlignmentRight fontName:@"Arial" fontSize:32];
-//    [self addChild:scoreTextLabel z:7 tag:kScoreTextLabel];
-//    [scoreTextLabel setColor:ccGREEN];
-//    scoreTextLabel.position = ccp(290,304);
 
 	[self schedule:@selector(step:)];
 	
@@ -426,9 +413,14 @@
     } else {
         stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d!!!", comboTally];
     }
-//    CCLabelBMFont *comboTallyDisplay = [CCLabelBMFont labelWithString:stringLabel fntFile:@"perfectJumpBitmapFont.fnt"];
-//    [self addChild:comboTallyDisplay];
-//    comboTallyDisplay.position = ccp(200,200);
+    CCLabelBMFont *comboTallyDisplay = [CCLabelBMFont labelWithString:stringLabel fntFile:@"spaceJump-hd.fnt"];
+    [self addChild:comboTallyDisplay];
+    comboTallyDisplay.opacity = 0;
+    comboTallyDisplay.position = ccpMidpoint(ccp(0,0), ccp(screenWidth,screenHeight/2));
+    id a1 = [CCFadeIn actionWithDuration:0.25f];
+    id a2 = [CCFadeOut actionWithDuration:0.75f];
+    id a3 = [CCSequence actions:a1,a2,nil];
+    [comboTallyDisplay runAction:a3];
 }
 
 #pragma mark CheckCollisions
@@ -727,7 +719,7 @@
 	
 //	NSLog(@"score = %d",score);
 	[[CCDirector sharedDirector] replaceScene:
-     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score] withColor:ccWHITE]];
+     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score/10] withColor:ccWHITE]];
 }
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {

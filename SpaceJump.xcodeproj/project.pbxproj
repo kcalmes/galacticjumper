@@ -126,6 +126,10 @@
 		5335C8361645A155008EA354 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C8351645A155008EA354 /* Default-568h@2x.png */; };
 		5335C8381645A161008EA354 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C8371645A161008EA354 /* Default@2x.png */; };
 		5335C83A1645A168008EA354 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C8391645A168008EA354 /* Default.png */; };
+		5335C83F1645A6A2008EA354 /* spaceJump-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5335C83B1645A6A2008EA354 /* spaceJump-hd.fnt */; };
+		5335C8401645A6A2008EA354 /* spaceJump-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C83C1645A6A2008EA354 /* spaceJump-hd.png */; };
+		5335C8411645A6A2008EA354 /* spaceJump.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5335C83D1645A6A2008EA354 /* spaceJump.fnt */; };
+		5335C8421645A6A2008EA354 /* spaceJump.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C83E1645A6A2008EA354 /* spaceJump.png */; };
 		53633AA31638F57700258598 /* bitmapFont.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA21638F57700258598 /* bitmapFont.png */; };
 		53633AAA1638F5D200258598 /* exitGameButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA81638F5D200258598 /* exitGameButton.png */; };
 		53633AAB1638F5D200258598 /* playAgainButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 53633AA91638F5D200258598 /* playAgainButton.png */; };
@@ -358,6 +362,10 @@
 		5335C8351645A155008EA354 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		5335C8371645A161008EA354 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
 		5335C8391645A168008EA354 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
+		5335C83B1645A6A2008EA354 /* spaceJump-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "spaceJump-hd.fnt"; path = "../../../Desktop/spaceJump-hd.fnt"; sourceTree = "<group>"; };
+		5335C83C1645A6A2008EA354 /* spaceJump-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "spaceJump-hd.png"; path = "../../../Desktop/spaceJump-hd.png"; sourceTree = "<group>"; };
+		5335C83D1645A6A2008EA354 /* spaceJump.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = spaceJump.fnt; path = ../../../Desktop/spaceJump.fnt; sourceTree = "<group>"; };
+		5335C83E1645A6A2008EA354 /* spaceJump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = spaceJump.png; path = ../../../Desktop/spaceJump.png; sourceTree = "<group>"; };
 		53633AA21638F57700258598 /* bitmapFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bitmapFont.png; sourceTree = "<group>"; };
 		53633AA81638F5D200258598 /* exitGameButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exitGameButton.png; sourceTree = "<group>"; };
 		53633AA91638F5D200258598 /* playAgainButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playAgainButton.png; sourceTree = "<group>"; };
@@ -707,6 +715,10 @@
 		34E106E716365D480068AAB0 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				5335C83B1645A6A2008EA354 /* spaceJump-hd.fnt */,
+				5335C83C1645A6A2008EA354 /* spaceJump-hd.png */,
+				5335C83D1645A6A2008EA354 /* spaceJump.fnt */,
+				5335C83E1645A6A2008EA354 /* spaceJump.png */,
 				53633AA21638F57700258598 /* bitmapFont.png */,
 				34E106EA16365D9B0068AAB0 /* bitmapFont.fnt */,
 			);
@@ -835,6 +847,10 @@
 				5335C8361645A155008EA354 /* Default-568h@2x.png in Resources */,
 				5335C8381645A161008EA354 /* Default@2x.png in Resources */,
 				5335C83A1645A168008EA354 /* Default.png in Resources */,
+				5335C83F1645A6A2008EA354 /* spaceJump-hd.fnt in Resources */,
+				5335C8401645A6A2008EA354 /* spaceJump-hd.png in Resources */,
+				5335C8411645A6A2008EA354 /* spaceJump.fnt in Resources */,
+				5335C8421645A6A2008EA354 /* spaceJump.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
