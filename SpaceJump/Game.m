@@ -489,7 +489,7 @@
             [self jump];
             kindOfJump = @"DefaultJump";
             currentPlatformTag = t;
-            [self updatePlatformSize];
+            //[self updatePlatformSize];
         }
     }
 }
