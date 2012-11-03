@@ -133,9 +133,11 @@
 
 - (void)initPlatform
 {
-
+<<<<<<< HEAD
+=======
 	CGRect rect = CGRectMake(0,0,148,46);
 
+>>>>>>> Version-To-Submit-To-Liddle
 	CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
 	CCSprite *platform = [CCSprite spriteWithSpriteFrameName:@"platform1.png"];
 	[platformNode addChild:platform z:3 tag:currentPlatformTag];
