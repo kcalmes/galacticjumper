@@ -35,6 +35,7 @@ static const NSInteger kGANDispatchPeriodSec = 1;
 
     NSDictionary *userDefaultsDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
                                           [NSNumber numberWithInt:0], @"highscore",
+                                          [NSNumber numberWithInt:0], @"combo",
                                           nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
     // Override point for customization after application launch.

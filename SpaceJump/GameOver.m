@@ -39,8 +39,21 @@
     }
     //Display the current score
     //display the high scrore
-    
     NSLog(@"current score: %d -> high score: %d", currentScore, highScore);
+    
+    
+    int bestCombo = [self getHighScore];
+    int currentCombo = lastCombo;
+    
+    if (bestCombo < currentCombo) {
+        [self saveBestCombo:currentCombo];
+        bestCombo = currentCombo;
+        //announce NEW BEST COMBO!!
+    }
+    //Display the current score
+    //display the high scrore
+    
+    
 
 	CCMenuItem *button1 = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png" selectedImage:@"playAgainButton.png" target:self selector:@selector(playAgainAction:)];
 	CCMenuItem *button2 = [CCMenuItemImage itemFromNormalImage:@"exitGameButton.png" selectedImage:@"exitGameButton" target:self selector:@selector(exitGameAction:)];
@@ -95,5 +108,19 @@
 	
 	return val;
 }
-
+-(void)saveBestCombo:(int)combo{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	if (standardUserDefaults) {
+		[standardUserDefaults setObject:[NSNumber numberWithInt:combo] forKey:@"combo"];
+		[standardUserDefaults synchronize];
+	}
+}
+-(int)getBestCombo{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	int val = 0;
+	if (standardUserDefaults)
+		val = [[standardUserDefaults objectForKey:@"combo"] integerValue];
+	
+	return val;
+}
 @end
