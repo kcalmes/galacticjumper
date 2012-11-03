@@ -21,23 +21,29 @@
     return game;
 }
 
-- (id)initWithScore:(int)lastScore andCombo:(int)lastCombo
+- (id)initWithScore:(int)currentScore andCombo:(int)lastCombo
 {
     NSLog(@"Highscores::init");
 	
 	if(![super init]) return nil;
-
-//	NSLog(@"lastScore = %d",lastScore);
 	
 	int highScore = [self getHighScore];
-    int currentScore = lastScore;
     
     if (highScore < currentScore) {
         [self saveHighScore:currentScore];
         highScore = currentScore;
         //announce NEW HIGH SCORE!!
     }
-    //Display the current score
+    NSString *stringLabel = [NSString stringWithFormat:@"Score: %d!", currentScore];
+    CCLabelBMFont *lastScoreLabel = [CCLabelBMFont labelWithString:stringLabel fntFile:@"spaceJump-hd.fnt"];
+    //[self addChild:comboTallyDisplay];
+    //comboTallyDisplay.opacity = 0;
+    lastScoreLabel.position = ccpMidpoint(ccp(0,0), ccp(480,320));
+    //id a1 = [CCFadeIn actionWithDuration:0.25f];
+    //id a2 = [CCFadeOut actionWithDuration:0.75f];
+    //id a3 = [CCSequence actions:a1,a2,nil];
+    //[comboTallyDisplay runAction:a3];
+
     //display the high scrore
     NSLog(@"current score: %d -> high score: %d", currentScore, highScore);
     
