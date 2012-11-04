@@ -129,12 +129,10 @@
 		5335C8501645B935008EA354 /* spaceJump-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5335C84C1645B935008EA354 /* spaceJump-hd.fnt */; };
 		5335C8511645B935008EA354 /* spaceJump-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C84D1645B935008EA354 /* spaceJump-hd.png */; };
 		5335C8621645DB66008EA354 /* playAgainButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C8611645DB65008EA354 /* playAgainButton.png */; };
-		5335C8651645DFF3008EA354 /* exitGameButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C8641645DFF2008EA354 /* exitGameButton.png */; };
 		8306B375163F21C300B0BFB0 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B374163F21C300B0BFB0 /* libGoogleAnalytics.a */; };
 		8306B377163F224400B0BFB0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B376163F224400B0BFB0 /* CFNetwork.framework */; };
 		8306B379163F22EE00B0BFB0 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */; };
 		831EE4E116390FAD000CED34 /* welcome-page.png in Resources */ = {isa = PBXBuildFile; fileRef = 831EE4E016390FAD000CED34 /* welcome-page.png */; };
-		834C35C51639987F00B93CF9 /* 62_64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 834C35C41639987F00B93CF9 /* 62_64x64.png */; };
 		8352893E1645BACD00CA96C6 /* tutorialplatforms-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 8352893B1645BACD00CA96C6 /* tutorialplatforms-01.png */; };
 		8352893F1645BACD00CA96C6 /* tutorialstarboost-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 8352893C1645BACD00CA96C6 /* tutorialstarboost-01.png */; };
 		835289401645BACD00CA96C6 /* tutorialtap-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 8352893D1645BACD00CA96C6 /* tutorialtap-01.png */; };
@@ -372,13 +370,11 @@
 		5335C84C1645B935008EA354 /* spaceJump-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "spaceJump-hd.fnt"; sourceTree = "<group>"; };
 		5335C84D1645B935008EA354 /* spaceJump-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spaceJump-hd.png"; sourceTree = "<group>"; };
 		5335C8611645DB65008EA354 /* playAgainButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playAgainButton.png; sourceTree = "<group>"; };
-		5335C8641645DFF2008EA354 /* exitGameButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = exitGameButton.png; sourceTree = "<group>"; };
 		8306B373163F21C300B0BFB0 /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
 		8306B374163F21C300B0BFB0 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
 		8306B376163F224400B0BFB0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		831EE4E016390FAD000CED34 /* welcome-page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome-page.png"; sourceTree = "<group>"; };
-		834C35C41639987F00B93CF9 /* 62_64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 62_64x64.png; sourceTree = "<group>"; };
 		8352893B1645BACD00CA96C6 /* tutorialplatforms-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialplatforms-01.png"; sourceTree = "<group>"; };
 		8352893C1645BACD00CA96C6 /* tutorialstarboost-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialstarboost-01.png"; sourceTree = "<group>"; };
 		8352893D1645BACD00CA96C6 /* tutorialtap-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tutorialtap-01.png"; sourceTree = "<group>"; };
@@ -740,7 +736,6 @@
 			isa = PBXGroup;
 			children = (
 				5335C8611645DB65008EA354 /* playAgainButton.png */,
-				5335C8641645DFF2008EA354 /* exitGameButton.png */,
 				835289531645C94E00CA96C6 /* next.png */,
 				835289541645C94E00CA96C6 /* next@2x.png */,
 				835289461645C0D700CA96C6 /* tutorialstarboost-01@2x.png */,
@@ -753,7 +748,6 @@
 				342457B5163F6F9E00849C68 /* Items.png */,
 				342457B8163F7F6400849C68 /* Jumps.png */,
 				342457C4163F9E1500849C68 /* background1.1.png */,
-				834C35C41639987F00B93CF9 /* 62_64x64.png */,
 				831EE4E016390FAD000CED34 /* welcome-page.png */,
 				53133F7B16390DE100EC87FB /* tapTutorial.png */,
 				34E106EE16365DC50068AAB0 /* objectsclouds.png */,
@@ -854,7 +848,6 @@
 				3484C7911638D6A200DA6C46 /* objectplatforms.png in Resources */,
 				53133F7C16390DE100EC87FB /* tapTutorial.png in Resources */,
 				831EE4E116390FAD000CED34 /* welcome-page.png in Resources */,
-				834C35C51639987F00B93CF9 /* 62_64x64.png in Resources */,
 				342457B6163F6F9E00849C68 /* Items.png in Resources */,
 				342457B9163F7F6500849C68 /* Jumps.png in Resources */,
 				342457C5163F9E1500849C68 /* background1.1.png in Resources */,
@@ -875,7 +868,6 @@
 				835289551645C94E00CA96C6 /* next.png in Resources */,
 				835289561645C94E00CA96C6 /* next@2x.png in Resources */,
 				5335C8621645DB66008EA354 /* playAgainButton.png in Resources */,
-				5335C8651645DFF3008EA354 /* exitGameButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
