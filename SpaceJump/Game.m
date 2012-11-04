@@ -53,9 +53,9 @@
     if (![[GANTracker sharedTracker] trackPageview:@"/playgame"
                                          withError:&error])
     {
-        NSLog(@"there was an error");
+        //NSLog(@"there was an error");
     } else {
-        NSLog(@"there was not an error");
+        //NSLog(@"there was not an error");
     }
 	if(![super init]) return nil;
     
@@ -393,7 +393,12 @@
         alien_vel.y = 550.0f;
         justHitPlatform = NO;
         comboTally++;
-        if(comboTally > maxCombo){
+        if (comboTally % 10 == 0)
+        {
+            alien_vel.y = 1800.0f;
+        }
+        if(comboTally > maxCombo)
+        {
             maxCombo = comboTally;
         }
         [self showComboLabel];
@@ -407,7 +412,12 @@
     if(comboTally == 1)
     {
         stringLabel = [NSString stringWithFormat:@"Perfect Jump!", comboTally];
-    } else {
+    }
+    else if(comboTally %10 == 0)
+    {
+        stringLabel = [NSString stringWithFormat:@"MEGA JUMP!!!"];
+    }
+    else{
         stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d", comboTally];
     } 
     CCLabelBMFont *comboTallyDisplay = [CCLabelBMFont labelWithString:stringLabel fntFile:@"spaceJump-hd.fnt"];

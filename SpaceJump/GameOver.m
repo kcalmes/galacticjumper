@@ -23,7 +23,7 @@
 
 - (id)initWithScore:(int)currentScore andCombo:(int)currentCombo
 {
-    NSLog(@"Highscores::init");
+    //NSLog(@"Highscores::init");
 	
 	if(![super init]) return nil;
 	
@@ -70,10 +70,10 @@
 
 
     //display the high scrore
-    NSLog(@"current score: %d -> high score: %d", currentScore, highScore);
+    //NSLog(@"current score: %d -> high score: %d", currentScore, highScore);
 
 	CCMenuItem *playAgainButton = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png" selectedImage:@"playAgainButton.png" target:self selector:@selector(playAgainAction:)];
-	CCMenuItem *exitGameButton = [CCMenuItemImage itemFromNormalImage:@"exitGameButton.png" selectedImage:@"exitGameButton" target:self selector:@selector(exitGameAction:)];
+	CCMenuItem *exitGameButton = [CCMenuItemImage itemFromNormalImage:@"buttonhome.png" selectedImage:@"exitGameButton" target:self selector:@selector(exitGameAction:)];
 	
 	CCMenu *menu = [CCMenu menuWithItems: playAgainButton, exitGameButton, nil];
 

@@ -62,10 +62,10 @@
             </objects>
             <point key="canvasLocation" x="356" y="76"/>
         </scene>
-        <!--View Controller-->
+        <!--Start Game View Controller-->
         <scene sceneID="Wxp-y6-Va8">
             <objects>
-                <viewController id="hwZ-eY-Hnn" sceneMemberID="viewController">
+                <viewController id="hwZ-eY-Hnn" customClass="StartGameViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="left" id="crA-jw-KNS">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -101,10 +101,10 @@
             </objects>
             <point key="canvasLocation" x="-406" y="756"/>
         </scene>
-        <!--View Controller-->
+        <!--Start Game View Controller-->
         <scene sceneID="20S-dF-884">
             <objects>
-                <viewController id="hmX-Va-NEd" sceneMemberID="viewController">
+                <viewController id="hmX-Va-NEd" customClass="StartGameViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ujt-yq-ylM">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -140,10 +140,10 @@
             </objects>
             <point key="canvasLocation" x="270" y="756"/>
         </scene>
-        <!--View Controller-->
+        <!--Start Game View Controller-->
         <scene sceneID="0TA-s6-MDl">
             <objects>
-                <viewController id="UAO-d7-ghr" sceneMemberID="viewController">
+                <viewController id="UAO-d7-ghr" customClass="StartGameViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XuC-sQ-RfK">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
