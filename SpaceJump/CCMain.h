@@ -11,8 +11,8 @@
 #define kNumPlatforms		7
 #define kPlatformTopPadding 20
 
-#define kMinBonusStep		30
-#define kMaxBonusStep		50
+#define kMinBonusStep		20
+#define kMaxBonusStep		40
 
 enum {
 	kSpriteManager = 0,

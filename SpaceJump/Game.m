@@ -79,7 +79,7 @@
     //This position for the score label makes it so that 1000000 is the highest possible score before the label goes off screen
     CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"spaceJump-hd.fnt"];
 	[self addChild:scoreLabel z:5 tag:kScoreLabel];
-	scoreLabel.position = ccp(80,300);
+	scoreLabel.position = ccp(100,300);
 
 	[self schedule:@selector(step:)];
 	
@@ -178,7 +178,7 @@
 	} else
     {
 		currentPlatformY += random() % (int)(currentMaxPlatformStep - kMinPlatformStep) + kMinPlatformStep;
-        NSLog(@"max step = %f, currentY = %f",currentMaxPlatformStep, currentPlatformY);
+        //NSLog(@"max step = %f, currentY = %f",currentMaxPlatformStep, currentPlatformY);
 		if(currentMaxPlatformStep < kMaxPlatformStep)
         {
 			currentMaxPlatformStep += 0.5f;
@@ -196,7 +196,7 @@
 		x = 220.0f;
 	} else
     {
-        x = (arc4random() % 680) - 100;
+        x = (arc4random() % 780) - 150;
 	}
 	
 	platform.position = ccp(x,currentPlatformY);
@@ -404,7 +404,8 @@
 - (void)showComboLabel
 {
     NSString *stringLabel;
-    if(comboTally == 1){
+    if(comboTally == 1)
+    {
         stringLabel = [NSString stringWithFormat:@"Perfect Jump!", comboTally];
     } else {
         stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d", comboTally];
@@ -447,7 +448,6 @@
              id a5 = [CCScaleTo actionWithDuration:0.4f scaleX:0.8f scaleY:0.8f];
              id a6 = [CCSequence actions:a4,a5,a4,a5,a4,a5,nil];
              [self.alien runAction:a6];
-             [self resetBonus];
          }
      }
 }
@@ -497,14 +497,6 @@
 {
     //update x position
     alien_pos.x += alien_vel.x * dt;
-    CGSize alien_size = self.alien.contentSize;
-    
-    float max_x = 480-alien_size.width/2;
-    float min_x = 0+alien_size.width/2;
-    
-    if(alien_pos.x>max_x) alien_pos.x = max_x;
-    if(alien_pos.x<min_x) alien_pos.x = min_x;
-    
     //update y position
     alien_vel.y += alien_acc.y * dt;
 	alien_pos.y += alien_vel.y * dt;
@@ -600,12 +592,12 @@
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
         CGPoint pos = platform.position;
         pos = ccp(pos.x-delta,pos.y);
-        if(pos.x < -200)
+        if(pos.x < -150)
         {
             currentPlatformTag = t;
             [self updatePlatformPosition:@"left"];
         }
-        else if(pos.x > 680)
+        else if(pos.x > 630)
         {
             currentPlatformTag = t;
             [self updatePlatformPosition:@"right"];
@@ -620,7 +612,7 @@
     {
         CGPoint pos = bonus.position;
         pos.x -= delta;
-        if(pos.x < -200 || pos.x > 680)
+        if(pos.x < -150 || pos.x > 630)
         {
             [self resetBonus];
         }
@@ -638,11 +630,11 @@
     CCSprite *platform = (CCSprite*)[platformNode getChildByTag:currentPlatformTag];
     if ([exitSide isEqualToString:@"left"])
     {
-        platform.position = ccp(570, platform.position.y);
+        platform.position = ccp(620, platform.position.y);
     }
     else
     {
-        platform.position = ccp(-90, platform.position.y);
+        platform.position = ccp(-140, platform.position.y);
     }
 }
 
@@ -691,6 +683,10 @@
     CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
     if (alien_vel.y < 20)
     {
+        if (hitStarBouns == YES)
+        {
+            [self resetBonus];
+        }
         hitStarBouns = NO;
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien1.png"]];
     } else if (hitStarBouns && alien_vel.y > 150)
@@ -706,7 +702,7 @@
 
 - (void)showGameOver
 {
-    NSLog(@"showGameOver");
+    //NSLog(@"showGameOver");
 	gameSuspended = YES;
 	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 	
@@ -719,15 +715,8 @@
 	if(gameSuspended) return;
 	float accel_filter = 0.1f;
     int orientation = 1;
-    if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
-    {
-        orientation = 1;
-    }
-    else if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft)
-    {
-        orientation = -1;
-    }
-	alien_vel.x = alien_vel.x * accel_filter + acceleration.y * -1 * (1.0f - accel_filter) * (orientation*1000.0f);
+    
+	alien_vel.x = alien_vel.x * accel_filter + acceleration.y * orientation * (1.0f - accel_filter) * 1000.0f;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
