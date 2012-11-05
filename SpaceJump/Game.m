@@ -411,7 +411,7 @@
     NSString *stringLabel;
     if(comboTally == 1)
     {
-        stringLabel = [NSString stringWithFormat:@"Perfect Jump!", comboTally];
+        stringLabel = [NSString stringWithFormat:@"Perfect Jump!"];
     }
     else if(comboTally %10 == 0)
     {
