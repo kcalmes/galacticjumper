@@ -8,20 +8,20 @@
 - (void)exitGameAction:(id)sender;
 @end
 
-
 @implementation GameOver
+NSString* gameMode;
 
-+ (CCScene *)gameOverSceneWithScore:(int)lastScore andCombo:(int)lastCombo
++ (CCScene *)gameOverSceneWithScore:(int)lastScore andCombo:(int)lastCombo andCurrentMode:(NSString *)currentMode
 {
     CCScene *game = [CCScene node];
     
-    GameOver *layer = [[[GameOver alloc] initWithScore:lastScore andCombo:lastCombo] autorelease];
+    GameOver *layer = [[[GameOver alloc] initWithScore:lastScore andCombo:lastCombo andCurrentMode:currentMode] autorelease];
     [game addChild:layer];
     
     return game;
 }
 
-- (id)initWithScore:(int)currentScore andCombo:(int)currentCombo
+- (id)initWithScore:(int)currentScore andCombo:(int)currentCombo andCurrentMode:(NSString *)currentMode
 {
     //NSLog(@"Highscores::init");
 	
@@ -33,6 +33,7 @@
     CGFloat screenWidth = screenSize.height;
     
 	int highScore = [self getHighScore];
+    gameMode = currentMode;
     
     if (highScore < currentScore) {
         [self saveHighScore:currentScore];
@@ -95,7 +96,7 @@
 {
 //	NSLog(@"playAgainAction");
 
-	CCTransitionScene *ts = [CCTransitionFade transitionWithDuration:0.5f scene:[Game scene] withColor:ccWHITE];
+	CCTransitionScene *ts = [CCTransitionFade transitionWithDuration:0.5f scene:[Game sceneWithMode:gameMode] withColor:ccWHITE];
 	[[CCDirector sharedDirector] replaceScene:ts];
 }
 

@@ -179,16 +179,16 @@
             </objects>
             <point key="canvasLocation" x="1026" y="756"/>
         </scene>
-        <!--Start Game View Controller-->
+        <!--Game Modes View Controller-->
         <scene sceneID="k7T-jc-les">
             <objects>
-                <viewController id="9QE-fo-emK" customClass="StartGameViewController" sceneMemberID="viewController">
+                <viewController id="9QE-fo-emK" customClass="GameModesViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cK0-X2-CVj">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="v9a-74-1l0">
-                                <rect key="frame" x="178" y="99" width="60" height="44"/>
+                                <rect key="frame" x="206" y="99" width="60" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Easy">
@@ -199,11 +199,11 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="2" kind="modal" id="LqY-N4-xYj"/>
+                                    <action selector="easyModePressed:" destination="9QE-fo-emK" eventType="touchUpInside" id="sPP-NI-B9O"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="nRA-bc-FUU">
-                                <rect key="frame" x="34" y="99" width="69" height="44"/>
+                                <rect key="frame" x="62" y="99" width="69" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Timed">
@@ -214,7 +214,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="2" kind="modal" id="aBb-Ee-egE"/>
+                                    <action selector="timedModePressed:" destination="9QE-fo-emK" eventType="touchUpInside" id="dxt-uP-ggF"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="aIB-gY-RP0">
@@ -229,7 +229,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="2" kind="modal" id="HGh-gb-XsA"/>
+                                    <action selector="hardModePressed:" destination="9QE-fo-emK" eventType="touchUpInside" id="mXq-ze-PYZ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -240,6 +240,9 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <segue destination="2" kind="modal" identifier="PlayGame" id="WEN-ru-fnH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bX8-Ra-NRB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -284,6 +287,14 @@
         <class className="EAGLView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EAGLView.h"/>
         </class>
+        <class className="GameModesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GameModesViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="easyModePressed:"/>
+                <relationship kind="action" name="hardModePressed:"/>
+                <relationship kind="action" name="timedModePressed:"/>
+            </relationships>
+        </class>
         <class className="GameViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GameViewController.h"/>
         </class>
@@ -296,7 +307,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="aBb-Ee-egE"/>
-    </inferredMetricsTieBreakers>
 </document>

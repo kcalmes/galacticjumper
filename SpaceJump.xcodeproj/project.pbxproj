@@ -13,6 +13,8 @@
 		3484C7911638D6A200DA6C46 /* objectplatforms.png in Resources */ = {isa = PBXBuildFile; fileRef = 3484C7901638D6A200DA6C46 /* objectplatforms.png */; };
 		349DF74D1645974800E0C979 /* StartGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 349DF74C1645974700E0C979 /* StartGameViewController.m */; };
 		34AAC7881655CE2600F6C8B3 /* GameOn.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 34AAC7871655CE2600F6C8B3 /* GameOn.mp3 */; };
+		34AAC78B1655DBE400F6C8B3 /* GameModesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34AAC78A1655DBE400F6C8B3 /* GameModesViewController.m */; };
+		34AAC79D1655EDE300F6C8B3 /* star.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 34AAC79C1655EDE300F6C8B3 /* star.m4a */; };
 		34E1059916364DFC0068AAB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E1059816364DFC0068AAB0 /* UIKit.framework */; };
 		34E1059B16364DFC0068AAB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E1059A16364DFC0068AAB0 /* Foundation.framework */; };
 		34E1059D16364DFC0068AAB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E1059C16364DFC0068AAB0 /* CoreGraphics.framework */; };
@@ -154,6 +156,9 @@
 		349DF74B1645974700E0C979 /* StartGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartGameViewController.h; sourceTree = "<group>"; };
 		349DF74C1645974700E0C979 /* StartGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartGameViewController.m; sourceTree = "<group>"; };
 		34AAC7871655CE2600F6C8B3 /* GameOn.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = GameOn.mp3; sourceTree = "<group>"; };
+		34AAC7891655DBE400F6C8B3 /* GameModesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameModesViewController.h; sourceTree = "<group>"; };
+		34AAC78A1655DBE400F6C8B3 /* GameModesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameModesViewController.m; sourceTree = "<group>"; };
+		34AAC79C1655EDE300F6C8B3 /* star.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = star.m4a; sourceTree = "<group>"; };
 		34E1059416364DFC0068AAB0 /* SpaceJump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceJump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E1059816364DFC0068AAB0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		34E1059A16364DFC0068AAB0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -473,6 +478,8 @@
 				34E105B016364DFC0068AAB0 /* MainStoryboard.storyboard */,
 				34E1070016365E930068AAB0 /* GameViewController.h */,
 				34E1070116365E930068AAB0 /* GameViewController.m */,
+				34AAC7891655DBE400F6C8B3 /* GameModesViewController.h */,
+				34AAC78A1655DBE400F6C8B3 /* GameModesViewController.m */,
 				349DF74B1645974700E0C979 /* StartGameViewController.h */,
 				349DF74C1645974700E0C979 /* StartGameViewController.m */,
 				34E1059F16364DFC0068AAB0 /* Supporting Files */,
@@ -799,6 +806,7 @@
 			isa = PBXGroup;
 			children = (
 				34AAC7871655CE2600F6C8B3 /* GameOn.mp3 */,
+				34AAC79C1655EDE300F6C8B3 /* star.m4a */,
 				34E251E1164864A600AF1998 /* button-11.mp3 */,
 			);
 			name = audio;
@@ -895,6 +903,7 @@
 				34E251C116461BDA00AF1998 /* 114_x_114.png in Resources */,
 				34E251E2164864A600AF1998 /* button-11.mp3 in Resources */,
 				34AAC7881655CE2600F6C8B3 /* GameOn.mp3 in Resources */,
+				34AAC79D1655EDE300F6C8B3 /* star.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -997,6 +1006,7 @@
 				34E251DB164791A700AF1998 /* CDAudioManager.m in Sources */,
 				34E251DC164791A700AF1998 /* CDOpenALSupport.m in Sources */,
 				34E251DD164791A700AF1998 /* CocosDenshion.m in Sources */,
+				34AAC78B1655DBE400F6C8B3 /* GameModesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

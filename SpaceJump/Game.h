@@ -18,12 +18,17 @@
 	int currentBonusType;
 	int platformCount;
     int dissapearingPlatformTag;
+    int easyModePad;
+    
     NSString* kindOfJump;
+    NSString* gameMode;
 	
 	BOOL gameSuspended;
     BOOL justHitPlatform;
-    BOOL hitStarBouns;
+    BOOL hitStarBounus;
     BOOL hasHitStartPlatform;
+    BOOL easyMode;
+    BOOL timedMode;
 	
 	int score;
     int comboTally;
@@ -41,6 +46,6 @@
 //@property (nonatomic, retain) CCAction *jumpAction;
 
 
-+ (CCScene *)scene;
++ (CCScene *)sceneWithMode:(NSString*) mode;
 
 @end

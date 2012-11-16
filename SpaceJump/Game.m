@@ -37,19 +37,20 @@
 
 #pragma mark InitializeGame
 
-+ (CCScene *)scene
++ (CCScene *)sceneWithMode:(NSString *)mode
 {
     CCScene *game = [CCScene node];
     
-    Game *layer = [Game node];
+    Game *layer = [[Game alloc] initWithMode:mode];
     [game addChild:layer];
     
     return game;
 }
 
-- (id)init {
-    //NSLog(@"Game::init");
-    //count a game played in google analytics
+- (id)initWithMode:(NSString*) mode
+{
+    //NSLog(@"Game::init with mode %@", mode);
+    //count a game played in google analytics 
 	NSError * error;
     if (![[GANTracker sharedTracker] trackPageview:@"/playgame"
                                          withError:&error])
@@ -77,7 +78,6 @@
 
     bonus.visible = NO;
     
-    //This position for the score label makes it so that 1000000 is the highest possible score before the label goes off screen
     CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"spaceJump-hd.fnt"];
 	[self addChild:scoreLabel z:5 tag:kScoreLabel];
 	scoreLabel.position = ccp(100,300);
@@ -86,6 +86,19 @@
 	
 	self.isTouchEnabled = YES;
 	self.isAccelerometerEnabled = YES;
+    
+    gameMode = mode;
+    
+    if ([gameMode isEqualToString:@"EasyMode"])
+    {
+        easyMode = YES;
+        timedMode = NO;
+        easyModePad = 5;
+    }
+    else
+    {
+        easyModePad = 0;
+    }
 
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / kFPS)];
 	
@@ -261,7 +274,7 @@
     [spriteSheet addChild: self.alien];
     
     justHitPlatform = NO;
-    hitStarBouns = NO;
+    hitStarBounus = NO;
     kindOfJump = @"DefaultJump";
     
 }
@@ -345,21 +358,21 @@
                 if(alien_pos.x > max_x &&
                    alien_pos.x < min_x &&
                    alien_pos.y > platform_pos.y &&
-                   (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y + 8)
+                   (alien_pos.y + ALIEN_YPOS_OFFSET) < (min_y + 8 + easyModePad))
                 {
                     kindOfJump = @"PerfectJump";
                 }
                 else if(alien_pos.x > max_x &&
                         alien_pos.x < min_x &&
                         alien_pos.y > platform_pos.y &&
-                        (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +13)
+                        (alien_pos.y + ALIEN_YPOS_OFFSET) < (min_y +13+easyModePad))
                 {
                     kindOfJump = @"ExcellentJump";
                 }
                 else if(alien_pos.x > max_x &&
                         alien_pos.x < min_x &&
                         alien_pos.y > platform_pos.y &&
-                        (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +18)
+                        (alien_pos.y + ALIEN_YPOS_OFFSET) < (min_y +18+easyModePad))
                 {
                     kindOfJump = @"GoodJump";
                 }
@@ -371,25 +384,26 @@
 
 -(void)jump
 {
+    if (!justHitPlatform)
+    {
+        [[SimpleAudioEngine sharedEngine] playEffect:@"button-11.mp3"];
+    }
     if ([kindOfJump isEqualToString:@"DefaultJump"] && !justHitPlatform)
     {
         alien_vel.y = 225.0f;
         justHitPlatform = YES;
-        [[SimpleAudioEngine sharedEngine] playEffect:@"button-11.mp3"];
     }
     else if ([kindOfJump isEqualToString:@"GoodJump"])
     {
         alien_vel.y = 300.0f;
         justHitPlatform = NO;
         comboTally = 0;
-        [[SimpleAudioEngine sharedEngine] playEffect:@"button-11.mp3"];
     }
     else if ([kindOfJump isEqualToString:@"ExcellentJump"])
     {
         alien_vel.y = 400.0f;
         justHitPlatform = NO;
         comboTally = 0;
-        [[SimpleAudioEngine sharedEngine] playEffect:@"button-11.mp3"];
     }
     else if ([kindOfJump isEqualToString:@"PerfectJump"])
     {
@@ -405,7 +419,6 @@
             maxCombo = comboTally;
         }
         [self showComboLabel];
-        [[SimpleAudioEngine sharedEngine] playEffect:@"button-11.mp3"];
     }
     kindOfJump = @"DefaultJump";
 }
@@ -420,6 +433,7 @@
     else if(comboTally %10 == 0)
     {
         stringLabel = [NSString stringWithFormat:@"MEGA JUMP!!!"];
+        [[SimpleAudioEngine sharedEngine] playEffect:@"star.m4a"];
     }
     else{
         stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d", comboTally];
@@ -450,8 +464,8 @@
          alien_pos.y < bonus_pos.y + range )
          {
              alien_vel.y = 1600.0f;
-             hitStarBouns = YES;
-             [[SimpleAudioEngine sharedEngine] playEffect:@"star.wav"];
+             hitStarBounus = YES;
+             [[SimpleAudioEngine sharedEngine] playEffect:@"star.m4a"];
              NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
              CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
              [scoreLabel setString:scoreStr];
@@ -561,7 +575,7 @@
      if(bonus.visible) {
         CGPoint pos = bonus.position;
         pos.y -= delta;
-        if(pos.y < -bonus.contentSize.height/2) {
+        if(pos.y < -bonus.contentSize.height/2 && !hitStarBounus) {
             [self resetBonus];
         } else {
             bonus.position = pos;
@@ -655,7 +669,7 @@
 
 -(void)updatePlatformSize
 {
-    if (currentPlatformTag == kPlatformsStartTag && !hasHitStartPlatform)
+    if ((currentPlatformTag == kPlatformsStartTag && !hasHitStartPlatform) || easyMode == YES)
     {
         return;
     }
@@ -698,13 +712,13 @@
     CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
     if (alien_vel.y < 20)
     {
-        if (hitStarBouns == YES)
+        if (hitStarBounus == YES)
         {
             [self resetBonus];
         }
-        hitStarBouns = NO;
+        hitStarBounus = NO;
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien1.png"]];
-    } else if (hitStarBouns && alien_vel.y > 150)
+    } else if (hitStarBounus && alien_vel.y > 150)
     {
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien3.png"]];
     } else
@@ -723,7 +737,7 @@
 	
 //	NSLog(@"score = %d",score);
 	[[CCDirector sharedDirector] replaceScene:
-     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score/10 andCombo:maxCombo] withColor:ccWHITE]];
+     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score/10 andCombo:maxCombo andCurrentMode:gameMode] withColor:ccWHITE]];
 }
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
