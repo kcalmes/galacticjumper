@@ -47,5 +47,6 @@
 
 
 + (CCScene *)sceneWithMode:(NSString*) mode;
++ (CCScene *)sceneWithGame:(Game *)game;
 
 @end

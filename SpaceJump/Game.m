@@ -1,6 +1,7 @@
 #import "Game.h"
 #import "CCMain.h"
 #import "GameOver.h"
+#import "PauseGame.h"
 #import "GANTracker.h"
 #import "SimpleAudioEngine.h"
 
@@ -39,12 +40,21 @@
 
 + (CCScene *)sceneWithMode:(NSString *)mode
 {
-    CCScene *game = [CCScene node];
+    CCScene *scene = [CCScene node];
     
     Game *layer = [[Game alloc] initWithMode:mode];
-    [game addChild:layer];
+    [scene addChild:layer];
     
-    return game;
+    return scene;
+}
+
++ (CCScene *)sceneWithGame:(Game *)game
+{
+    CCScene *scene = [CCScene node];
+    [game prepareForResumeGame];
+    [scene addChild:game];
+    
+    return scene;
 }
 
 - (id)initWithMode:(NSString*) mode
@@ -81,6 +91,13 @@
     CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"spaceJump-hd.fnt"];
 	[self addChild:scoreLabel z:5 tag:kScoreLabel];
 	scoreLabel.position = ccp(100,300);
+    
+    CCMenuItem *playAgainButton = [CCMenuItemImage itemFromNormalImage:@"buttonpause.png" selectedImage:@"buttonpause.png" target:self selector:@selector(pauseGame:)];
+	CCMenu *menu = [CCMenu menuWithItems: playAgainButton, nil];
+	menu.position = ccp(screenWidth-60,60);
+	
+	[self addChild:menu z:5];
+
 
 	[self schedule:@selector(step:)];
 	
@@ -107,6 +124,20 @@
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"GameOn.mp3"];
 	
 	return self;
+}
+
+-(void)prepareForResumeGame
+{
+	gameSuspended = NO;
+    [self schedule:@selector(step:)];
+}
+
+- (void)pauseGame:(id)sender
+{
+    gameSuspended = YES;
+	[[CCDirector sharedDirector] replaceScene:
+     [CCTransitionCrossFade transitionWithDuration:.3 scene:[PauseGame pauseSceneWithScore:score/10 andCombo:maxCombo andCurrentMode:gameMode andGame:self]]];
+
 }
 
 #pragma mark InitializeObjects
@@ -333,7 +364,7 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView: [touch view]];
     
-    CGRect mySurface = (CGRectMake(0, 0, 480, 320));
+    CGRect mySurface = (CGRectMake(0, 0, 568, 320));
     if(CGRectContainsPoint(mySurface, location))
     {
         if(alien_vel.y < 0 || justHitPlatform)
@@ -731,11 +762,9 @@
 
 - (void)showGameOver
 {
-    //NSLog(@"showGameOver");
 	gameSuspended = YES;
-	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 	
-//	NSLog(@"score = %d",score);
+    //	NSLog(@"score = %d",score);
 	[[CCDirector sharedDirector] replaceScene:
      [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score/10 andCombo:maxCombo andCurrentMode:gameMode] withColor:ccWHITE]];
 }
