@@ -2,6 +2,7 @@
 #import "CCMain.h"
 #import "GameOver.h"
 #import "GANTracker.h"
+#import "SimpleAudioEngine.h"
 
 @interface Game (Private)
 - (void)initPlatforms;
@@ -89,6 +90,8 @@
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / kFPS)];
 	
 	[self startGame];
+    
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"GameOn.mp3"];
 	
 	return self;
 }
@@ -360,9 +363,6 @@
                 {
                     kindOfJump = @"GoodJump";
                 }
-                /*
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
-                */
             }
             //NSLog(@"Kind of Jump: %@", kindOfJump);
         }
@@ -375,18 +375,21 @@
     {
         alien_vel.y = 225.0f;
         justHitPlatform = YES;
+        [[SimpleAudioEngine sharedEngine] playEffect:@"button-11.mp3"];
     }
     else if ([kindOfJump isEqualToString:@"GoodJump"])
     {
         alien_vel.y = 300.0f;
         justHitPlatform = NO;
         comboTally = 0;
+        [[SimpleAudioEngine sharedEngine] playEffect:@"button-11.mp3"];
     }
     else if ([kindOfJump isEqualToString:@"ExcellentJump"])
     {
         alien_vel.y = 400.0f;
         justHitPlatform = NO;
         comboTally = 0;
+        [[SimpleAudioEngine sharedEngine] playEffect:@"button-11.mp3"];
     }
     else if ([kindOfJump isEqualToString:@"PerfectJump"])
     {
@@ -402,6 +405,7 @@
             maxCombo = comboTally;
         }
         [self showComboLabel];
+        [[SimpleAudioEngine sharedEngine] playEffect:@"button-11.mp3"];
     }
     kindOfJump = @"DefaultJump";
 }
@@ -447,6 +451,7 @@
          {
              alien_vel.y = 1600.0f;
              hitStarBouns = YES;
+             [[SimpleAudioEngine sharedEngine] playEffect:@"star.wav"];
              NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
              CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
              [scoreLabel setString:scoreStr];
