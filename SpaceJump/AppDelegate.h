@@ -13,7 +13,3 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @end
-
-#define EASY 1
-#define MEDIUM 2
-#define HARD 3

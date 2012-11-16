@@ -29,7 +29,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="9QE-fo-emK" kind="modal" id="qEH-hb-deT"/>
+                                    <action selector="playButtonPressed" destination="uzN-PJ-k5t" eventType="touchUpInside" id="6ZC-Ty-5aQ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HBG-lK-uJ7">
@@ -45,7 +45,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="hwZ-eY-Hnn" kind="modal" modalTransitionStyle="crossDissolve" id="tMV-2B-x9y"/>
+                                    <action selector="tutorialButtonPressed" destination="uzN-PJ-k5t" eventType="touchUpInside" id="oHs-yn-QIR"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -57,10 +57,14 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <segue destination="hwZ-eY-Hnn" kind="modal" identifier="GoToTutorial" modalTransitionStyle="crossDissolve" id="JD7-eF-B3F"/>
+                        <segue destination="9QE-fo-emK" kind="modal" identifier="GoToSelectGameMode" modalTransitionStyle="flipHorizontal" id="qC3-YY-n62"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bdl-iH-Bdy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="356" y="76"/>
+            <point key="canvasLocation" x="296" y="82"/>
         </scene>
         <!--Start Game View Controller-->
         <scene sceneID="Wxp-y6-Va8">
@@ -164,7 +168,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="uzN-PJ-k5t" kind="modal" modalTransitionStyle="crossDissolve" id="KtF-J1-Ggh"/>
+                                    <action selector="tutorialCompleted" destination="UAO-d7-ghr" eventType="touchUpInside" id="p5Z-R9-NdF"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -174,6 +178,10 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <segue destination="9QE-fo-emK" kind="modal" identifier="ToGameFromTutorial" modalTransitionStyle="flipHorizontal" id="iyN-Kk-h2m"/>
+                        <segue destination="uzN-PJ-k5t" kind="modal" identifier="ToHomeFromTutorial" modalTransitionStyle="crossDissolve" id="amy-OW-iza"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3iu-xk-JWl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -289,11 +297,6 @@
         </class>
         <class className="GameModesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GameModesViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="easyModePressed:"/>
-                <relationship kind="action" name="hardModePressed:"/>
-                <relationship kind="action" name="timedModePressed:"/>
-            </relationships>
         </class>
         <class className="GameViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GameViewController.h"/>
@@ -307,4 +310,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="qC3-YY-n62"/>
+    </inferredMetricsTieBreakers>
 </document>

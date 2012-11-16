@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface StartGameViewController : UIViewController
+@property bool proceedToGameAfterTutorial;
 
 @end

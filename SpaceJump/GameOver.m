@@ -2,6 +2,7 @@
 #import "CCMain.h"
 #import "Game.h"
 #import "GameOver.h"
+#import "SimpleAudioEngine.h"
 
 @interface GameOver (Private)
 - (void)playAgainAction:(id)sender;
@@ -103,6 +104,7 @@ NSString* gameMode;
 - (void)exitGameAction:(id)sender
 {
 	//NSLog(@"exitGameAction");
+    [CDAudioManager sharedManager].mute = TRUE; 
     [[UIApplication sharedApplication].keyWindow.rootViewController dismissModalViewControllerAnimated:YES];
     [[CCDirector sharedDirector] popScene];
 }

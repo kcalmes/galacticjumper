@@ -103,7 +103,7 @@
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / kFPS)];
 	
 	[self startGame];
-    
+    [CDAudioManager sharedManager].mute = FALSE;
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"GameOn.mp3"];
 	
 	return self;
