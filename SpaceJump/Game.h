@@ -38,6 +38,10 @@
     CCSprite *_alien;
     //CCAction *_jumpAction;
     //BOOL _moving;
+
+    CCSprite *pauseScreen;
+    CCMenu *pauseButton;
+    CCMenu *pauseScreenMenu;
     
 }
 
@@ -47,6 +51,5 @@
 
 
 + (CCScene *)sceneWithMode:(NSString*) mode;
-+ (CCScene *)sceneWithGame:(Game *)game;
 
 @end

@@ -1,7 +1,6 @@
 #import "Game.h"
 #import "CCMain.h"
 #import "GameOver.h"
-#import "PauseGame.h"
 #import "GANTracker.h"
 #import "SimpleAudioEngine.h"
 
@@ -48,15 +47,6 @@
     return scene;
 }
 
-+ (CCScene *)sceneWithGame:(Game *)game
-{
-    CCScene *scene = [CCScene node];
-    [game prepareForResumeGame];
-    [scene addChild:game];
-    
-    return scene;
-}
-
 - (id)initWithMode:(NSString*) mode
 {
     //NSLog(@"Game::init with mode %@", mode);
@@ -92,11 +82,10 @@
 	[self addChild:scoreLabel z:5 tag:kScoreLabel];
 	scoreLabel.position = ccp(100,300);
     
-    CCMenuItem *playAgainButton = [CCMenuItemImage itemFromNormalImage:@"buttonpause.png" selectedImage:@"buttonpause.png" target:self selector:@selector(pauseGame:)];
-	CCMenu *menu = [CCMenu menuWithItems: playAgainButton, nil];
-	menu.position = ccp(screenWidth-60,60);
-	
-	[self addChild:menu z:5];
+    CCMenuItem *pauseMenuButton = [CCMenuItemImage itemFromNormalImage:@"buttonpause.png" selectedImage:@"buttonpause.png" target:self selector:@selector(pauseGame)];
+	pauseButton = [CCMenu menuWithItems: pauseMenuButton, nil];
+	pauseButton.position = ccp(screenWidth-50,screenHeight-50);
+	[self addChild:pauseButton z:5];
 
 
 	[self schedule:@selector(step:)];
@@ -120,24 +109,88 @@
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / kFPS)];
 	
 	[self startGame];
-    [CDAudioManager sharedManager].mute = FALSE;
+    [CDAudioManager sharedManager].mute = [self isMuted];
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"GameOn.mp3"];
 	
 	return self;
 }
 
--(void)prepareForResumeGame
+- (void)pauseGame
 {
-	gameSuspended = NO;
-    [self schedule:@selector(step:)];
+    if(gameSuspended == NO) {
+        gameSuspended = YES;
+        pauseButton.visible = NO;
+        
+        pauseScreen =[[CCSprite spriteWithFile:@"paused.png"] retain];
+        CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+        [pauseScreen setContentSize:screenSize];
+        pauseScreen.position= ccp(screenWidth*.5,screenWidth*.60);
+        [self addChild:pauseScreen z:8];
+        [self loadPauseMenu];
+    }
 }
 
-- (void)pauseGame:(id)sender
-{
-    gameSuspended = YES;
-	[[CCDirector sharedDirector] replaceScene:
-     [CCTransitionCrossFade transitionWithDuration:.3 scene:[PauseGame pauseSceneWithScore:score/10 andCombo:maxCombo andCurrentMode:gameMode andGame:self]]];
+-(void)loadPauseMenu{
+    
+    pauseScreenMenu.visible = NO;
+    CCMenuItem *playAgainButton = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png" selectedImage:@"playAgainButton.png" target:self selector:@selector(playAgainAction:)];
+    CCMenuItem *resumePlayButton = [CCMenuItemImage itemFromNormalImage:@"resumePlay.png" selectedImage:@"resumePlay.png" target:self selector:@selector(resumeGameAction:)];
+    CCMenuItem *muteButton;
+    BOOL muted = [CDAudioManager sharedManager].mute;
+    if(muted){
+        muteButton = [CCMenuItemImage itemFromNormalImage:@"buttonsound.png" selectedImage:@"buttonsound.png" target:self selector:@selector(toggleMute:)];
+    } else {
+        muteButton = [CCMenuItemImage itemFromNormalImage:@"buttonnosound.png" selectedImage:@"buttonnosound.png" target:self selector:@selector(toggleMute:)];
+    }
+	
+	pauseScreenMenu = [CCMenu menuWithItems: resumePlayButton, playAgainButton, muteButton, nil];
+    
+	[pauseScreenMenu alignItemsHorizontallyWithPadding:9];
+    
+	pauseScreenMenu.position = ccp(screenWidth*.5,screenWidth*.23);
+	
+	[self addChild:pauseScreenMenu z:10];
+}
 
+
+- (void)playAgainAction:(id)sender
+{
+    //	NSLog(@"playAgainAction");
+    
+	CCTransitionScene *ts = [CCTransitionFade transitionWithDuration:0.5f scene:[Game sceneWithMode:gameMode] withColor:ccWHITE];
+	[[CCDirector sharedDirector] replaceScene:ts];
+}
+
+- (void)resumeGameAction:(id)sender
+{
+	pauseScreen.visible = NO;
+    pauseScreenMenu.visible = NO;
+    pauseButton.visible = YES;
+    gameSuspended = NO;
+}
+
+- (void)toggleMute:(id)sender
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	BOOL isMuted = [standardUserDefaults boolForKey:@"isMuted"];
+
+    [CDAudioManager sharedManager].mute = !isMuted;
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"GameOn.mp3"];
+    
+    [standardUserDefaults setBool:!isMuted forKey:@"isMuted"];
+    [standardUserDefaults synchronize];
+    
+    [self loadPauseMenu];
+}
+
+-(BOOL)isMuted
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	if (standardUserDefaults) {
+		return [standardUserDefaults boolForKey:@"isMuted"];
+	} else {
+        return NO;
+    }
 }
 
 #pragma mark InitializeObjects

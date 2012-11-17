@@ -37,6 +37,7 @@ static const NSInteger kGANDispatchPeriodSec = 1;
                                           [NSNumber numberWithInt:0], @"highscore",
                                           [NSNumber numberWithInt:0], @"combo",
                                           NO, @"tutorial_complete",
+                                          NO, @"isMuted",
                                           nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
     // Override point for customization after application launch.

@@ -136,11 +136,11 @@
 		5335C8511645B935008EA354 /* spaceJump-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C84D1645B935008EA354 /* spaceJump-hd.png */; };
 		5335C8621645DB66008EA354 /* playAgainButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5335C8611645DB65008EA354 /* playAgainButton.png */; };
 		53682B91165609740067EF11 /* buttonpause.png in Resources */ = {isa = PBXBuildFile; fileRef = 53682B90165609730067EF11 /* buttonpause.png */; };
-		53682B94165611300067EF11 /* PauseGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 53682B93165611300067EF11 /* PauseGame.m */; };
 		53682B96165618F60067EF11 /* resumePlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 53682B95165618F60067EF11 /* resumePlay.png */; };
 		53682B9A165619050067EF11 /* buttonsound.png in Resources */ = {isa = PBXBuildFile; fileRef = 53682B98165619050067EF11 /* buttonsound.png */; };
 		53682B9C165619580067EF11 /* buttonnosound.png in Resources */ = {isa = PBXBuildFile; fileRef = 53682B9B165619570067EF11 /* buttonnosound.png */; };
 		53682B9E16568EC50067EF11 /* modesbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 53682B9D16568EC40067EF11 /* modesbg.png */; };
+		53C4C26816571C8800E6AABD /* paused.png in Resources */ = {isa = PBXBuildFile; fileRef = 53C4C26716571C8800E6AABD /* paused.png */; };
 		8306B375163F21C300B0BFB0 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B374163F21C300B0BFB0 /* libGoogleAnalytics.a */; };
 		8306B377163F224400B0BFB0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B376163F224400B0BFB0 /* CFNetwork.framework */; };
 		8306B379163F22EE00B0BFB0 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8306B378163F22EE00B0BFB0 /* libsqlite3.0.dylib */; };
@@ -395,12 +395,11 @@
 		5335C84D1645B935008EA354 /* spaceJump-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spaceJump-hd.png"; sourceTree = "<group>"; };
 		5335C8611645DB65008EA354 /* playAgainButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playAgainButton.png; sourceTree = "<group>"; };
 		53682B90165609730067EF11 /* buttonpause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonpause.png; sourceTree = "<group>"; };
-		53682B92165611300067EF11 /* PauseGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseGame.h; sourceTree = "<group>"; };
-		53682B93165611300067EF11 /* PauseGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PauseGame.m; sourceTree = "<group>"; };
 		53682B95165618F60067EF11 /* resumePlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resumePlay.png; sourceTree = "<group>"; };
 		53682B98165619050067EF11 /* buttonsound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonsound.png; sourceTree = "<group>"; };
 		53682B9B165619570067EF11 /* buttonnosound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonnosound.png; sourceTree = "<group>"; };
 		53682B9D16568EC40067EF11 /* modesbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = modesbg.png; sourceTree = "<group>"; };
+		53C4C26716571C8800E6AABD /* paused.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = paused.png; path = ../../../Dropbox/Jumper/paused.png; sourceTree = "<group>"; };
 		8306B373163F21C300B0BFB0 /* GANTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GANTracker.h; sourceTree = "<group>"; };
 		8306B374163F21C300B0BFB0 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
 		8306B376163F224400B0BFB0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -762,8 +761,6 @@
 				34E106DF163658A60068AAB0 /* GameOver.m */,
 				34E106E3163659460068AAB0 /* CCMain.h */,
 				34E106E41636597E0068AAB0 /* CCMain.m */,
-				53682B92165611300067EF11 /* PauseGame.h */,
-				53682B93165611300067EF11 /* PauseGame.m */,
 			);
 			name = "Cocoas Game";
 			sourceTree = "<group>";
@@ -780,6 +777,7 @@
 		34E106E816365D560068AAB0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				53C4C26716571C8800E6AABD /* paused.png */,
 				53682B9D16568EC40067EF11 /* modesbg.png */,
 				53682B9B165619570067EF11 /* buttonnosound.png */,
 				53682B98165619050067EF11 /* buttonsound.png */,
@@ -929,6 +927,7 @@
 				53682B9A165619050067EF11 /* buttonsound.png in Resources */,
 				53682B9C165619580067EF11 /* buttonnosound.png in Resources */,
 				53682B9E16568EC50067EF11 /* modesbg.png in Resources */,
+				53C4C26816571C8800E6AABD /* paused.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1032,7 +1031,6 @@
 				34E251DC164791A700AF1998 /* CDOpenALSupport.m in Sources */,
 				34E251DD164791A700AF1998 /* CocosDenshion.m in Sources */,
 				34AAC78B1655DBE400F6C8B3 /* GameModesViewController.m in Sources */,
-				53682B94165611300067EF11 /* PauseGame.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

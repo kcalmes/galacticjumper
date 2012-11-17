@@ -195,9 +195,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="modesbg.png" id="CeJ-6X-J38">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="modesbg.png" id="CeJ-6X-J38">
                                 <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="v9a-74-1l0">
                                 <rect key="frame" x="71" y="57" width="92" height="46"/>
@@ -302,6 +302,9 @@
         </class>
         <class className="GameModesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GameModesViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="hardModePressed:"/>
+            </relationships>
         </class>
         <class className="GameViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GameViewController.h"/>
@@ -316,6 +319,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="qC3-YY-n62"/>
+        <segue reference="iyN-Kk-h2m"/>
     </inferredMetricsTieBreakers>
 </document>
