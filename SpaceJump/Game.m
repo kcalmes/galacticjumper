@@ -2,6 +2,7 @@
 #import "CCMain.h"
 #import "GameOver.h"
 #import "GANTracker.h"
+#import "SimpleAudioEngine.h"
 
 @interface Game (Private)
 - (void)initPlatforms;
@@ -20,12 +21,12 @@
 - (void)updateScore;
 - (void)updateAlienFinalPosition;
 - (void)jump;
-- (void)showComboTally;
+- (void)showComboLabel;
 - (void)oldJump;
 - (void)showGameOver;
 
 #define ALIEN_YPOS_OFFSET 0
-#define PLATFORM_SCALE .65
+#define PLATFORM_SCALE 0.65
 
 @end
 
@@ -33,32 +34,36 @@
 
 //Added by Kory for animation
 @synthesize alien = _alien;
-//@synthesize jumpAction = _jumpAction;
 
 #pragma mark InitializeGame
 
-+ (CCScene *)scene
++ (CCScene *)sceneWithMode:(NSString *)mode
 {
-    CCScene *game = [CCScene node];
+    CCScene *scene = [CCScene node];
     
-    Game *layer = [Game node];
-    [game addChild:layer];
+    Game *layer = [[Game alloc] initWithMode:mode];
+    [scene addChild:layer];
     
-    return game;
+    return scene;
 }
 
-- (id)init {
-    //NSLog(@"Game::init");
-    //count a game played in google analytics
+- (id)initWithMode:(NSString*) mode
+{
+    //NSLog(@"Game::init with mode %@", mode);
+    //count a game played in google analytics 
 	NSError * error;
     if (![[GANTracker sharedTracker] trackPageview:@"/playgame"
                                          withError:&error])
     {
-        NSLog(@"there was an error");
+        //NSLog(@"there was an error");
     } else {
-        NSLog(@"there was not an error");
+        //NSLog(@"there was not an error");
     }
 	if(![super init]) return nil;
+    
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    screenHeight = screenSize.width; //In landscape height is width vice versa
+    screenWidth = screenSize.height;
 	
 	gameSuspended = YES;
 
@@ -72,39 +77,129 @@
     bonus.scaleY = .5f;
 
     bonus.visible = NO;
-
-//	LabelAtlas *scoreLabel = [LabelAtlas labelAtlasWithString:@"0" charMapFile:@"charmap.png" itemWidth:24 itemHeight:32 startCharMap:' '];
-//	[self addChild:scoreLabel z:5 tag:kScoreLabel];
     
-//    CCLabelBMFont *comboLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"bitmapFont.fnt"];
-//	[self addChild:comboLabel z:6 tag:kComboLabel];
-//	comboLabel.position = ccp(160,300);
-//    
-//    CCLabelTTF *comboTextLabel = [CCLabelTTF labelWithString:@"COMBO:" dimensions:CGSizeMake(130,32) alignment:UITextAlignmentRight fontName:@"Arial" fontSize:32];
-//    [self addChild:comboTextLabel z:8 tag:kComboTextLabel];
-//    [comboTextLabel setColor:ccGREEN];
-//    comboTextLabel.position = ccp(65,304);
-    
-    //This position for the score label makes it so that 1000000 is the highest possible score before the label goes off screen
-    CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"bitmapFont.fnt"];
+    CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"spaceJump-hd.fnt"];
 	[self addChild:scoreLabel z:5 tag:kScoreLabel];
-	scoreLabel.position = ccp(80,300);
+	scoreLabel.position = ccp(100,300);
     
-//    CCLabelTTF *scoreTextLabel = [CCLabelTTF labelWithString:@"altitude:" dimensions:CGSizeMake(165,32) alignment:UITextAlignmentRight fontName:@"Arial" fontSize:32];
-//    [self addChild:scoreTextLabel z:7 tag:kScoreTextLabel];
-//    [scoreTextLabel setColor:ccGREEN];
-//    scoreTextLabel.position = ccp(290,304);
+    CCMenuItem *pauseMenuButton = [CCMenuItemImage itemFromNormalImage:@"buttonpause.png" selectedImage:@"buttonpause.png" target:self selector:@selector(pauseGame)];
+	pauseButton = [CCMenu menuWithItems: pauseMenuButton, nil];
+	pauseButton.position = ccp(screenWidth-50,screenHeight-50);
+	[self addChild:pauseButton z:5];
 
 	[self schedule:@selector(step:)];
 	
 	self.isTouchEnabled = YES;
 	self.isAccelerometerEnabled = YES;
+    
+    gameMode = mode;
+    
+    if ([gameMode isEqualToString:@"EasyMode"])
+    {
+        easyMode = YES;
+        timedMode = NO;
+        easyModePad = 5;
+    }
+    else if ([gameMode isEqualToString:@"TimedMode"])
+    {
+        easyModePad = 0;
+        numOfSeconds = 0;
+        numOfMinutes = 0;
+        timedMode = YES;
+        CCLabelBMFont *scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:@"spaceJump-hd.fnt"];
+        [self addChild:scoreLabel z:5 tag:kTimerLabel];
+        scoreLabel.position = ccp(70,280);
+        scoreLabel.scale = 0.7;
+    }
+    else
+    {
+        easyModePad = 0;
+    }
 
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / kFPS)];
 	
 	[self startGame];
+    [CDAudioManager sharedManager].mute = [self isMuted];
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"GameOn.mp3"];
 	
 	return self;
+}
+
+- (void)pauseGame
+{
+    if(gameSuspended == NO)
+    {
+        gameSuspended = YES;
+        pauseButton.visible = NO;
+        
+        pauseScreen =[[CCSprite spriteWithFile:@"paused.png"] retain];
+        CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+        [pauseScreen setContentSize:screenSize];
+        pauseScreen.position= ccp(screenWidth*.5,screenWidth*.60);
+        [self addChild:pauseScreen z:8];
+        [self loadPauseMenu];
+    }
+}
+
+-(void)loadPauseMenu{
+    
+    pauseScreenMenu.visible = NO;
+    CCMenuItem *playAgainButton = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png" selectedImage:@"playAgainButton.png" target:self selector:@selector(playAgainAction:)];
+    CCMenuItem *resumePlayButton = [CCMenuItemImage itemFromNormalImage:@"resumePlay.png" selectedImage:@"resumePlay.png" target:self selector:@selector(resumeGameAction:)];
+    CCMenuItem *muteButton;
+    BOOL muted = [CDAudioManager sharedManager].mute;
+    if(muted){
+        muteButton = [CCMenuItemImage itemFromNormalImage:@"buttonsound.png" selectedImage:@"buttonsound.png" target:self selector:@selector(toggleMute:)];
+    } else {
+        muteButton = [CCMenuItemImage itemFromNormalImage:@"buttonnosound.png" selectedImage:@"buttonnosound.png" target:self selector:@selector(toggleMute:)];
+    }
+	
+	pauseScreenMenu = [CCMenu menuWithItems: resumePlayButton, playAgainButton, muteButton, nil];
+    
+	[pauseScreenMenu alignItemsHorizontallyWithPadding:9];
+    
+	pauseScreenMenu.position = ccp(screenWidth*.5,screenWidth*.23);
+	
+	[self addChild:pauseScreenMenu z:10];
+}
+
+
+- (void)playAgainAction:(id)sender
+{
+	CCTransitionScene *ts = [CCTransitionFade transitionWithDuration:0.5f scene:[Game sceneWithMode:gameMode] withColor:ccWHITE];
+	[[CCDirector sharedDirector] replaceScene:ts];
+}
+
+- (void)resumeGameAction:(id)sender
+{
+	pauseScreen.visible = NO;
+    pauseScreenMenu.visible = NO;
+    pauseButton.visible = YES;
+    gameSuspended = NO;
+}
+
+- (void)toggleMute:(id)sender
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	BOOL isMuted = [standardUserDefaults boolForKey:@"isMuted"];
+
+    [CDAudioManager sharedManager].mute = !isMuted;
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"GameOn.mp3"];
+    
+    [standardUserDefaults setBool:!isMuted forKey:@"isMuted"];
+    [standardUserDefaults synchronize];
+    
+    [self loadPauseMenu];
+}
+
+-(BOOL)isMuted
+{
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	if (standardUserDefaults) {
+		return [standardUserDefaults boolForKey:@"isMuted"];
+	} else {
+        return NO;
+    }
 }
 
 #pragma mark InitializeObjects
@@ -112,6 +207,15 @@
 - (void)initPlatforms
 {
     //	NSLog(@"initPlatforms");
+    CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"objectplatforms.png"];
+    [self addChild:spriteSheet z:4];
+    
+    //Cache the sprite frames and texture
+    CCSpriteFrame *frame;
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(0,0,148,46)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"platform%d.png", 1]];
+    frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(180,0,69,46)];
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"platform%d.png", 2]];
 	
 	currentPlatformTag = kPlatformsStartTag;
 	while(currentPlatformTag < kPlatformsStartTag + kNumPlatforms)
@@ -125,6 +229,7 @@
 
 - (void)initPlatform
 {
+
 	CGRect rect = CGRectMake(0,0,148,46);
 
 	CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
@@ -143,7 +248,14 @@
 	[self resetBonus];
 	
 	[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-	gameSuspended = NO;
+    if (timedMode)
+    {
+        [self schedule:@selector(readySetGoAnimations:) interval:1];
+    }
+    else
+    {
+        gameSuspended = NO;
+    }
 }
 
 - (void)dealloc
@@ -176,14 +288,13 @@
 
 - (void)resetPlatform
 {
-	
 	if(currentPlatformY < 0)
     {
 		currentPlatformY = 30.0f;
 	} else
     {
 		currentPlatformY += random() % (int)(currentMaxPlatformStep - kMinPlatformStep) + kMinPlatformStep;
-        NSLog(@"max step = %f, currentY = %f",currentMaxPlatformStep, currentPlatformY);
+        //NSLog(@"max step = %f, currentY = %f",currentMaxPlatformStep, currentPlatformY);
 		if(currentMaxPlatformStep < kMaxPlatformStep)
         {
 			currentMaxPlatformStep += 0.5f;
@@ -201,7 +312,7 @@
 		x = 220.0f;
 	} else
     {
-        x = (arc4random() % 680) - 100;
+        x = (arc4random() % 780) - 150;
 	}
 	
 	platform.position = ccp(x,currentPlatformY);
@@ -250,7 +361,6 @@
 	alien_pos.y = 160;
 	self.alien.position = alien_pos;
 
-	
 	alien_vel.x = 0;
 	alien_vel.y = 0;
 	
@@ -263,13 +373,11 @@
 
     [spriteSheet addChild: self.alien];
     
-    
-
-
-    //[self.alien runAction: self.jumpAction];
     justHitPlatform = NO;
-    hitStarBouns = NO;
+    hitStarBounus = NO;
     kindOfJump = @"DefaultJump";
+    
+    [self updateAlienFinalPosition];
     
 }
 
@@ -290,6 +398,7 @@
 	[super step:dt];
 	
 	if(gameSuspended) return;
+    [self unschedule:@selector(readySetGoAnimations)];
     
 	[self updateAlienPosition:dt];
     [self checkForBonus];
@@ -298,7 +407,6 @@
     {
         if (justHitPlatform && [kindOfJump isEqualToString:@"DefaultJump"]) {
             comboTally = 0;
-            [self updateComboTally];
         }
         justHitPlatform = NO;
         [self checkForObjectCollisions];
@@ -320,6 +428,50 @@
     [self updateAlienFinalPosition];
 }
 
+-(void) timerUpdate:(ccTime)delta
+{
+    if (score >= 1000)
+    {
+        return;
+    }
+    numOfSeconds += delta;
+    if ((numOfSeconds-(numOfMinutes*60)) >= 60)
+    {
+        numOfMinutes++;
+    }
+    NSString *timerStr = [NSString stringWithFormat:@"%d:%.1f", numOfMinutes, numOfSeconds - (numOfMinutes * 60)];
+    CCLabelBMFont *timerLabel = (CCLabelBMFont*)[self getChildByTag:kTimerLabel];
+    [timerLabel setString:timerStr];
+}
+
+-(void) readySetGoAnimations:(ccTime)delta
+{
+    startGameAnimations++;
+    CCLabelBMFont *comboTallyDisplay = (CCLabelBMFont*)[self getChildByTag:kComboLabel];
+    id a1 = [CCFadeIn actionWithDuration:0.25f];
+    id a2 = [CCFadeOut actionWithDuration:0.75f];
+    id a3 = [CCSequence actions:a1,a2,nil];
+    if (startGameAnimations == 3)
+    {
+        [comboTallyDisplay setString:@"GO!!!"];
+        [comboTallyDisplay runAction:a3];
+        alien_vel.y = 0;
+        gameSuspended = NO;
+        [self schedule:@selector(timerUpdate:) interval:0.1];
+    }else if (startGameAnimations == 2)
+    {
+        [comboTallyDisplay setString:@"SET"];
+        
+        [comboTallyDisplay runAction:a3];
+    }
+    else if (startGameAnimations == 1)
+    {
+        [comboTallyDisplay setString:@"READY"];
+        [comboTallyDisplay runAction:a3];
+    }
+    
+}
+
 #pragma mark TouchEvents
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -328,7 +480,7 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView: [touch view]];
     
-    CGRect mySurface = (CGRectMake(0, 0, 480, 320));
+    CGRect mySurface = (CGRectMake(0, 0, 568, 320));
     if(CGRectContainsPoint(mySurface, location))
     {
         if(alien_vel.y < 0 || justHitPlatform)
@@ -353,33 +505,24 @@
                 if(alien_pos.x > max_x &&
                    alien_pos.x < min_x &&
                    alien_pos.y > platform_pos.y &&
-                   (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y + 8)
+                   (alien_pos.y + ALIEN_YPOS_OFFSET) < (min_y + 8 + easyModePad))
                 {
                     kindOfJump = @"PerfectJump";
                 }
                 else if(alien_pos.x > max_x &&
                         alien_pos.x < min_x &&
                         alien_pos.y > platform_pos.y &&
-                        (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +13)
+                        (alien_pos.y + ALIEN_YPOS_OFFSET) < (min_y +13+easyModePad))
                 {
                     kindOfJump = @"ExcellentJump";
                 }
                 else if(alien_pos.x > max_x &&
                         alien_pos.x < min_x &&
                         alien_pos.y > platform_pos.y &&
-                        (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y +18)
+                        (alien_pos.y + ALIEN_YPOS_OFFSET) < (min_y +18+easyModePad))
                 {
                     kindOfJump = @"GoodJump";
                 }
-                /*else if(bird_pos.x > max_x &&
-                        bird_pos.x < min_x &&
-                        bird_pos.y > platform_pos.y &&
-                        bird_pos.y < min_y +20 )
-                {
-                    kindOfJump = @"okJump";
-                    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
-                }*/
-            
             }
             //NSLog(@"Kind of Jump: %@", kindOfJump);
         }
@@ -388,6 +531,10 @@
 
 -(void)jump
 {
+    if (!justHitPlatform)
+    {
+        [[SimpleAudioEngine sharedEngine] playEffect:@"button-11.mp3"];
+    }
     if ([kindOfJump isEqualToString:@"DefaultJump"] && !justHitPlatform)
     {
         alien_vel.y = 225.0f;
@@ -410,27 +557,41 @@
         alien_vel.y = 550.0f;
         justHitPlatform = NO;
         comboTally++;
-        [self showComboTally];
+        if (comboTally % 10 == 0)
+        {
+            alien_vel.y = 1800.0f;
+            dissapearingPlatformTag = 0;
+        }
+        if(comboTally > maxCombo)
+        {
+            maxCombo = comboTally;
+        }
+        [self showComboLabel];
     }
-    [self updateComboTally];
     kindOfJump = @"DefaultJump";
 }
 
-- (void)showComboTally
+- (void)showComboLabel
 {
     NSString *stringLabel;
-    if(comboTally == 1){
-        stringLabel = [NSString stringWithFormat:@"Perfect Jump!", comboTally];
-    } else if(comboTally < 5){
-        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d!", comboTally];
-    } else if(comboTally < 10){
-        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d!!", comboTally];
-    } else {
-        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d!!!", comboTally];
+    if(comboTally == 1)
+    {
+        stringLabel = [NSString stringWithFormat:@"Perfect Jump!"];
     }
-//    CCLabelBMFont *comboTallyDisplay = [CCLabelBMFont labelWithString:stringLabel fntFile:@"perfectJumpBitmapFont.fnt"];
-//    [self addChild:comboTallyDisplay];
-//    comboTallyDisplay.position = ccp(200,200);
+    else if(comboTally %10 == 0)
+    {
+        stringLabel = [NSString stringWithFormat:@"MEGA JUMP!!!"];
+        [[SimpleAudioEngine sharedEngine] playEffect:@"star.m4a"];
+    }
+    else{
+        stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d", comboTally];
+    }
+    CCLabelBMFont *comboTallyDisplay = (CCLabelBMFont*)[self getChildByTag:kComboLabel];
+    [comboTallyDisplay setString:stringLabel];
+    id a1 = [CCFadeIn actionWithDuration:0.25f];
+    id a2 = [CCFadeOut actionWithDuration:0.75f];
+    id a3 = [CCSequence actions:a1,a2,nil];
+    [comboTallyDisplay runAction:a3];
 }
 
 #pragma mark CheckCollisions
@@ -449,7 +610,8 @@
          alien_pos.y < bonus_pos.y + range )
          {
              alien_vel.y = 1600.0f;
-             hitStarBouns = YES;
+             hitStarBounus = YES;
+             [[SimpleAudioEngine sharedEngine] playEffect:@"star.m4a"];
              NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
              CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
              [scoreLabel setString:scoreStr];
@@ -461,7 +623,7 @@
              id a5 = [CCScaleTo actionWithDuration:0.4f scaleX:0.8f scaleY:0.8f];
              id a6 = [CCSequence actions:a4,a5,a4,a5,a4,a5,nil];
              [self.alien runAction:a6];
-             [self resetBonus];
+             dissapearingPlatformTag = 0;
          }
      }
 }
@@ -491,7 +653,7 @@
             [self jump];
             kindOfJump = @"DefaultJump";
             currentPlatformTag = t;
-            //[self updatePlatformSize];
+            [self updatePlatformSize];
         }
     }
 }
@@ -501,7 +663,25 @@
     CGSize alien_size = self.alien.contentSize;
     if(alien_pos.y < -alien_size.height/2)
     {
-        [self showGameOver];
+        if (timedMode)
+        {
+            CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
+            CCSprite *platform = (CCSprite*)[platformNode getChildByTag:currentPlatformTag];
+            platform.scaleX = PLATFORM_SCALE;
+            platform.scaleY = PLATFORM_SCALE;
+            gameSuspended = YES;
+            startGameAnimations = 0;
+            alien_pos.x = 220;
+            alien_pos.y = 160;
+            platform.position = ccp(220,30);
+            self.alien.position = alien_pos;
+            dissapearingPlatformTag = 0;
+            [self schedule:@selector(readySetGoAnimations:) interval:1];
+        }
+        else
+        {
+                [self showGameOver];
+        }
     }
 }
 
@@ -511,14 +691,6 @@
 {
     //update x position
     alien_pos.x += alien_vel.x * dt;
-    CGSize alien_size = self.alien.contentSize;
-    
-    float max_x = 480-alien_size.width/2;
-    float min_x = 0+alien_size.width/2;
-    
-    if(alien_pos.x>max_x) alien_pos.x = max_x;
-    if(alien_pos.x<min_x) alien_pos.x = min_x;
-    
     //update y position
     alien_vel.y += alien_acc.y * dt;
 	alien_pos.y += alien_vel.y * dt;
@@ -527,7 +699,7 @@
 - (void)updateVerticalScreenFramePosition
 {
     //update the background position
-    //calls moveup, moveleft, moveright
+    //calls moveup
     float delta = alien_pos.y - 180;
     alien_pos.y = 180;
     
@@ -553,10 +725,14 @@
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
         CGPoint pos = platform.position;
         pos = ccp(pos.x,pos.y-delta);
-        if(pos.y < -platform.contentSize.height/2) {
+        if(pos.y < -platform.contentSize.height/2)
+        {
             currentPlatformTag = t;
+            CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
+            [platform setDisplayFrame:[cache spriteFrameByName:@"platform1.png"]];
             [self resetPlatform];
-        } else {
+        } else
+        {
             platform.position = pos;
         }
     }
@@ -564,7 +740,7 @@
      if(bonus.visible) {
         CGPoint pos = bonus.position;
         pos.y -= delta;
-        if(pos.y < -bonus.contentSize.height/2) {
+        if(pos.y < -bonus.contentSize.height/2 && !hitStarBounus) {
             [self resetBonus];
         } else {
             bonus.position = pos;
@@ -575,7 +751,7 @@
 - (void)updateHorizontalScreenFramePosition
 {
     //update the background position
-    //calls moveup, moveleft, moveright
+    //calls moveleft, moveright
     float delta;
     if(alien_pos.x > 260)
     {
@@ -610,12 +786,12 @@
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
         CGPoint pos = platform.position;
         pos = ccp(pos.x-delta,pos.y);
-        if(pos.x < -200)
+        if(pos.x < -150)
         {
             currentPlatformTag = t;
             [self updatePlatformPosition:@"left"];
         }
-        else if(pos.x > 680)
+        else if(pos.x > 630)
         {
             currentPlatformTag = t;
             [self updatePlatformPosition:@"right"];
@@ -630,7 +806,7 @@
     {
         CGPoint pos = bonus.position;
         pos.x -= delta;
-        if(pos.x < -200 || pos.x > 680)
+        if(pos.x < -150 || pos.x > 630)
         {
             [self resetBonus];
         }
@@ -648,22 +824,39 @@
     CCSprite *platform = (CCSprite*)[platformNode getChildByTag:currentPlatformTag];
     if ([exitSide isEqualToString:@"left"])
     {
-        platform.position = ccp(570, platform.position.y);
+        platform.position = ccp(620, platform.position.y);
     }
     else
     {
-        platform.position = ccp(-90, platform.position.y);
+        platform.position = ccp(-140, platform.position.y);
     }
 }
 
 -(void)updatePlatformSize
 {
-    CGRect rect = CGRectMake(180,0,69,46);
+    if ((currentPlatformTag == kPlatformsStartTag && !hasHitStartPlatform) || easyMode == YES)
+    {
+        return;
+    }
+    CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
 	CCSprite *platform = (CCSprite*)[platformNode getChildByTag:currentPlatformTag];
-    platform = [CCSprite spriteWithTexture:[platformNode texture] rect:rect];
-	platform.scaleX = PLATFORM_SCALE;
-    platform.scaleY = PLATFORM_SCALE;
+    if (dissapearingPlatformTag == currentPlatformTag)
+    {
+        [platform setDisplayFrame:[cache spriteFrameByName:@"platform1.png"]];
+        [self resetPlatform];
+    }
+    else
+    {
+        [platform setDisplayFrame:[cache spriteFrameByName:@"platform2.png"]];
+        platform.scaleX = PLATFORM_SCALE;
+        platform.scaleY = PLATFORM_SCALE;
+        dissapearingPlatformTag = currentPlatformTag;
+        if (currentPlatformTag != kPlatformsStartTag)
+        {
+            hasHitStartPlatform = YES;
+        }
+    }
 }
 
 #pragma mark UpdateLabels
@@ -676,13 +869,18 @@
     
     CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
     [scoreLabel setString:scoreStr];
-}
-
-- (void)updateComboTally
-{
-    NSString* comboStr = [NSString stringWithFormat:@"%d",comboTally];
-    CCLabelBMFont* comboLabel = (CCLabelBMFont*)[self getChildByTag:kComboLabel];
-    [comboLabel setString:comboStr];
+    if (score/10 >= 1000 && timedMode == YES)
+    {
+        [self unschedule:@selector(timerUpdate)];
+        gameSuspended = YES;
+        CCLabelBMFont *comboTallyDisplay = (CCLabelBMFont*)[self getChildByTag:kComboLabel];
+        id a1 = [CCFadeIn actionWithDuration:2.0f];
+        id a2 = [CCScaleTo actionWithDuration:1.5f scaleX:2.0f scaleY:1.5f];
+        id a3 = [CCSequence actions:a1,a2,nil];
+        [comboTallyDisplay setString:@"FINISHED!!!"];
+        [comboTallyDisplay runAction:a3];
+        [self showGameOver];
+    }
 }
 
 -(void)updateAlienFinalPosition
@@ -691,9 +889,13 @@
     CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
     if (alien_vel.y < 20)
     {
-        hitStarBouns = NO;
+        if (hitStarBounus == YES)
+        {
+            [self resetBonus];
+        }
+        hitStarBounus = NO;
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien1.png"]];
-    } else if (hitStarBouns && alien_vel.y > 150)
+    } else if (hitStarBounus && alien_vel.y > 150)
     {
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien3.png"]];
     } else
@@ -706,28 +908,27 @@
 
 - (void)showGameOver
 {
-    NSLog(@"showGameOver");
 	gameSuspended = YES;
-	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 	
-//	NSLog(@"score = %d",score);
-	[[CCDirector sharedDirector] replaceScene:
-     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score] withColor:ccWHITE]];
+    //	NSLog(@"score = %d",score);
+    if (timedMode)
+    {
+        [[CCDirector sharedDirector] replaceScene:
+         [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:0 andCombo:maxCombo andCurrentMode:gameMode andMinutes:numOfMinutes andSeconds:numOfSeconds] withColor:ccWHITE]];
+    }
+    else
+    {
+        [[CCDirector sharedDirector] replaceScene:
+     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score/10 andCombo:maxCombo andCurrentMode:gameMode andMinutes:0 andSeconds:0.0] withColor:ccWHITE]];
+    }
 }
 
 - (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
 	if(gameSuspended) return;
 	float accel_filter = 0.1f;
     int orientation = 1;
-    if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight)
-    {
-        orientation = 1;
-    }
-    else if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft)
-    {
-        orientation = -1;
-    }
-	alien_vel.x = alien_vel.x * accel_filter + acceleration.y * -1 * (1.0f - accel_filter) * (orientation*1000.0f);
+    
+	alien_vel.x = alien_vel.x * accel_filter + acceleration.y * orientation * (1.0f - accel_filter) * 1000.0f;
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

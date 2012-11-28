@@ -2,14 +2,6 @@
 #import "CCMain.h"
 
 @interface GameOver : Main <UITextFieldDelegate>
-{
-	NSString *currentPlayer;
-	int currentScore;
-	int currentScorePosition;
-	NSMutableArray *highscores;
-	UIAlertView *changePlayerAlert;
-	UITextField *changePlayerTextField;
-}
-+ (CCScene *)gameOverSceneWithScore:(int)lastScore;
-- (id)initWithScore:(int)lastScore;
++ (CCScene *)gameOverSceneWithScore:(int)lastScore andCombo:(int)currentCombo andCurrentMode:(NSString*) currentMode andMinutes:(int)minutes andSeconds:(float) seconds;
+- (id)initWithScore:(int)currentScore andCombo:(int)currentCombo andCurrentMode:(NSString*) currentMode andMinutes:(int)minutes andSeconds:(float) seconds;
 @end

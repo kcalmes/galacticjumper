@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "cocos2d.h"
 
 @interface GameViewController : UIViewController
 
+@property(nonatomic, strong) NSString* mode;
 
 @end

@@ -11,8 +11,8 @@
 #define kNumPlatforms		7
 #define kPlatformTopPadding 20
 
-#define kMinBonusStep		30
-#define kMaxBonusStep		50
+#define kMinBonusStep		20
+#define kMaxBonusStep		40
 
 enum {
 	kSpriteManager = 0,
@@ -20,12 +20,11 @@ enum {
     kPlatformManager = 2,
 	kBird,
 	kScoreLabel,
-    kScoreTextLabel,
-    kComboLabel,
-    kComboTextLabel,
 	kCloudsStartTag = 100,
 	kPlatformsStartTag = 200,
-	kBonusStartTag = 300
+	kBonusStartTag = 300,
+    kTimerLabel = 101,
+    kComboLabel = 102
 };
 
 enum {

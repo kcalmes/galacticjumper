@@ -23,16 +23,27 @@ static const NSInteger kGANDispatchPeriodSec = 1;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    sleep(2);
+    
     // **************************************************************************
     // PLEASE REPLACE WITH YOUR ACCOUNT DETAILS.
     // **************************************************************************
-    //[[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-35938348-1" dispatchPeriod:kGANDispatchPeriodSec delegate:nil];
     [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-35942649-1" dispatchPeriod:kGANDispatchPeriodSec delegate:nil];
 
     NSError * error;
     [[GANTracker sharedTracker] trackPageview:@"/home" withError:&error];
 
-    
+    NSDictionary *userDefaultsDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          [NSNumber numberWithInt:0], @"highscore_easy",
+                                          [NSNumber numberWithInt:0], @"combo_easy",
+                                          [NSNumber numberWithInt:0], @"highscore_hard",
+                                          [NSNumber numberWithInt:0], @"combo_hard",
+                                          [NSNumber numberWithInt:60], @"highscore_minutes",
+                                          [NSNumber numberWithFloat:3640.0], @"highscore_seconds",
+                                          NO, @"tutorial_complete",
+                                          NO, @"isMuted",
+                                          nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
     // Override point for customization after application launch.
     return YES;
 }

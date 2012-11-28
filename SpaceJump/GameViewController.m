@@ -15,6 +15,8 @@
 
 @implementation GameViewController
 
+@synthesize mode = _mode;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -28,6 +30,7 @@
     
     [director setAnimationInterval:1.0/60];
     [director setDisplayFPS:YES];
+    [director enableRetinaDisplay:YES];
     
     NSArray* subviews = self.view.subviews;
     for (int i = 0; i < [subviews count]; i++)
@@ -37,16 +40,17 @@
         {
             subview.hidden = NO;
             [director setOpenGLView:(EAGLView*)subview];
-            [director runWithScene:[Game scene]];
+            [director runWithScene:[Game sceneWithMode:self.mode]];
             self.view = director.openGLView;
             break;
         }
     }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight);
+    return (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 }
 
 @end
