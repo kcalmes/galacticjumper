@@ -135,9 +135,11 @@
 	return self;
 }
 
+#pragma mark Pause Menu
+
 - (void)pauseGame
 {
-    if(gameSuspended == NO)
+    if(gamePaused == NO)
     {
         gameSuspended = YES;
         gamePaused = YES;
@@ -166,10 +168,16 @@
     BOOL muted = [CDAudioManager sharedManager].mute;
     if(muted)
     {
-        muteButton = [CCMenuItemImage itemFromNormalImage:@"buttonsound.png" selectedImage:@"buttonsound.png" target:self selector:@selector(toggleMute:)];
+        muteButton = [CCMenuItemImage itemFromNormalImage:@"buttonsound.png"
+                                            selectedImage:@"buttonsound.png"
+                                                   target:self
+                                                 selector:@selector(toggleMute:)];
     } else
     {
-        muteButton = [CCMenuItemImage itemFromNormalImage:@"buttonnosound.png" selectedImage:@"buttonnosound.png" target:self selector:@selector(toggleMute:)];
+        muteButton = [CCMenuItemImage itemFromNormalImage:@"buttonnosound.png"
+                                            selectedImage:@"buttonnosound.png"
+                                                   target:self
+                                                 selector:@selector(toggleMute:)];
     }
 	
 	pauseScreenMenu = [CCMenu menuWithItems: resumePlayButton, playAgainButton, muteButton, nil];
@@ -190,8 +198,11 @@
 	pauseScreen.visible = NO;
     pauseScreenMenu.visible = NO;
     pauseButton.visible = YES;
-    gameSuspended = NO;
     gamePaused = NO;
+    if (!performingStartAnimations)
+    {
+        gameSuspended = NO;
+    }
 }
 
 - (void)toggleMute:(id)sender
@@ -258,6 +269,7 @@
     if (timedMode)
     {
         [self schedule:@selector(readySetGoAnimations:) interval:1];
+        performingStartAnimations = YES;
     }
     else
     {
@@ -431,6 +443,10 @@
 
 -(void) readySetGoAnimations:(ccTime)delta
 {
+    if (gamePaused)
+    {
+        return;
+    }
     startGameAnimations++;
     CCLabelBMFont *comboTallyDisplay = (CCLabelBMFont*)[self getChildByTag:kComboLabel];
     id a1 = [CCFadeIn actionWithDuration:0.25f];
@@ -444,7 +460,9 @@
         gameSuspended = NO;
         [self schedule:@selector(timerUpdate:) interval:0.1];
         [self unschedule:@selector(readySetGoAnimations)];
-    }else if (startGameAnimations == 2)
+        performingStartAnimations = NO;
+    }
+    else if (startGameAnimations == 2)
     {
         [comboTallyDisplay setString:@"SET"];
         
@@ -584,6 +602,25 @@
     [comboTallyDisplay runAction:a3];
 }
 
+-(void)starBoost
+{
+    alien_vel.y = 1600.0f;
+    hitStarBounus = YES;
+    [[SimpleAudioEngine sharedEngine] playEffect:@"star.m4a"];
+    NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
+    CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
+    [scoreLabel setString:scoreStr];
+    id a1 = [CCScaleTo actionWithDuration:0.2f scaleX:1.5f scaleY:0.8f];
+    id a2 = [CCScaleTo actionWithDuration:0.2f scaleX:1.0f scaleY:1.0f];
+    id a3 = [CCSequence actions:a1,a2,a1,a2,a1,a2,nil];
+    [scoreLabel runAction:a3];
+    id a4 = [CCScaleTo actionWithDuration:0.4f scaleX:0.7f scaleY:0.9f];
+    id a5 = [CCScaleTo actionWithDuration:0.4f scaleX:0.8f scaleY:0.8f];
+    id a6 = [CCSequence actions:a4,a5,a4,a5,a4,a5,nil];
+    [self.alien runAction:a6];
+    dissapearingPlatformTag = 0;
+}
+
 #pragma mark Check Collisions
 
 - (void)checkForBonus
@@ -599,21 +636,7 @@
          alien_pos.y > bonus_pos.y - range &&
          alien_pos.y < bonus_pos.y + range )
          {
-             alien_vel.y = 1600.0f;
-             hitStarBounus = YES;
-             [[SimpleAudioEngine sharedEngine] playEffect:@"star.m4a"];
-             NSString *scoreStr = [NSString stringWithFormat:@"%d",score];
-             CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
-             [scoreLabel setString:scoreStr];
-             id a1 = [CCScaleTo actionWithDuration:0.2f scaleX:1.5f scaleY:0.8f];
-             id a2 = [CCScaleTo actionWithDuration:0.2f scaleX:1.0f scaleY:1.0f];
-             id a3 = [CCSequence actions:a1,a2,a1,a2,a1,a2,nil];
-             [scoreLabel runAction:a3];
-             id a4 = [CCScaleTo actionWithDuration:0.4f scaleX:0.7f scaleY:0.9f];
-             id a5 = [CCScaleTo actionWithDuration:0.4f scaleX:0.8f scaleY:0.8f];
-             id a6 = [CCSequence actions:a4,a5,a4,a5,a4,a5,nil];
-             [self.alien runAction:a6];
-             dissapearingPlatformTag = 0;
+             [self starBoost];
          }
      }
 }
@@ -664,6 +687,7 @@
             self.alien.position = alien_pos;
             dissapearingPlatformTag = 0;
             [self schedule:@selector(readySetGoAnimations:) interval:1];
+            performingStartAnimations = YES;
         }
         else
         {

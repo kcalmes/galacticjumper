@@ -33,6 +33,7 @@
     BOOL easyMode;
     BOOL timedMode;
     BOOL gamePaused;
+    BOOL performingStartAnimations;
 	
 	int score;
     int comboTally;
