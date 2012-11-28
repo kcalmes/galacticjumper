@@ -60,9 +60,9 @@
     if (![[GANTracker sharedTracker] trackPageview:@"/playgame"
                                          withError:&error])
     {
-        NSLog(@"there was an error");
+        //NSLog(@"there was an error");
     } else {
-        NSLog(@"there was not an error");
+        //NSLog(@"there was not an error");
     }
 	if(![super init]) return nil;
     
@@ -166,6 +166,11 @@
                                                           selectedImage:@"resumePlay.png"
                                                                  target:self
                                                                selector:@selector(resumeGameAction:)];
+    
+    CCMenuItem *homeButton = [CCMenuItemImage itemFromNormalImage:@"buttonhome.png"
+                                                          selectedImage:@"buttonhome.png"
+                                                                 target:self
+                                                               selector:@selector(goHomeAction:)];
     CCMenuItem *muteButton;
     BOOL muted = [CDAudioManager sharedManager].mute;
     if(muted)
@@ -181,8 +186,9 @@
                                                    target:self
                                                  selector:@selector(toggleMute:)];
     }
+    
 	
-	pauseScreenMenu = [CCMenu menuWithItems: resumePlayButton, playAgainButton, muteButton, nil];
+	pauseScreenMenu = [CCMenu menuWithItems: resumePlayButton, playAgainButton, homeButton, muteButton, nil];
 	[pauseScreenMenu alignItemsHorizontallyWithPadding:9];
 	pauseScreenMenu.position = ccp(screenWidth*.5,screenWidth*.23);
 	[self addChild:pauseScreenMenu z:10];
@@ -206,6 +212,15 @@
         gameSuspended = NO;
     }
 }
+
+- (void)goHomeAction:(id)sender
+{
+    [CDAudioManager sharedManager].mute = TRUE;
+    [[UIApplication sharedApplication].keyWindow.rootViewController dismissModalViewControllerAnimated:YES];
+    [[CCDirector sharedDirector] popScene];
+
+}
+
 
 - (void)toggleMute:(id)sender
 {
