@@ -26,6 +26,14 @@
 
 #define ALIEN_YPOS_OFFSET 0
 #define PLATFORM_SCALE 0.65
+#define FPS 60
+#define MIN_PLATFORM_STEP	50
+#define MAX_PLATFORM_STEP	200
+#define NUM_PLATFORMS		7
+#define PLATFORM_TOP_PAD    20
+#define MIN_BONUS_STEP		20
+#define MAX_BONUS_STEP		40
+#define MAX_HEIGHT          180
 
 @end
 
@@ -118,7 +126,7 @@
     [self schedule:@selector(step:)];
 	self.isTouchEnabled = YES;
 	self.isAccelerometerEnabled = YES;
-    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / kFPS)];
+    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / FPS)];
 	
 	[self startGame];
     [CDAudioManager sharedManager].mute = [self isMuted];
@@ -223,7 +231,7 @@
     frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(180,0,69,46)];
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"platform%d.png", 2]];
 	currentPlatformTag = kPlatformsStartTag;
-	while(currentPlatformTag < kPlatformsStartTag + kNumPlatforms)
+	while(currentPlatformTag < kPlatformsStartTag + NUM_PLATFORMS)
     {
 		[self initPlatform];
 		currentPlatformTag++;
@@ -274,7 +282,7 @@
 	currentBonusType = 0;
 	platformCount = 0;
 
-	while(currentPlatformTag < kPlatformsStartTag + kNumPlatforms)
+	while(currentPlatformTag < kPlatformsStartTag + NUM_PLATFORMS)
     {
 		[self resetPlatform];
 		currentPlatformTag++;
@@ -289,8 +297,8 @@
 	}
     else
     {
-		currentPlatformY += random() % (int)(currentMaxPlatformStep - kMinPlatformStep) + kMinPlatformStep;
-		if(currentMaxPlatformStep < kMaxPlatformStep)
+		currentPlatformY += random() % (int)(currentMaxPlatformStep - MIN_PLATFORM_STEP) + MIN_PLATFORM_STEP;
+		if(currentMaxPlatformStep < MAX_PLATFORM_STEP)
         {
 			currentMaxPlatformStep += 0.5f;
 		}
@@ -366,7 +374,7 @@
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 	CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag];
 	bonus.visible = NO;
-	currentBonusPlatformIndex += random() % (kMaxBonusStep - kMinBonusStep) + kMinBonusStep;
+	currentBonusPlatformIndex += random() % (MAX_BONUS_STEP - MIN_BONUS_STEP) + MIN_BONUS_STEP;
 }
 
 #pragma mark Step Functions
@@ -393,7 +401,7 @@
     {
         [self jump];
     }
-    if(alien_pos.y > 180)
+    if(alien_pos.y > MAX_HEIGHT)
     {
         [self updateScore];
         [self updateVerticalScreenFramePosition];
@@ -466,14 +474,14 @@
             float min_x = 0+alien_size.width/2;
             
             CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
-            for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
+            for(int t = kPlatformsStartTag; t < kPlatformsStartTag + NUM_PLATFORMS; t++)
             {
                 CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
                 CGSize platform_size = platform.contentSize;
                 CGPoint platform_pos = platform.position;
                 max_x = platform_pos.x - platform_size.width/2 - 10;
                 min_x = platform_pos.x + platform_size.width/2 + 10;
-                float min_y = platform_pos.y + (platform_size.height+alien_size.height)/2 - kPlatformTopPadding;
+                float min_y = platform_pos.y + (platform_size.height+alien_size.height)/2 - PLATFORM_TOP_PAD;
                 
                 if(alien_pos.x > max_x &&
                    alien_pos.x < min_x &&
@@ -615,14 +623,14 @@
     //load object sprite sheet - this actually be done in the init method
     CGSize alien_size = self.alien.contentSize;
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
-    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
+    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + NUM_PLATFORMS; t++)
     {
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
         CGSize platform_size = platform.contentSize;
         CGPoint platform_pos = platform.position;
         float max_x = platform_pos.x - ((platform_size.width/2)*PLATFORM_SCALE);
         float min_x = platform_pos.x + ((platform_size.width/2)*PLATFORM_SCALE);
-        float min_y = platform_pos.y + (platform_size.height+alien_size.height)/2 - kPlatformTopPadding;
+        float min_y = platform_pos.y + (platform_size.height+alien_size.height)/2 - PLATFORM_TOP_PAD;
         
         if(alien_pos.x > max_x &&
            alien_pos.x < min_x &&
@@ -679,8 +687,8 @@
 {
     //update the background position
     //calls moveup
-    float delta = alien_pos.y - 180;
-    alien_pos.y = 180;
+    float delta = alien_pos.y - MAX_HEIGHT;
+    alien_pos.y = MAX_HEIGHT;
     currentPlatformY -= delta;
     CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
     CCSpriteBatchNode *cloudsNode = (CCSpriteBatchNode*)[self getChildByTag:kCloudsManager];
@@ -701,7 +709,7 @@
             cloud.position = pos;
         }
     }
-    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
+    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + NUM_PLATFORMS; t++)
     {
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
         CGPoint pos = platform.position;
@@ -769,7 +777,7 @@
             cloud.position = pos;
          }
      }
-    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
+    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + NUM_PLATFORMS; t++)
     {
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
         CGPoint pos = platform.position;
@@ -850,7 +858,7 @@
 
 - (void)updateScore
 {
-    float delta = (alien_pos.y - 180);
+    float delta = (alien_pos.y - MAX_HEIGHT);
     score += delta;
     NSString *scoreStr = [NSString stringWithFormat:@"%d",score/10];
     CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
