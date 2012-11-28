@@ -63,6 +63,7 @@
     screenWidth = screenSize.height;
 	
 	gameSuspended = YES;
+    gamePaused = NO;
 
 	[self initPlatforms];
 	
@@ -114,10 +115,10 @@
         easyModePad = 0;
     }
 
-	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / kFPS)];
     [self schedule:@selector(step:)];
 	self.isTouchEnabled = YES;
 	self.isAccelerometerEnabled = YES;
+    [[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / kFPS)];
 	
 	[self startGame];
     [CDAudioManager sharedManager].mute = [self isMuted];
@@ -131,6 +132,7 @@
     if(gameSuspended == NO)
     {
         gameSuspended = YES;
+        gamePaused = YES;
         pauseButton.visible = NO;
         pauseScreen =[[CCSprite spriteWithFile:@"paused.png"] retain];
         CGSize screenSize = [[UIScreen mainScreen] bounds].size;
@@ -181,6 +183,7 @@
     pauseScreenMenu.visible = NO;
     pauseButton.visible = YES;
     gameSuspended = NO;
+    gamePaused = NO;
 }
 
 - (void)toggleMute:(id)sender
@@ -283,7 +286,8 @@
 	if(currentPlatformY < 0)
     {
 		currentPlatformY = 30.0f;
-	} else
+	}
+    else
     {
 		currentPlatformY += random() % (int)(currentMaxPlatformStep - kMinPlatformStep) + kMinPlatformStep;
 		if(currentMaxPlatformStep < kMaxPlatformStep)
@@ -300,7 +304,7 @@
 	float x;
 	if(currentPlatformY == 30.0f)
     {
-		x = 220.0f;
+		x = screenWidth/2;
 	} else
     {
         x = (arc4random() % 780) - 150;
@@ -308,10 +312,9 @@
 	
 	platform.position = ccp(x,currentPlatformY);
 	platformCount++;
-    CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
-	
 	if(platformCount == currentBonusPlatformIndex)
     {
+        CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 		CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag];
 		bonus.position = ccp(x,currentPlatformY+40);
 		bonus.visible = YES;
@@ -334,14 +337,14 @@
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"alien%d.png",3]];
 
     //Gather the list of frames
-    NSMutableArray *jumpAnimFrames = [NSMutableArray array];
-    for(int i = 1; i <= 2; ++i) {
-        [jumpAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"alien%d.png", i]]];
-    }
+//    NSMutableArray *jumpAnimFrames = [NSMutableArray array];
+//    for(int i = 1; i <= 3; ++i)
+//    {
+//        [jumpAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"alien%d.png", i]]];
+//    }
     
     //Create the sprite and run the animation action
-    CGSize winSize = [CCDirector sharedDirector].winSize;
-    alien_pos = ccp(winSize.width/2, winSize.height/2);
+    alien_pos = ccp(screenWidth/2, screenHeight/2);
     
 	alien_vel.x = 0;
 	alien_vel.y = 0;
@@ -355,9 +358,7 @@
     justHitPlatform = NO;
     hitStarBounus = NO;
     kindOfJump = @"DefaultJump";
-    
     [self updateAlienFinalPosition];
-    
 }
 
 - (void)resetBonus
@@ -406,7 +407,7 @@
 
 -(void) timerUpdate:(ccTime)delta
 {
-    if (score >= 1000)
+    if (score/10 >= 1000 || gamePaused)
     {
         return;
     }

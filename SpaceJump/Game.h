@@ -32,6 +32,7 @@
     BOOL hasHitStartPlatform;
     BOOL easyMode;
     BOOL timedMode;
+    BOOL gamePaused;
 	
 	int score;
     int comboTally;
