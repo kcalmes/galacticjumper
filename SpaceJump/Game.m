@@ -82,6 +82,11 @@
 	[self addChild:scoreLabel z:5 tag:kScoreLabel];
 	scoreLabel.position = ccp(100,300);
     
+    CCLabelBMFont *comboTallyDisplay = [CCLabelBMFont labelWithString:@"" fntFile:@"spaceJump-hd.fnt"];
+    [self addChild:comboTallyDisplay z:5 tag:kComboLabel];
+    comboTallyDisplay.opacity = 0;
+    comboTallyDisplay.position = ccpMidpoint(ccp(0,0), ccp(screenWidth,screenHeight/2));
+    
     CCMenuItem *pauseMenuButton = [CCMenuItemImage itemFromNormalImage:@"buttonpause.png" selectedImage:@"buttonpause.png" target:self selector:@selector(pauseGame)];
 	pauseButton = [CCMenu menuWithItems: pauseMenuButton, nil];
 	pauseButton.position = ccp(screenWidth-50,screenHeight-50);

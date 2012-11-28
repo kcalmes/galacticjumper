@@ -21,10 +21,11 @@ enum {
 	kBird,
 	kScoreLabel,
 	kCloudsStartTag = 100,
-	kPlatformsStartTag = 200,
-	kBonusStartTag = 300,
     kTimerLabel = 101,
-    kComboLabel = 102
+    kComboLabel = 102,
+	kPlatformsStartTag = 200,
+	kBonusStartTag = 300
+    
 };
 
 enum {
