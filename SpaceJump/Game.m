@@ -22,7 +22,6 @@
 - (void)updateAlienFinalPosition;
 - (void)jump;
 - (void)showComboLabel;
-- (void)oldJump;
 - (void)showGameOver;
 
 #define ALIEN_YPOS_OFFSET 0
@@ -35,12 +34,11 @@
 //Added by Kory for animation
 @synthesize alien = _alien;
 
-#pragma mark InitializeGame
+#pragma mark Initialize Game
 
 + (CCScene *)sceneWithMode:(NSString *)mode
 {
     CCScene *scene = [CCScene node];
-    
     Game *layer = [[Game alloc] initWithMode:mode];
     [scene addChild:layer];
     
@@ -49,15 +47,14 @@
 
 - (id)initWithMode:(NSString*) mode
 {
-    //NSLog(@"Game::init with mode %@", mode);
     //count a game played in google analytics 
 	NSError * error;
     if (![[GANTracker sharedTracker] trackPageview:@"/playgame"
                                          withError:&error])
     {
-        //NSLog(@"there was an error");
+        NSLog(@"there was an error");
     } else {
-        //NSLog(@"there was not an error");
+        NSLog(@"there was not an error");
     }
 	if(![super init]) return nil;
     
@@ -67,10 +64,9 @@
 	
 	gameSuspended = YES;
 
-	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode *)[self getChildByTag:kSpriteManager];
-
 	[self initPlatforms];
 	
+    CCSpriteBatchNode *batchNode = (CCSpriteBatchNode *)[self getChildByTag:kSpriteManager];
 	CCSprite *bonus = [CCSprite spriteWithTexture:[batchNode texture] rect:CGRectMake(652,457,67,52)];
     [batchNode addChild:bonus z:4 tag:kBonusStartTag];
     bonus.scaleX = .5f;
@@ -87,18 +83,15 @@
     comboTallyDisplay.opacity = 0;
     comboTallyDisplay.position = ccpMidpoint(ccp(0,0), ccp(screenWidth,screenHeight/2));
     
-    CCMenuItem *pauseMenuButton = [CCMenuItemImage itemFromNormalImage:@"buttonpause.png" selectedImage:@"buttonpause.png" target:self selector:@selector(pauseGame)];
+    CCMenuItem *pauseMenuButton = [CCMenuItemImage itemFromNormalImage:@"buttonpause.png"
+                                                         selectedImage:@"buttonpause.png"
+                                                                target:self
+                                                              selector:@selector(pauseGame)];
 	pauseButton = [CCMenu menuWithItems: pauseMenuButton, nil];
 	pauseButton.position = ccp(screenWidth-50,screenHeight-50);
 	[self addChild:pauseButton z:5];
-
-	[self schedule:@selector(step:)];
-	
-	self.isTouchEnabled = YES;
-	self.isAccelerometerEnabled = YES;
     
     gameMode = mode;
-    
     if ([gameMode isEqualToString:@"EasyMode"])
     {
         easyMode = YES;
@@ -122,6 +115,9 @@
     }
 
 	[[UIAccelerometer sharedAccelerometer] setUpdateInterval:(1.0 / kFPS)];
+    [self schedule:@selector(step:)];
+	self.isTouchEnabled = YES;
+	self.isAccelerometerEnabled = YES;
 	
 	[self startGame];
     [CDAudioManager sharedManager].mute = [self isMuted];
@@ -136,7 +132,6 @@
     {
         gameSuspended = YES;
         pauseButton.visible = NO;
-        
         pauseScreen =[[CCSprite spriteWithFile:@"paused.png"] retain];
         CGSize screenSize = [[UIScreen mainScreen] bounds].size;
         [pauseScreen setContentSize:screenSize];
@@ -146,25 +141,30 @@
     }
 }
 
--(void)loadPauseMenu{
-    
+-(void)loadPauseMenu
+{    
     pauseScreenMenu.visible = NO;
-    CCMenuItem *playAgainButton = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png" selectedImage:@"playAgainButton.png" target:self selector:@selector(playAgainAction:)];
-    CCMenuItem *resumePlayButton = [CCMenuItemImage itemFromNormalImage:@"resumePlay.png" selectedImage:@"resumePlay.png" target:self selector:@selector(resumeGameAction:)];
+    CCMenuItem *playAgainButton = [CCMenuItemImage itemFromNormalImage:@"playAgainButton.png"
+                                                         selectedImage:@"playAgainButton.png"
+                                                                target:self
+                                                              selector:@selector(playAgainAction:)];
+    CCMenuItem *resumePlayButton = [CCMenuItemImage itemFromNormalImage:@"resumePlay.png"
+                                                          selectedImage:@"resumePlay.png"
+                                                                 target:self
+                                                               selector:@selector(resumeGameAction:)];
     CCMenuItem *muteButton;
     BOOL muted = [CDAudioManager sharedManager].mute;
-    if(muted){
+    if(muted)
+    {
         muteButton = [CCMenuItemImage itemFromNormalImage:@"buttonsound.png" selectedImage:@"buttonsound.png" target:self selector:@selector(toggleMute:)];
-    } else {
+    } else
+    {
         muteButton = [CCMenuItemImage itemFromNormalImage:@"buttonnosound.png" selectedImage:@"buttonnosound.png" target:self selector:@selector(toggleMute:)];
     }
 	
 	pauseScreenMenu = [CCMenu menuWithItems: resumePlayButton, playAgainButton, muteButton, nil];
-    
 	[pauseScreenMenu alignItemsHorizontallyWithPadding:9];
-    
 	pauseScreenMenu.position = ccp(screenWidth*.5,screenWidth*.23);
-	
 	[self addChild:pauseScreenMenu z:10];
 }
 
@@ -187,22 +187,21 @@
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	BOOL isMuted = [standardUserDefaults boolForKey:@"isMuted"];
-
     [CDAudioManager sharedManager].mute = !isMuted;
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"GameOn.mp3"];
-    
     [standardUserDefaults setBool:!isMuted forKey:@"isMuted"];
     [standardUserDefaults synchronize];
-    
     [self loadPauseMenu];
 }
 
 -(BOOL)isMuted
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-	if (standardUserDefaults) {
+	if (standardUserDefaults)
+    {
 		return [standardUserDefaults boolForKey:@"isMuted"];
-	} else {
+	} else
+    {
         return NO;
     }
 }
@@ -211,7 +210,6 @@
 
 - (void)initPlatforms
 {
-    //	NSLog(@"initPlatforms");
     CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"objectplatforms.png"];
     [self addChild:spriteSheet z:4];
     
@@ -221,33 +219,26 @@
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"platform%d.png", 1]];
     frame = [CCSpriteFrame frameWithTexture:spriteSheet.texture rect:CGRectMake(180,0,69,46)];
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFrame:frame name:[NSString stringWithFormat:@"platform%d.png", 2]];
-	
 	currentPlatformTag = kPlatformsStartTag;
 	while(currentPlatformTag < kPlatformsStartTag + kNumPlatforms)
     {
 		[self initPlatform];
 		currentPlatformTag++;
 	}
-	
 	[self resetPlatforms];
 }
 
 - (void)initPlatform
 {
-
 	CGRect rect = CGRectMake(0,0,148,46);
-
 	CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
 	CCSprite *platform = [CCSprite spriteWithTexture:[platformNode texture] rect:rect];
 	[platformNode addChild:platform z:3 tag:currentPlatformTag];
 }
 
-- (void)startGame {
-    //	NSLog(@"startGame");
-    
-	score = 0;
-	
-	//[self resetClouds];
+- (void)startGame
+{    
+	score = 0;	
 	[self resetPlatforms];
     [self resetAlien];
 	[self resetBonus];
@@ -265,18 +256,14 @@
 
 - (void)dealloc
 {
-//	NSLog(@"Game::dealloc");
     self.alien = nil;
-    //self.jumpAction = nil;
     [super dealloc];
 }
 
-#pragma mark ResetObjects
+#pragma mark Reset Objects
 
 - (void)resetPlatforms
-{
-//	NSLog(@"resetPlatforms");
-	
+{	
 	currentPlatformY = -1;
 	currentPlatformTag = kPlatformsStartTag;
 	currentMaxPlatformStep = 100.0f;
@@ -299,7 +286,6 @@
 	} else
     {
 		currentPlatformY += random() % (int)(currentMaxPlatformStep - kMinPlatformStep) + kMinPlatformStep;
-        //NSLog(@"max step = %f, currentY = %f",currentMaxPlatformStep, currentPlatformY);
 		if(currentMaxPlatformStep < kMaxPlatformStep)
         {
 			currentMaxPlatformStep += 0.5f;
@@ -322,12 +308,10 @@
 	
 	platform.position = ccp(x,currentPlatformY);
 	platformCount++;
-    //	NSLog(@"platformCount = %d",platformCount);
     CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 	
 	if(platformCount == currentBonusPlatformIndex)
     {
-        //		NSLog(@"platformCount == currentBonusPlatformIndex");
 		CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag];
 		bonus.position = ccp(x,currentPlatformY+40);
 		bonus.visible = YES;
@@ -355,27 +339,17 @@
         [jumpAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"alien%d.png", i]]];
     }
     
-    
     //Create the sprite and run the animation action
     CGSize winSize = [CCDirector sharedDirector].winSize;
-    self.alien = [CCSprite spriteWithSpriteFrameName:@"alien2.png"];
-    self.alien.position = ccp(winSize.width/2, winSize.height/2);
-    self.alien.scale = 0.6f;
+    alien_pos = ccp(winSize.width/2, winSize.height/2);
     
-    alien_pos.x = 220;
-	alien_pos.y = 160;
-	self.alien.position = alien_pos;
-
 	alien_vel.x = 0;
 	alien_vel.y = 0;
-	
 	alien_acc.x = 0;
 	alien_acc.y = -450.0f;
-    
+    self.alien.position = alien_pos;
     self.alien = [CCSprite spriteWithSpriteFrameName:@"alien1.png"];
-    //self.alien.scale = 0.25f;
     self.alien.scale = 0.8f;
-
     [spriteSheet addChild: self.alien];
     
     justHitPlatform = NO;
@@ -386,31 +360,28 @@
     
 }
 
-- (void)resetBonus {
-//	NSLog(@"resetBonus");
-	
+- (void)resetBonus
+{	
 	CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
 	CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag];
 	bonus.visible = NO;
 	currentBonusPlatformIndex += random() % (kMaxBonusStep - kMinBonusStep) + kMinBonusStep;
 }
 
-#pragma mark StepFunction
+#pragma mark Step Functions
 
-- (void)step:(ccTime)dt {
-	//NSLog(@"Game::step");
-
+- (void)step:(ccTime)dt
+{
 	[super step:dt];
 	
 	if(gameSuspended) return;
-    [self unschedule:@selector(readySetGoAnimations)];
-    
 	[self updateAlienPosition:dt];
     [self checkForBonus];
     
 	if(alien_vel.y < 0)
     {
-        if (justHitPlatform && [kindOfJump isEqualToString:@"DefaultJump"]) {
+        if (justHitPlatform && [kindOfJump isEqualToString:@"DefaultJump"])
+        {
             comboTally = 0;
         }
         justHitPlatform = NO;
@@ -463,6 +434,7 @@
         alien_vel.y = 0;
         gameSuspended = NO;
         [self schedule:@selector(timerUpdate:) interval:0.1];
+        [self unschedule:@selector(readySetGoAnimations)];
     }else if (startGameAnimations == 2)
     {
         [comboTallyDisplay setString:@"SET"];
@@ -477,20 +449,17 @@
     
 }
 
-#pragma mark TouchEvents
+#pragma mark UI Events
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    //NSLog(@"Screen Touched");
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView: [touch view]];
-    
     CGRect mySurface = (CGRectMake(0, 0, 568, 320));
     if(CGRectContainsPoint(mySurface, location))
     {
         if(alien_vel.y < 0 || justHitPlatform)
         {
-            
             CGSize alien_size = self.alien.contentSize;
             float max_x = 320-alien_size.width/2;
             float min_x = 0+alien_size.width/2;
@@ -499,10 +468,8 @@
             for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
             {
                 CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
-                
                 CGSize platform_size = platform.contentSize;
                 CGPoint platform_pos = platform.position;
-                
                 max_x = platform_pos.x - platform_size.width/2 - 10;
                 min_x = platform_pos.x + platform_size.width/2 + 10;
                 float min_y = platform_pos.y + (platform_size.height+alien_size.height)/2 - kPlatformTopPadding;
@@ -529,10 +496,18 @@
                     kindOfJump = @"GoodJump";
                 }
             }
-            //NSLog(@"Kind of Jump: %@", kindOfJump);
         }
     }
 }
+
+- (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
+{
+	if(gameSuspended) return;
+	float accel_filter = 0.1f;
+	alien_vel.x = alien_vel.x * accel_filter + acceleration.y * (1.0f - accel_filter) * 1000.0f;
+}
+
+#pragma mark Perform Action
 
 -(void)jump
 {
@@ -588,7 +563,8 @@
         stringLabel = [NSString stringWithFormat:@"MEGA JUMP!!!"];
         [[SimpleAudioEngine sharedEngine] playEffect:@"star.m4a"];
     }
-    else{
+    else
+    {
         stringLabel = [NSString stringWithFormat:@"Perfect Jump x %d", comboTally];
     }
     CCLabelBMFont *comboTallyDisplay = (CCLabelBMFont*)[self getChildByTag:kComboLabel];
@@ -599,7 +575,7 @@
     [comboTallyDisplay runAction:a3];
 }
 
-#pragma mark CheckCollisions
+#pragma mark Check Collisions
 
 - (void)checkForBonus
 {
@@ -638,23 +614,20 @@
     //load object sprite sheet - this actually be done in the init method
     CGSize alien_size = self.alien.contentSize;
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
-    justHitPlatform = NO;
     for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
     {
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
-        
         CGSize platform_size = platform.contentSize;
         CGPoint platform_pos = platform.position;
-        
         float max_x = platform_pos.x - ((platform_size.width/2)*PLATFORM_SCALE);
         float min_x = platform_pos.x + ((platform_size.width/2)*PLATFORM_SCALE);
         float min_y = platform_pos.y + (platform_size.height+alien_size.height)/2 - kPlatformTopPadding;
         
-        
         if(alien_pos.x > max_x &&
            alien_pos.x < min_x &&
            alien_pos.y > platform_pos.y &&
-           (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y) {
+           (alien_pos.y + ALIEN_YPOS_OFFSET) < min_y)
+        {
             [self jump];
             kindOfJump = @"DefaultJump";
             currentPlatformTag = t;
@@ -690,7 +663,7 @@
     }
 }
 
-#pragma mark UpdateObjectPositions
+#pragma mark Update Object Positions
 
 - (void)updateAlienPosition:(ccTime)dt
 {
@@ -707,7 +680,6 @@
     //calls moveup
     float delta = alien_pos.y - 180;
     alien_pos.y = 180;
-    
     currentPlatformY -= delta;
     CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];
     CCSpriteBatchNode *cloudsNode = (CCSpriteBatchNode*)[self getChildByTag:kCloudsManager];
@@ -719,14 +691,17 @@
         CCSprite *cloud = (CCSprite*)[cloudsNode getChildByTag:t];
         CGPoint pos = cloud.position;
         pos.y -= delta * cloud.scaleY * 0.8f;
-        if(pos.y < -cloud.contentSize.height/2) {
+        if(pos.y < -cloud.contentSize.height/2)
+        {
             currentCloudTag = t;
             [self resetCloud];
-        } else {
+        } else
+        {
             cloud.position = pos;
         }
     }
-    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++) {
+    for(int t = kPlatformsStartTag; t < kPlatformsStartTag + kNumPlatforms; t++)
+    {
         CCSprite *platform = (CCSprite*)[platformNode getChildByTag:t];
         CGPoint pos = platform.position;
         pos = ccp(pos.x,pos.y-delta);
@@ -736,18 +711,22 @@
             CCSpriteFrameCache* cache = [CCSpriteFrameCache sharedSpriteFrameCache];
             [platform setDisplayFrame:[cache spriteFrameByName:@"platform1.png"]];
             [self resetPlatform];
-        } else
+        }
+        else
         {
             platform.position = pos;
         }
     }
     
-     if(bonus.visible) {
+     if(bonus.visible)
+     {
         CGPoint pos = bonus.position;
         pos.y -= delta;
-        if(pos.y < -bonus.contentSize.height/2 && !hitStarBounus) {
+        if(pos.y < -bonus.contentSize.height/2 && !hitStarBounus)
+        {
             [self resetBonus];
-        } else {
+        } else
+        {
             bonus.position = pos;
         }
      }
@@ -774,15 +753,18 @@
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
     CCSprite *bonus = (CCSprite*)[batchNode getChildByTag:kBonusStartTag];
      
-     for(int t = kCloudsStartTag; t < kCloudsStartTag + kNumClouds; t++)
-     {
-         CCSprite *cloud = (CCSprite*)[cloudsNode getChildByTag:t];
+    for(int t = kCloudsStartTag; t < kCloudsStartTag + kNumClouds; t++)
+    {
+        CCSprite *cloud = (CCSprite*)[cloudsNode getChildByTag:t];
         CGPoint pos = cloud.position;
-         pos.x -= delta * cloud.scaleY * 0.8f;
-         if(pos.x > 480+cloud.contentSize.width/2) {
-             currentCloudTag = t;
-             [self resetCloud];
-         } else {
+        pos.x -= delta * cloud.scaleY * 0.8f;
+        if(pos.x > 480+cloud.contentSize.width/2)
+        {
+            currentCloudTag = t;
+            [self resetCloud];
+         }
+         else
+         {
             cloud.position = pos;
          }
      }
@@ -825,7 +807,6 @@
 - (void)updatePlatformPosition:(NSString *)exitSide
 {
     CCSpriteBatchNode *platformNode = (CCSpriteBatchNode*)[self getChildByTag:kPlatformManager];
-
     CCSprite *platform = (CCSprite*)[platformNode getChildByTag:currentPlatformTag];
     if ([exitSide isEqualToString:@"left"])
     {
@@ -864,14 +845,13 @@
     }
 }
 
-#pragma mark UpdateLabels
+#pragma mark Update Labels
 
 - (void)updateScore
 {
     float delta = (alien_pos.y - 180);
     score += delta;
     NSString *scoreStr = [NSString stringWithFormat:@"%d",score/10];
-    
     CCLabelBMFont *scoreLabel = (CCLabelBMFont*)[self getChildByTag:kScoreLabel];
     [scoreLabel setString:scoreStr];
     if (score/10 >= 1000 && timedMode == YES)
@@ -900,10 +880,12 @@
         }
         hitStarBounus = NO;
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien1.png"]];
-    } else if (hitStarBounus && alien_vel.y > 150)
+    }
+    else if (hitStarBounus && alien_vel.y > 150)
     {
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien3.png"]];
-    } else
+    }
+    else
     {
         [self.alien setDisplayFrame:[cache spriteFrameByName:@"alien2.png"]];
     }
@@ -914,34 +896,35 @@
 - (void)showGameOver
 {
 	gameSuspended = YES;
-	
-    //	NSLog(@"score = %d",score);
     if (timedMode)
     {
-        [[CCDirector sharedDirector] replaceScene:
-         [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:0 andCombo:maxCombo andCurrentMode:gameMode andMinutes:numOfMinutes andSeconds:numOfSeconds] withColor:ccWHITE]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1
+                                            scene:[GameOver gameOverSceneWithScore:0
+                                                                          andCombo:maxCombo
+                                                                    andCurrentMode:gameMode
+                                                                        andMinutes:numOfMinutes
+                                                                        andSeconds:numOfSeconds]
+                                                                         withColor:ccWHITE]];
     }
     else
     {
-        [[CCDirector sharedDirector] replaceScene:
-     [CCTransitionFade transitionWithDuration:1 scene:[GameOver gameOverSceneWithScore:score/10 andCombo:maxCombo andCurrentMode:gameMode andMinutes:0 andSeconds:0.0] withColor:ccWHITE]];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1
+                                            scene:[GameOver gameOverSceneWithScore:score/10
+                                                                          andCombo:maxCombo
+                                                                    andCurrentMode:gameMode
+                                                                        andMinutes:0
+                                                                        andSeconds:0.0]
+                                                                         withColor:ccWHITE]];
     }
 }
 
-- (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration {
-	if(gameSuspended) return;
-	float accel_filter = 0.1f;
-    int orientation = 1;
-    
-	alien_vel.x = alien_vel.x * accel_filter + acceleration.y * orientation * (1.0f - accel_filter) * 1000.0f;
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//	NSLog(@"alertView:clickedButtonAtIndex: %i",buttonIndex);
-
-	if(buttonIndex == 0) {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if(buttonIndex == 0)
+    {
 		[self startGame];
-	} else {
+	} else
+    {
 		[self startGame];
 	}
 }
