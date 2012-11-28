@@ -22,6 +22,8 @@
     int easyModePad;
     int numOfMinutes;
     int startGameAnimations;
+    int maxHorizontalMovement;
+    int minHorizontalMovement;
     
     NSString* kindOfJump;
     NSString* gameMode;

@@ -69,6 +69,8 @@
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     screenHeight = screenSize.width; //In landscape height is width vice versa
     screenWidth = screenSize.height;
+    maxHorizontalMovement = (screenWidth/2)+20;
+    minHorizontalMovement = (screenWidth/2)-20;
 	
 	gameSuspended = YES;
     gamePaused = NO;
@@ -418,7 +420,7 @@
         [self updateScore];
         [self updateVerticalScreenFramePosition];
 	}
-    if(alien_pos.x > 260 || alien_pos.x < 220)
+    if(alien_pos.x > maxHorizontalMovement || alien_pos.x < minHorizontalMovement)
     {
         [self updateHorizontalScreenFramePosition];
     }
@@ -681,9 +683,9 @@
             platform.scaleY = PLATFORM_SCALE;
             gameSuspended = YES;
             startGameAnimations = 0;
-            alien_pos.x = 220;
-            alien_pos.y = 160;
-            platform.position = ccp(220,30);
+            alien_pos.x = screenWidth/2;
+            alien_pos.y = screenHeight/2;
+            platform.position = ccp(screenWidth/2,30);
             self.alien.position = alien_pos;
             dissapearingPlatformTag = 0;
             [self schedule:@selector(readySetGoAnimations:) interval:1];
@@ -770,15 +772,15 @@
     //update the background position
     //calls moveleft, moveright
     float delta;
-    if(alien_pos.x > 260)
+    if(alien_pos.x > maxHorizontalMovement)
     {
-        delta = alien_pos.x - 260;
-        alien_pos.x = 260;
+        delta = alien_pos.x - maxHorizontalMovement;
+        alien_pos.x = maxHorizontalMovement;
     }
-    else if(alien_pos.x < 220)
+    else if(alien_pos.x < minHorizontalMovement)
     {
-        delta = alien_pos.x - 220;
-        alien_pos.x = 220;
+        delta = alien_pos.x - minHorizontalMovement;
+        alien_pos.x = minHorizontalMovement;
     }
 
     CCSpriteBatchNode *batchNode = (CCSpriteBatchNode*)[self getChildByTag:kSpriteManager];

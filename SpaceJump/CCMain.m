@@ -118,7 +118,8 @@
 //	NSLog(@"Main::step");
 	CCSpriteBatchNode *cloudsNode = (CCSpriteBatchNode*)[self getChildByTag:kCloudsManager];
 	
-	for(int t = kCloudsStartTag; t < kCloudsStartTag + kNumClouds; t++) {
+	for(int t = kCloudsStartTag; t < kCloudsStartTag + kNumClouds; t++)
+    {
 		CCSprite *cloud = (CCSprite*)[cloudsNode getChildByTag:t];
 		CGPoint pos = cloud.position;
 		CGSize size = cloud.contentSize;
