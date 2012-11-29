@@ -17,6 +17,7 @@
 
 @synthesize mode = _mode;
 
+#pragma mark - life cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];

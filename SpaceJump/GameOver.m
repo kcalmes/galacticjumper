@@ -14,21 +14,31 @@ NSString* gameMode;
 float seconds;
 int minutes;
 
+#pragma mark initialize scene
 
-+ (CCScene *)gameOverSceneWithScore:(int)lastScore andCombo:(int)lastCombo andCurrentMode:(NSString *)currentMode andMinutes:(int)minutes andSeconds:(float) seconds
++ (CCScene *)gameOverSceneWithScore:(int)lastScore
+                           andCombo:(int)lastCombo
+                     andCurrentMode:(NSString *)currentMode
+                         andMinutes:(int)minutes
+                         andSeconds:(float) seconds
 {
     CCScene *game = [CCScene node];
     
-    GameOver *layer = [[[GameOver alloc] initWithScore:lastScore andCombo:lastCombo andCurrentMode:currentMode andMinutes:minutes andSeconds:seconds] autorelease];
+    GameOver *layer = [[[GameOver alloc] initWithScore:lastScore
+                                              andCombo:lastCombo
+                                        andCurrentMode:currentMode
+                                            andMinutes:minutes
+                                            andSeconds:seconds] autorelease];
     [game addChild:layer];
     
     return game;
 }
 
-- (id)initWithScore:(int)currentScore andCombo:(int)currentCombo andCurrentMode:(NSString *)currentMode andMinutes:(int)minutes andSeconds:(float) seconds
+- (id)initWithScore:(int)currentScore andCombo:(int)currentCombo
+                                andCurrentMode:(NSString *)currentMode
+                                    andMinutes:(int)minutes
+                                    andSeconds:(float) seconds
 {
-    //NSLog(@"Highscores::init");
-	
 	if(![super init]) return nil;
 	
     CGRect screenBound = [[UIScreen mainScreen] bounds];
@@ -36,7 +46,6 @@ int minutes;
     CGFloat screenHeight = screenSize.width;
     CGFloat screenWidth = screenSize.height;
     
-	
     gameMode = currentMode;
     int highScore;
     int bestMinutes;
@@ -150,6 +159,8 @@ int minutes;
 	[super dealloc];
 }
 
+#pragma mark Game Over Actions
+
 - (void)playAgainAction:(id)sender
 {
 //	NSLog(@"playAgainAction");
@@ -165,6 +176,8 @@ int minutes;
     [[UIApplication sharedApplication].keyWindow.rootViewController dismissModalViewControllerAnimated:YES];
     [[CCDirector sharedDirector] popScene];
 }
+
+#pragma mark Getters and Setters for Settings
 
 -(void)saveHighScore:(int)highscore
 {

@@ -16,6 +16,8 @@
 
 @synthesize proceedToGameAfterTutorial = _proceedToGameAfterTutorial;
 
+#pragma mark - life cycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -27,6 +29,8 @@
 {
     return (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 }
+
+#pragma mark - view actions
 - (IBAction)playButtonPressed
 {
     BOOL tutorialHasBeenCompleted = [self hasTutorialBeenCompleted];
@@ -57,17 +61,17 @@
     }
 }
 
--(BOOL)hasTutorialBeenCompleted
-{
-    return [[NSUserDefaults standardUserDefaults]boolForKey:@"tutorial_complete"];
-}
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     UIViewController* destVC = [segue destinationViewController];
     if ([destVC isKindOfClass:[StartGameViewController class]]) {
         [(StartGameViewController*)destVC setProceedToGameAfterTutorial:self.proceedToGameAfterTutorial];
     }
+}
+
+-(BOOL)hasTutorialBeenCompleted
+{
+    return [[NSUserDefaults standardUserDefaults]boolForKey:@"tutorial_complete"];
 }
 
 @end

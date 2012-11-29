@@ -18,6 +18,7 @@
 
 @synthesize mode = _mode;
 
+#pragma mark - life cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -29,6 +30,8 @@
 {
     return (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 }
+
+#pragma mark - view actions
 
 - (IBAction)timedModePressed:(id)sender
 {

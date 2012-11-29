@@ -11,6 +11,8 @@
 
 @implementation Main
 
+#pragma mark Initialize Background
+
 - (id)init
 {
 //	NSLog(@"Main::init");
